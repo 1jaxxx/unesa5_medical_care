@@ -73,6 +73,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 | **Eka Verarina** | 24111814004 |
 | **Fadly Fais Fajarruddin** | 24111814015 |
 | **Manda Fatimah Azaziah** | 24111814044 |
+| **Muhammad Noor Abizar** | 24111814105 |
 
 
 ---
