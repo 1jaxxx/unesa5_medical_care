@@ -4,18 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pasien extends Model
+class Mahasiswa extends Model
 {
-    protected $table = 'pasien';
-    protected $primaryKey = 'id_pasien';
+    protected $table = 'mahasiswa';
+    protected $primaryKey = 'id_mahasiswa';
 
     protected $fillable = [
         'id_prodi',
         'nama',
-        'type_pasien',
         'nim',
-        'nidn',
-        'bagian',
         'jenis_kelamin',
         'tempat_lahir',
         'tgl_lahir',
@@ -30,16 +27,16 @@ class Pasien extends Model
 
     public function visits()
     {
-        return $this->hasMany(Visit::class, 'id_pasien', 'id_pasien');
+        return $this->hasMany(Visit::class, 'id_mahasiswa', 'id_mahasiswa');
     }
 
     public function screenings()
     {
-        return $this->hasMany(Screening::class, 'id_pasien', 'id_pasien');
+        return $this->hasMany(Screening::class, 'id_mahasiswa', 'id_mahasiswa');
     }
 
     public function riwayatKunjungan()
     {
-        return $this->hasMany(RiwayatKunjungan::class, 'id_pasien', 'id_pasien');
+        return $this->hasMany(RiwayatKunjungan::class, 'id_mahasiswa', 'id_mahasiswa');
     }
 }
