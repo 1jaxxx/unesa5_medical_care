@@ -10,15 +10,42 @@ class Visit extends Model
     protected $primaryKey = 'id_visit';
 
     protected $fillable = [
-        'id_pasien',
         'tgl_kunjungan',
         'keluhan',
-        'diagnosis'
+        'diagnosis',
+        'type_pasien',
+        'id_mahasiswa',
+        'id_dosen',
+        'id_staff'
     ];
 
-    public function pasien()
+    public function mahasiswa()
     {
-        return $this->belongsTo(Pasien::class, 'id_pasien', 'id_pasien');
+        return $this->belongsTo(Mahasiswa::class, 'id_mahasiswa', 'id_mahasiswa');
+    }
+
+    public function dosen()
+    {
+        return $this->belongsTo(Dosen::class, 'id_dosen', 'id_dosen');
+    }
+
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class, 'id_staff', 'id_staff');
+    }
+
+    public function getPasienAttribute()
+    {
+        switch ($this->type_pasien) {
+            case 'mahasiswa':
+                return $this->mahasiswa;
+            case 'dosen':
+                return $this->dosen;
+            case 'staff':
+                return $this->staff;
+            default:
+                return null;
+        }
     }
 
     public function screening()
