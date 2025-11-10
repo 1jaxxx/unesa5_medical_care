@@ -171,7 +171,8 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <div class="flex items-center gap-3">
-                                                <a href="{{ route('admin.pasien.show', ['type' => $p->type, 'id' => $p->id]) }}"
+                                                <button type="button"
+                                                    x-on:click.prevent="$dispatch('open-modal', 'show-pasien'); $dispatch('load-pasien', { url: '{{ route('admin.pasien.show', ['type' => $p->type, 'id' => $p->id]) }}' })"
                                                     class="text-blue-600 hover:text-blue-900" title="Detail">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -181,7 +182,7 @@
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                     </svg>
-                                                </a>
+                                                </button>
 
                                                 <a href="{{ route('admin.pasien.edit', ['type' => $p->type, 'id' => $p->id]) }}"
                                                     class="text-yellow-600 hover:text-yellow-900" title="Edit">
@@ -259,7 +260,8 @@
                                     } }}</p>
                                 </div>
                                 <div class="mt-4 flex justify-end items-center gap-3">
-                                    <a href="{{ route('admin.pasien.show', ['type' => $p->type, 'id' => $p->id]) }}"
+                                    <button type="button"
+                                        x-on:click.prevent="$dispatch('open-modal', 'show-pasien'); $dispatch('load-pasien', { url: '{{ route('admin.pasien.show', ['type' => $p->type, 'id' => $p->id]) }}' })"
                                         class="text-blue-600 hover:text-blue-900" title="Detail">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
                                             fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -269,7 +271,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                         </svg>
-                                    </a>
+                                    </button>
 
                                     <a href="{{ route('admin.pasien.edit', ['type' => $p->type, 'id' => $p->id]) }}"
                                         class="text-yellow-600 hover:text-yellow-900" title="Edit">
@@ -313,6 +315,29 @@
             </div>
         </div>
     </div>
+
+    <x-modal name="show-pasien" :show="false" focusable>
+        <div x-data="{ loading: true, content: '' }" x-on:load-pasien.window="
+            loading = true;
+            content = '';
+            fetch($event.detail.url)
+                .then(response => response.text())
+                .then(html => {
+                    content = html;
+                    loading = false;
+                })
+                .catch(error => {
+                    console.error('Error fetching patient data:', error);
+                    content = '<p class=\'p-6 text-red-500\'>Gagal memuat data pasien.</p>';
+                    loading = false;
+                });
+        " class="relative">
+            <div x-show="loading" class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center">
+                <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+            </div>
+            <div x-html="content"></div>
+        </div>
+    </x-modal>
 </x-admin-layout>
 
 
