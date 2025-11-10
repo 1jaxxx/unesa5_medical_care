@@ -4,20 +4,27 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Visit;
-use App\Models\Pasien;
+use App\Models\Mahasiswa;
+use App\Models\Dosen;
+use App\Models\Staff;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VisitController extends Controller
 {
     public function index()
     {
-        $visits = Visit::with('pasien')->paginate(10);
+        $visits = Visit::with(['mahasiswa', 'dosen', 'staff'])->paginate(10);
         return view('admin.visit.index', compact('visits'));
     }
 
     public function create()
     {
-        $pasien = Pasien::all();
+    $mahasiswa = Mahasiswa::select('id_mahasiswa as id', 'nama', DB::raw("'mahasiswa' as type"))->get();
+    $dosen = Dosen::select('id_dosen as id', 'nama', DB::raw("'dosen' as type"))->get();
+    $staff = Staff::select('id_staff as id', 'nama', DB::raw("'staff' as type"))->get();
+
+        $pasien = $mahasiswa->concat($dosen)->concat($staff);
         return view('admin.visit.create', compact('pasien'));
     }
 
@@ -41,7 +48,11 @@ class VisitController extends Controller
 
     public function edit(Visit $visit)
     {
-        $pasien = Pasien::all();
+    $mahasiswa = Mahasiswa::select('id_mahasiswa as id', 'nama', DB::raw("'mahasiswa' as type"))->get();
+    $dosen = Dosen::select('id_dosen as id', 'nama', DB::raw("'dosen' as type"))->get();
+    $staff = Staff::select('id_staff as id', 'nama', DB::raw("'staff' as type"))->get();
+
+        $pasien = $mahasiswa->concat($dosen)->concat($staff);
         return view('admin.visit.edit', compact('visit', 'pasien'));
     }
 
