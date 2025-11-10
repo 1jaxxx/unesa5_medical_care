@@ -1,4 +1,5 @@
 import './bootstrap';
+import './admin/pasien/index.js';
 
 import Alpine from 'alpinejs';
 

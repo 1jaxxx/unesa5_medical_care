@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Mahasiswa;
 
 class Prodi extends Model
 {
@@ -15,6 +16,6 @@ class Prodi extends Model
 
     public function pasien()
     {
-        return $this->hasMany(Pasien::class, 'id_prodi', 'id_prodi');
+        return $this->hasMany(Mahasiswa::class, 'id_prodi', 'id_prodi');
     }
 }

@@ -5,20 +5,27 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Screening;
 use App\Models\Visit;
-use App\Models\Pasien;
+use App\Models\Mahasiswa;
+use App\Models\Dosen;
+use App\Models\Staff;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ScreeningController extends Controller
 {
     public function index()
     {
-        $screenings = Screening::with(['pasien', 'visit'])->paginate(10);
+        $screenings = Screening::with(['mahasiswa', 'dosen', 'staff', 'visit'])->paginate(10);
         return view('admin.screening.index', compact('screenings'));
     }
 
     public function create()
     {
-        $pasien = Pasien::all();
+    $mahasiswa = Mahasiswa::select('id_mahasiswa as id', 'nama', DB::raw("'mahasiswa' as type"))->get();
+    $dosen = Dosen::select('id_dosen as id', 'nama', DB::raw("'dosen' as type"))->get();
+    $staff = Staff::select('id_staff as id', 'nama', DB::raw("'staff' as type"))->get();
+
+        $pasien = $mahasiswa->concat($dosen)->concat($staff);
         $visits = Visit::all();
         return view('admin.screening.create', compact('pasien', 'visits'));
     }
@@ -51,7 +58,11 @@ class ScreeningController extends Controller
 
     public function edit(Screening $screening)
     {
-        $pasien = Pasien::all();
+    $mahasiswa = Mahasiswa::select('id_mahasiswa as id', 'nama', DB::raw("'mahasiswa' as type"))->get();
+    $dosen = Dosen::select('id_dosen as id', 'nama', DB::raw("'dosen' as type"))->get();
+    $staff = Staff::select('id_staff as id', 'nama', DB::raw("'staff' as type"))->get();
+
+        $pasien = $mahasiswa->concat($dosen)->concat($staff);
         $visits = Visit::all();
         return view('admin.screening.edit', compact('screening', 'pasien', 'visits'));
     }
