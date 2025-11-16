@@ -36,6 +36,11 @@
                 <i class="fa-solid fa-stethoscope text-base"></i> {{-- Using a stethoscope icon for visit --}}
                 <span>Kunjungan</span>
             </a>
+            <a href="{{ route('admin.screening.index') }}"
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                <i class="fa-solid fa-heart-pulse text-base"></i>
+                <span>Screening</span>
+            </a>
         </nav>
 
         <div class="mt-auto border-t pt-4 text-sm">
