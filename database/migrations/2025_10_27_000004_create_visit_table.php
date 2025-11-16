@@ -10,7 +10,10 @@ return new class extends Migration
     {
         Schema::create('visit', function (Blueprint $table) {
             $table->id('id_visit');
-            $table->foreignId('id_pasien')->constrained('pasien', 'id_pasien');
+            $table->string('type_pasien');
+            $table->foreignId('id_mahasiswa')->nullable()->constrained('mahasiswa', 'id_mahasiswa')->onDelete('set null');
+            $table->foreignId('id_dosen')->nullable()->constrained('dosen', 'id_dosen')->onDelete('set null');
+            $table->foreignId('id_staff')->nullable()->constrained('staff', 'id_staff')->onDelete('set null');
             $table->date('tgl_kunjungan');
             $table->text('keluhan');
             $table->text('diagnosis');
