@@ -31,13 +31,33 @@ class VisitController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'id_pasien' => 'required|exists:pasien,id_pasien',
+            'pasien' => ['required', 'string', function ($attribute, $value, $fail) {
+                list($type, $id) = explode('-', $value);
+                if (!in_array($type, ['mahasiswa', 'dosen', 'staff'])) {
+                    $fail('Tipe pasien tidak valid.');
+                    return;
+                }
+                $model = 'App\\Models\\' . ucfirst($type);
+                $pk = 'id_' . $type;
+                if (!$model::where($pk, $id)->exists()) {
+                    $fail('Pasien yang dipilih tidak valid.');
+                }
+            }],
             'tgl_kunjungan' => 'required|date',
-            'keluhan' => 'required',
-            'diagnosis' => 'required'
+            'keluhan' => 'required|string',
+            'diagnosis' => 'required|string',
         ]);
 
-        Visit::create($validated);
+        list($type, $id) = explode('-', $request->pasien);
+
+        Visit::create([
+            'type_pasien' => $type,
+            'id_' . $type => $id,
+            'tgl_kunjungan' => $validated['tgl_kunjungan'],
+            'keluhan' => $validated['keluhan'],
+            'diagnosis' => $validated['diagnosis'],
+        ]);
+
         return redirect()->route('admin.visit.index')->with('success', 'Data kunjungan berhasil ditambahkan');
     }
 
@@ -46,28 +66,50 @@ class VisitController extends Controller
         return view('admin.visit.show', compact('visit'));
     }
 
-    public function edit(Visit $visit)
-    {
-    $mahasiswa = Mahasiswa::select('id_mahasiswa as id', 'nama', DB::raw("'mahasiswa' as type"))->get();
-    $dosen = Dosen::select('id_dosen as id', 'nama', DB::raw("'dosen' as type"))->get();
-    $staff = Staff::select('id_staff as id', 'nama', DB::raw("'staff' as type"))->get();
+    // public function edit(Visit $visit)
+    // {
+    //     $mahasiswa = Mahasiswa::select('id_mahasiswa as id', 'nama', DB::raw("'mahasiswa' as type"))->get();
+    //     $dosen = Dosen::select('id_dosen as id', 'nama', DB::raw("'dosen' as type"))->get();
+    //     $staff = Staff::select('id_staff as id', 'nama', DB::raw("'staff' as type"))->get();
 
-        $pasien = $mahasiswa->concat($dosen)->concat($staff);
-        return view('admin.visit.edit', compact('visit', 'pasien'));
-    }
+    //     $pasien = $mahasiswa->concat($dosen)->concat($staff);
+    //     return view('admin.visit.edit', compact('visit', 'pasien'));
+    // }
 
-    public function update(Request $request, Visit $visit)
-    {
-        $validated = $request->validate([
-            'id_pasien' => 'required|exists:pasien,id_pasien',
-            'tgl_kunjungan' => 'required|date',
-            'keluhan' => 'required',
-            'diagnosis' => 'required'
-        ]);
+    // public function update(Request $request, Visit $visit)
+    // {
+    //     $validated = $request->validate([
+    //         'pasien' => ['required', 'string', function ($attribute, $value, $fail) {
+    //             list($type, $id) = explode('-', $value);
+    //             if (!in_array($type, ['mahasiswa', 'dosen', 'staff'])) {
+    //                 $fail('Tipe pasien tidak valid.');
+    //                 return;
+    //             }
+    //             $model = 'App\\Models\\' . ucfirst($type);
+    //             $pk = 'id_' . $type;
+    //             if (!$model::where($pk, $id)->exists()) {
+    //                 $fail('Pasien yang dipilih tidak valid.');
+    //             }
+    //         }],
+    //         'tgl_kunjungan' => 'required|date',
+    //         'keluhan' => 'required|string',
+    //         'diagnosis' => 'required|string',
+    //     ]);
 
-        $visit->update($validated);
-        return redirect()->route('admin.visit.index')->with('success', 'Data kunjungan berhasil diperbarui');
-    }
+    //     list($type, $id) = explode('-', $request->pasien);
+
+    //     $visit->update([
+    //         'type_pasien' => $type,
+    //         'id_mahasiswa' => $type === 'mahasiswa' ? $id : null,
+    //         'id_dosen' => $type === 'dosen' ? $id : null,
+    //         'id_staff' => $type === 'staff' ? $id : null,
+    //         'tgl_kunjungan' => $validated['tgl_kunjungan'],
+    //         'keluhan' => $validated['keluhan'],
+    //         'diagnosis' => $validated['diagnosis'],
+    //     ]);
+
+    //     return redirect()->route('admin.visit.index')->with('success', 'Data kunjungan berhasil diperbarui');
+    // }
 
     public function destroy(Visit $visit)
     {

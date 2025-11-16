@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PasienController;
 use App\Http\Controllers\Admin\ProdiController;
+use App\Http\Controllers\Admin\VisitController;
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -20,4 +21,5 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->as('admin.')->group(fu
     });
 
     Route::resource('prodi', controller: ProdiController::class);
+    Route::resource('visit', controller: VisitController::class);
 });
