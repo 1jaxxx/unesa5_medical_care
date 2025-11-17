@@ -13,7 +13,9 @@ class Resep extends Model
         'id_obat',
         'id_visit',
         'dosis',
-        'jumlah'
+        'jumlah',
+        'tgl_diberikan',
+        'catatan'
     ];
 
     public function obat()
@@ -24,10 +26,5 @@ class Resep extends Model
     public function visit()
     {
         return $this->belongsTo(Visit::class, 'id_visit', 'id_visit');
-    }
-
-    public function pemberianObat()
-    {
-        return $this->hasMany(PemberianObat::class, 'id_resep', 'id_resep');
     }
 }

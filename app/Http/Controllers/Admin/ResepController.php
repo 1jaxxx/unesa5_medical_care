@@ -29,7 +29,9 @@ class ResepController extends Controller
             'id_obat' => 'required|exists:obat,id_obat',
             'id_visit' => 'required|exists:visit,id_visit',
             'dosis' => 'required',
-            'jumlah' => 'required|integer|min:1'
+            'jumlah' => 'required|integer|min:1',
+            'tgl_diberikan' => 'required|date',
+            'catatan' => 'nullable|string'
         ]);
 
         Resep::create($validated);
@@ -54,7 +56,9 @@ class ResepController extends Controller
             'id_obat' => 'required|exists:obat,id_obat',
             'id_visit' => 'required|exists:visit,id_visit',
             'dosis' => 'required',
-            'jumlah' => 'required|integer|min:1'
+            'jumlah' => 'required|integer|min:1',
+            'tgl_diberikan' => 'required|date',
+            'catatan' => 'nullable|string'
         ]);
 
         $resep->update($validated);

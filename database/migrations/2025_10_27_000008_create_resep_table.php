@@ -14,6 +14,8 @@ return new class extends Migration
             $table->foreignId('id_visit')->constrained('visit', 'id_visit');
             $table->string('dosis');
             $table->integer('jumlah');
+            $table->date('tgl_diberikan');
+            $table->text('catatan')->nullable();
             $table->timestamps();
         });
     }
