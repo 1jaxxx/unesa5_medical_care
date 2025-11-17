@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\PasienController;
 use App\Http\Controllers\Admin\ProdiController;
 use App\Http\Controllers\Admin\VisitController;
 use App\Http\Controllers\Admin\ScreeningController;
+use App\Http\Controllers\Admin\ResepController;
+use App\Http\Controllers\Admin\ObatController;
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -25,4 +27,6 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->as('admin.')->group(fu
     Route::resource('visit', controller: VisitController::class);
     Route::get('screening/{screening}/modal', [ScreeningController::class, 'showModal'])->name('screening.show.modal');
     Route::resource('screening', controller: ScreeningController::class);
+    Route::resource('resep', controller: ResepController::class);
+    Route::resource('obat', controller: ObatController::class);
 });

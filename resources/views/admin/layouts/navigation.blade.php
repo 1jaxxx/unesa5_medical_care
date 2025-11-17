@@ -41,6 +41,16 @@
                 <i class="fa-solid fa-heart-pulse text-base"></i>
                 <span>Screening</span>
             </a>
+            <a href="{{ route('admin.resep.index') }}"
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                <i class="fa-solid fa-prescription-bottle-medical text-base"></i> {{-- Using a prescription bottle icon for resep --}}
+                <span>Resep</span>
+            </a>
+            <a href="{{ route('admin.obat.index') }}"
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                <i class="fa-solid fa-pills text-base"></i> {{-- Using a pills icon for obat --}}
+                <span>Obat</span>
+            </a>
         </nav>
 
         <div class="mt-auto border-t pt-4 text-sm">
