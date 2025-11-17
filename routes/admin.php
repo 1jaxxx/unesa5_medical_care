@@ -28,4 +28,5 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->as('admin.')->group(fu
     Route::get('screening/{screening}/modal', [ScreeningController::class, 'showModal'])->name('screening.show.modal');
     Route::resource('screening', controller: ScreeningController::class);
     Route::resource('resep', controller: ResepController::class);
+    Route::resource('obat', controller: ObatController::class);
 });
