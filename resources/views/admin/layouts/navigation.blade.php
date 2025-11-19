@@ -20,37 +20,61 @@
                 <span>Dashboard</span>
             </a>
 
+            @can('manage-users')
+            <a href="{{ route('admin.users.index') }}"
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                <i class="fa-solid fa-users text-base"></i>
+                <span>User Management</span>
+            </a>
+            @endcan
+
+            @can('add-pasien')
             <a href="{{ route('admin.pasien.index') }}"
                 class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
                 <i class="fa-solid fa-user text-base"></i>
                 <span>Pasien</span>
             </a>
+            @endcan
 
+            @can('add-prodi')
             <a href="{{ route('admin.prodi.index') }}"
                 class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
                 <i class="fa-solid fa-graduation-cap text-base"></i>
                 <span>Program Studi</span>
             </a>
+            @endcan
+
+            @can('add-visit')
             <a href="{{ route('admin.visit.index') }}"
                 class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
                 <i class="fa-solid fa-stethoscope text-base"></i> {{-- Using a stethoscope icon for visit --}}
                 <span>Kunjungan</span>
             </a>
+            @endcan
+
+            @can('add-screening')
             <a href="{{ route('admin.screening.index') }}"
                 class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
                 <i class="fa-solid fa-heart-pulse text-base"></i>
                 <span>Screening</span>
             </a>
+            @endcan
+
+            @can('add-resep')
             <a href="{{ route('admin.resep.index') }}"
                 class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
                 <i class="fa-solid fa-prescription-bottle-medical text-base"></i> {{-- Using a prescription bottle icon for resep --}}
                 <span>Resep</span>
             </a>
+            @endcan
+
+            @can('add-obat')
             <a href="{{ route('admin.obat.index') }}"
                 class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
                 <i class="fa-solid fa-pills text-base"></i> {{-- Using a pills icon for obat --}}
                 <span>Obat</span>
             </a>
+            @endcan
         </nav>
 
         <div class="mt-auto border-t pt-4 text-sm">
