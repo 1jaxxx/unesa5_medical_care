@@ -1,13 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ObatController;
 use App\Http\Controllers\Admin\PasienController;
 use App\Http\Controllers\Admin\ProdiController;
-use App\Http\Controllers\Admin\VisitController;
-use App\Http\Controllers\Admin\ScreeningController;
 use App\Http\Controllers\Admin\ResepController;
-use App\Http\Controllers\Admin\ObatController;
+use App\Http\Controllers\Admin\ScreeningController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VisitController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -29,4 +30,6 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->as('admin.')->group(fu
     Route::resource('screening', controller: ScreeningController::class);
     Route::resource('resep', controller: ResepController::class);
     Route::resource('obat', controller: ObatController::class);
+
+    Route::resource('users', controller: UserController::class)->middleware('can:manage-users');
 });
