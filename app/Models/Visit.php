@@ -17,7 +17,8 @@ class Visit extends Model
         'id_mahasiswa',
         'id_dosen',
         'id_staff',
-        'dokter_id'
+        'dokter_id',
+        'status'
     ];
 
     public function mahasiswa()

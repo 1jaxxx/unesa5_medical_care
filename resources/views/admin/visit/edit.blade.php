@@ -47,6 +47,15 @@
                                 <label for="diagnosis" class="block text-sm font-medium text-gray-700">Diagnosis</label>
                                 <textarea name="diagnosis" id="diagnosis" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">{{ $visit->diagnosis }}</textarea>
                             </div>
+
+                            <div>
+                                <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                                <select id="status" name="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                    <option value="pending" @if($visit->status == 'pending') selected @endif>Pending</option>
+                                    <option value="inprogress" @if($visit->status == 'inprogress') selected @endif>In Progress</option>
+                                    <option value="completed" @if($visit->status == 'completed') selected @endif>Completed</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="mt-6">

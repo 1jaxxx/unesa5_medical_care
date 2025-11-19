@@ -117,6 +117,7 @@ class VisitController extends Controller
             'keluhan' => 'required|string',
             'diagnosis' => 'required|string',
             'dokter_id' => 'required|integer|exists:users,id_users,role,dokter',
+            'status' => 'required|string|in:pending,inprogress,completed',
         ]);
 
         list($type, $id) = explode('-', $request->pasien);
@@ -130,6 +131,7 @@ class VisitController extends Controller
             'keluhan' => $validated['keluhan'],
             'diagnosis' => $validated['diagnosis'],
             'dokter_id' => $validated['dokter_id'],
+            'status' => $validated['status'],
         ]);
 
         return redirect()->route('admin.visit.index')->with('success', 'Data kunjungan berhasil diperbarui');
