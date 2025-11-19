@@ -25,8 +25,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->as('admin.')->group(fu
     });
 
     Route::resource('prodi', controller: ProdiController::class);
+    Route::get('my-visits', [VisitController::class, 'myVisits'])->name('visit.my_visits')->middleware('can:view-my-visits');
     Route::resource('visit', controller: VisitController::class);
     Route::get('screening/{screening}/modal', [ScreeningController::class, 'showModal'])->name('screening.show.modal');
+    Route::get('visits/{visit}/screening/create', [ScreeningController::class, 'create'])->name('screening.create_for_visit');
     Route::resource('screening', controller: ScreeningController::class);
     Route::resource('resep', controller: ResepController::class);
     Route::resource('obat', controller: ObatController::class);

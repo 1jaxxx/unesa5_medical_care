@@ -52,6 +52,14 @@
             </a>
             @endcan
 
+            @can('view-my-visits')
+            <a href="{{ route('admin.visit.my_visits') }}"
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                <i class="fa-solid fa-book-medical text-base"></i>
+                <span>Kunjungan Saya</span>
+            </a>
+            @endcan
+
             @can('add-screening')
             <a href="{{ route('admin.screening.index') }}"
                 class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">

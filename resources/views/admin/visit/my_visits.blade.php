@@ -1,7 +1,7 @@
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Daftar Kunjungan') }}
+            {{ __('Kunjungan Saya') }}
         </h2>
     </x-slot>
 
@@ -9,11 +9,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <div class="mb-4">
-                        <a href="{{ route('admin.visit.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Tambah Kunjungan
-                        </a>
-                    </div>
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
@@ -57,6 +52,11 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <a href="{{ route('admin.visit.edit', $visit->id_visit) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                    @can('perform-screening', $visit)
+                                        @if(!$visit->screening)
+                                            <a href="{{ route('admin.screening.create_for_visit', $visit->id_visit) }}" class="text-green-600 hover:text-green-900 ml-4">Screening</a>
+                                        @endif
+                                    @endcan
                                     <form action="{{ route('admin.visit.destroy', $visit->id_visit) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')

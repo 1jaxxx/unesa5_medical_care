@@ -16,7 +16,8 @@ class Visit extends Model
         'type_pasien',
         'id_mahasiswa',
         'id_dosen',
-        'id_staff'
+        'id_staff',
+        'dokter_id'
     ];
 
     public function mahasiswa()
@@ -32,6 +33,11 @@ class Visit extends Model
     public function staff()
     {
         return $this->belongsTo(Staff::class, 'id_staff', 'id_staff');
+    }
+
+    public function dokter()
+    {
+        return $this->belongsTo(User::class, 'dokter_id', 'id_users');
     }
 
     public function getPasienAttribute()

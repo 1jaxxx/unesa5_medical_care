@@ -10,19 +10,29 @@ use App\Models\Dosen;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ScreeningController extends Controller
 {
     public function index()
     {
-        $screenings = Screening::with(['mahasiswa', 'dosen', 'staff', 'visit'])->paginate(10);
+        $user = Auth::user();
+        $query = Screening::with(['mahasiswa', 'dosen', 'staff', 'visit']);
+
+        if ($user->role === 'dokter') {
+            $query->whereHas('visit', function ($q) use ($user) {
+                $q->where('dokter_id', $user->id_users);
+            });
+        }
+
+        $screenings = $query->paginate(10);
         return view('admin.screening.index', compact('screenings'));
     }
 
-    public function create()
+    public function create(Visit $visit)
     {
-        $visits = Visit::whereDoesntHave('screening')->with(['mahasiswa', 'dosen', 'staff'])->get();
-        return view('admin.screening.create', compact('visits'));
+        $this->authorize('perform-screening', $visit);
+        return view('admin.screening.create', compact('visit'));
     }
 
     public function store(Request $request)
@@ -41,6 +51,8 @@ class ScreeningController extends Controller
         ]);
 
         $visit = Visit::find($validated['id_visit']);
+        $this->authorize('perform-screening', $visit);
+
         $tinggi_m = $validated['tinggi_badan'] / 100;
         $imt = ($tinggi_m > 0) ? ($validated['berat_badan'] / ($tinggi_m * $tinggi_m)) : 0;
 
