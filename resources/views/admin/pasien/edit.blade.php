@@ -115,3 +115,7 @@
     </div>
 
 </x-admin-layout>
+
+@push('scripts')
+<script src="{{ asset('js/form.js') }}"></script>
+@endpush

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/data', [DashboardController::class, 'getData'])->name('dashboard.data');
 
     // Pasien routes with type parameter
     Route::prefix('pasien')->name('pasien.')->controller(PasienController::class)->group(function () {

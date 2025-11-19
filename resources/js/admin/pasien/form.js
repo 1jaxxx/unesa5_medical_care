@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const typePasienSelect = document.getElementById('type_pasien');
+
+    if (!typePasienSelect) {
+        return; // hentikan script supaya tidak error
+    }
+
     const nimField = document.querySelector('.nim-field');
     const nidnField = document.querySelector('.nidn-field');
     const bagianField = document.querySelector('.bagian-field');
@@ -26,9 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Call updateFormFields on initial load
     updateFormFields();
-
-    // Add event listener for changes
     typePasienSelect.addEventListener('change', updateFormFields);
 });
