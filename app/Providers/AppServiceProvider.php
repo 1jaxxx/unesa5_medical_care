@@ -23,9 +23,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::before(function (User $user, $ability) {
-            if ($user->role === 'admin') {
+            if ($user->role === 'admin' && $ability !== 'view-my-visits') {
                 return true;
             }
+            return null; // Tambahkan ini untuk kejelasan, meskipun defaultnya adalah null
         });
 
         Gate::define('manage-users', function (User $user) {
