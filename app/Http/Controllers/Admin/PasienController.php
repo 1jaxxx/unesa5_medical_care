@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Visit;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Mahasiswa;
 use App\Models\Dosen;
 use App\Models\Staff;
@@ -14,81 +16,61 @@ class PasienController extends Controller
 {
     public function index(Request $request)
     {
+        $user = Auth::user();
         $type = $request->get('type', 'all');
-           $perPage = $request->get('per_page', 10);
-           $sort = $request->get('sort', 'created_at');
-           $direction = $request->get('direction', 'desc');
-        
-        // Query untuk mahasiswa
-        $mahasiswa = Mahasiswa::with('prodi')
-              ->select(
-                 'id_mahasiswa as id', 
-                 'nama', 
-                 'nim as identifier', 
-                 DB::raw("'mahasiswa' as type"), 
-                 'jenis_kelamin',
-                 'tgl_lahir',
-                 'tempat_lahir', 
-                 'id_prodi',
-                 'email', 
-                 'no_telp', 
-                 'created_at'
-              );
-            
-        // Query untuk dosen
-        $dosen = Dosen::select(
-            'id_dosen as id',
-            'nama',
-            'nidn as identifier',
-            DB::raw("'dosen' as type"),
-            'jenis_kelamin',
-            'tgl_lahir',
-            'tempat_lahir',
-            DB::raw("NULL as id_prodi"),
-            'email',
-            'no_telp',
-            'created_at'
+        $perPage = $request->get('per_page', 10);
+        $sort = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
+
+        $mahasiswaQuery = Mahasiswa::with('prodi')->select(
+            'id_mahasiswa as id', 'nama', 'nim as identifier', DB::raw("'mahasiswa' as type"), 
+            'jenis_kelamin', 'tgl_lahir', 'tempat_lahir', 'id_prodi', 'email', 'no_telp', 'created_at'
         );
-        
-        // Query untuk staff
-        $staff = Staff::select(
-            'id_staff as id',
-            'nama',
-            'bagian as identifier',
-            DB::raw("'staff' as type"),
-            'jenis_kelamin',
-            'tgl_lahir',
-            'tempat_lahir',
-            DB::raw("NULL as id_prodi"),
-            'email',
-            'no_telp',
-            'created_at'
+        $dosenQuery = Dosen::select(
+            'id_dosen as id', 'nama', 'nidn as identifier', DB::raw("'dosen' as type"),
+            'jenis_kelamin', 'tgl_lahir', 'tempat_lahir', DB::raw("NULL as id_prodi"),
+            'email', 'no_telp', 'created_at'
+        );
+        $staffQuery = Staff::select(
+            'id_staff as id', 'nama', 'bagian as identifier', DB::raw("'staff' as type"),
+            'jenis_kelamin', 'tgl_lahir', 'tempat_lahir', DB::raw("NULL as id_prodi"),
+            'email', 'no_telp', 'created_at'
         );
 
-        // Filter berdasarkan tipe jika ada
-        if ($type !== 'all') {
-            if ($type === 'mahasiswa') {
-                 $pasien = $mahasiswa->orderBy($sort, $direction)->paginate($perPage);
-            } elseif ($type === 'dosen') {
-                 $pasien = $dosen->orderBy($sort, $direction)->paginate($perPage);
-            } elseif ($type === 'staff') {
-                 $pasien = $staff->orderBy($sort, $direction)->paginate($perPage);
-            }
-        } else {
-            // Union semua query jika tidak ada filter
-            $pasien = $mahasiswa->union($dosen)->union($staff)
-                 ->orderBy($sort, $direction)
-                 ->paginate($perPage);
+        if ($user->role === 'dokter') {
+            $visits = Visit::where('dokter_id', $user->id_users)->get();
+
+            $mahasiswaIds = $visits->where('type_pasien', 'mahasiswa')->pluck('id_mahasiswa')->unique();
+            $dosenIds = $visits->where('type_pasien', 'dosen')->pluck('id_dosen')->unique();
+            $staffIds = $visits->where('type_pasien', 'staff')->pluck('id_staff')->unique();
+
+            $mahasiswaQuery->whereIn('id_mahasiswa', $mahasiswaIds);
+            $dosenQuery->whereIn('id_dosen', $dosenIds);
+            $staffQuery->whereIn('id_staff', $staffIds);
         }
 
-           $pageTitle = match($type) {
-              'mahasiswa' => 'Data Mahasiswa',
-              'dosen' => 'Data Dosen',
-              'staff' => 'Data Staff',
-              default => 'Data Semua Pasien',
-           };
+        if ($type !== 'all') {
+            if ($type === 'mahasiswa') {
+                $pasien = $mahasiswaQuery->orderBy($sort, $direction)->paginate($perPage);
+            } elseif ($type === 'dosen') {
+                $pasien = $dosenQuery->orderBy($sort, $direction)->paginate($perPage);
+            } elseif ($type === 'staff') {
+                $pasien = $staffQuery->orderBy($sort, $direction)->paginate($perPage);
+            }
+        } else {
+            $pasien = $mahasiswaQuery->union($dosenQuery)->union($staffQuery)
+                ->orderBy($sort, $direction)
+                ->paginate($perPage);
+        }
 
-           return view('admin.pasien.index', compact('pasien', 'type', 'pageTitle', 'sort', 'direction'));
+        $pageTitle = match($type) {
+            'mahasiswa' => 'Data Mahasiswa',
+            'dosen' => 'Data Dosen',
+            'staff' => 'Data Staff',
+            default => 'Data Semua Pasien',
+        };
+
+        return view('admin.pasien.index', compact('pasien', 'type', 'pageTitle', 'sort', 'direction'));
     }
 
     public function create(Request $request)

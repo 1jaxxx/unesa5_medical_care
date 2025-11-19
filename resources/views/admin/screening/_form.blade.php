@@ -2,15 +2,22 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
     <div class="sm:col-span-2">
         <x-input-label for="id_visit" :value="__('Kunjungan Pasien')" />
-        <select id="id_visit" name="id_visit" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
-            <option value="">Pilih Kunjungan</option>
-            @foreach ($visits as $visit)
-                <option value="{{ $visit->id_visit }}"
-                    {{ (old('id_visit', $screening->id_visit ?? '') == $visit->id_visit) ? 'selected' : '' }}>
-                    {{ $visit->pasien->nama ?? 'N/A' }} ({{ ucfirst($visit->type_pasien) }}) - {{ \Carbon\Carbon::parse($visit->tgl_kunjungan)->format('d M Y') }}
-                </option>
-            @endforeach
-        </select>
+        @isset($visit) {{-- Create context from a specific visit --}}
+            <div class="mt-1 p-2 bg-gray-100 border border-gray-300 rounded-md">
+                {{ $visit->pasien->nama }} ({{ ucfirst($visit->type_pasien) }}) - {{ \Carbon\Carbon::parse($visit->tgl_kunjungan)->format('d M Y') }}
+            </div>
+            <input type="hidden" name="id_visit" value="{{ $visit->id_visit }}">
+        @else {{-- Edit context or old create context --}}
+            <select id="id_visit" name="id_visit" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                <option value="">Pilih Kunjungan</option>
+                @foreach ($visits as $v)
+                    <option value="{{ $v->id_visit }}"
+                        {{ (old('id_visit', $screening->id_visit ?? '') == $v->id_visit) ? 'selected' : '' }}>
+                        {{ $v->pasien->nama ?? 'N/A' }} ({{ ucfirst($v->type_pasien) }}) - {{ \Carbon\Carbon::parse($v->tgl_kunjungan)->format('d M Y') }}
+                    </option>
+                @endforeach
+            </select>
+        @endisset
         <x-input-error :messages="$errors->get('id_visit')" class="mt-2" />
     </div>
 

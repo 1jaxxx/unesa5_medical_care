@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Models\Visit;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -53,6 +54,14 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('add-resep', function (User $user) {
             return $user->role === 'dokter';
+        });
+
+        Gate::define('view-my-visits', function (User $user) {
+            return $user->role === 'dokter';
+        });
+
+        Gate::define('perform-screening', function (User $user, Visit $visit) {
+            return $user->id_users === $visit->dokter_id;
         });
     }
 }
