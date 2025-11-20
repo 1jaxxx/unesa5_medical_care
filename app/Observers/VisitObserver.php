@@ -24,6 +24,18 @@ class VisitObserver
             'aksi' => $aksi,
             'waktu' => now()
         ]);
+
+        \App\Models\RiwayatKunjungan::create([
+            'id_visit' => $visit->id_visit,
+            'tgl_kunjungan' => $visit->tgl_kunjungan,
+            'keluhan' => $visit->keluhan,
+            'diagnosis' => $visit->diagnosis,
+            'type_pasien' => $visit->type_pasien,
+            'id_mahasiswa' => $visit->id_mahasiswa,
+            'id_dosen' => $visit->id_dosen,
+            'id_staff' => $visit->id_staff,
+            'dokter_id' => $visit->dokter_id,
+        ]);
     }
 
     /**
@@ -34,6 +46,21 @@ class VisitObserver
         if (!Auth::check()) return;
 
         $user = Auth::user();
+
+        // Update RiwayatKunjungan
+        $riwayat = \App\Models\RiwayatKunjungan::where('id_visit', $visit->id_visit)->first();
+        if ($riwayat) {
+            $riwayat->update([
+                'tgl_kunjungan' => $visit->tgl_kunjungan,
+                'keluhan' => $visit->keluhan,
+                'diagnosis' => $visit->diagnosis,
+                'type_pasien' => $visit->type_pasien,
+                'id_mahasiswa' => $visit->id_mahasiswa,
+                'id_dosen' => $visit->id_dosen,
+                'id_staff' => $visit->id_staff,
+                'dokter_id' => $visit->dokter_id,
+            ]);
+        }
 
         if ($visit->wasChanged('status')) {
             $oldStatus = $visit->getOriginal('status');
@@ -54,6 +81,8 @@ class VisitObserver
     public function deleted(Visit $visit): void
     {
         if (!Auth::check()) return;
+
+        \App\Models\RiwayatKunjungan::where('id_visit', $visit->id_visit)->delete();
 
         $user = Auth::user();
         $aksi = "{$user->nama} menghapus Kunjungan #{$visit->id_visit}.";
