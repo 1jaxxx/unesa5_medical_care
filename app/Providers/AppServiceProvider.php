@@ -2,8 +2,24 @@
 
 namespace App\Providers;
 
+use App\Models\Dosen;
+use App\Models\Mahasiswa;
+use App\Models\Obat;
+use App\Models\Prodi;
+use App\Models\Resep;
+use App\Models\Screening;
+use App\Models\Staff;
 use App\Models\User;
 use App\Models\Visit;
+use App\Observers\DosenObserver;
+use App\Observers\MahasiswaObserver;
+use App\Observers\ObatObserver;
+use App\Observers\ProdiObserver;
+use App\Observers\ResepObserver;
+use App\Observers\ScreeningObserver;
+use App\Observers\StaffObserver;
+use App\Observers\UserObserver;
+use App\Observers\VisitObserver;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +38,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Visit::observe(VisitObserver::class);
+        Obat::observe(ObatObserver::class);
+        Prodi::observe(ProdiObserver::class);
+        Screening::observe(ScreeningObserver::class);
+        Resep::observe(ResepObserver::class);
+        Mahasiswa::observe(MahasiswaObserver::class);
+        Dosen::observe(DosenObserver::class);
+        Staff::observe(StaffObserver::class);
+        User::observe(UserObserver::class);
+
         Gate::before(function (User $user, $ability) {
             if ($user->role === 'admin' && $ability !== 'view-my-visits') {
                 return true;
