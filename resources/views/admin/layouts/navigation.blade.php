@@ -26,6 +26,11 @@
                 <i class="fa-solid fa-users text-base"></i>
                 <span>User Management</span>
             </a>
+            <a href="{{ route('admin.logs.index') }}"
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                <i class="fa-solid fa-clipboard-list text-base"></i>
+                <span>Log Aktivitas</span>
+            </a>
             @endcan
 
             @can('add-pasien')

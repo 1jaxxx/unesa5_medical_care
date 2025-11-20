@@ -15,6 +15,10 @@ class LogAktivitas extends Model
         'waktu'
     ];
 
+    protected $casts = [
+        'waktu' => 'datetime',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'id_users', 'id_users');

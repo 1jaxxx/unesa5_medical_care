@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LogAktivitasController;
 use App\Http\Controllers\Admin\ObatController;
 use App\Http\Controllers\Admin\PasienController;
 use App\Http\Controllers\Admin\ProdiController;
@@ -35,4 +36,5 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->as('admin.')->group(fu
     Route::resource('obat', controller: ObatController::class);
 
     Route::resource('users', controller: UserController::class)->middleware('can:manage-users');
+    Route::get('logs', [LogAktivitasController::class, 'index'])->name('logs.index')->middleware('can:manage-users');
 });

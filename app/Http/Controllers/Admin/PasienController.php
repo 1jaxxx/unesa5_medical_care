@@ -125,7 +125,22 @@ class PasienController extends Controller
         if (!$pasien) {
             return abort(404);
         }
-        return view('admin.pasien.show', compact('pasien', 'type'));
+
+        $riwayatKunjungan = \App\Models\RiwayatKunjungan::where('type_pasien', $type)
+            ->when($type === 'mahasiswa', function ($query) use ($id) {
+                return $query->where('id_mahasiswa', $id);
+            })
+            ->when($type === 'dosen', function ($query) use ($id) {
+                return $query->where('id_dosen', $id);
+            })
+            ->when($type === 'staff', function ($query) use ($id) {
+                return $query->where('id_staff', $id);
+            })
+            ->with('dokter')
+            ->orderBy('tgl_kunjungan', 'desc')
+            ->get();
+
+        return view('admin.pasien.show', compact('pasien', 'type', 'riwayatKunjungan'));
     }
 
     public function edit($type, $id)
