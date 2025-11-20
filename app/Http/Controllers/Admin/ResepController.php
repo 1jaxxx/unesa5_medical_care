@@ -8,6 +8,8 @@ use App\Models\Obat;
 use App\Models\Visit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\ResepExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ResepController extends Controller
 {
@@ -84,5 +86,15 @@ class ResepController extends Controller
     {
         $resep->delete();
         return redirect()->route('admin.resep.index')->with('success', 'Data resep berhasil dihapus');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new ResepExport, 'reseps.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        return Excel::download(new ResepExport, 'reseps.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

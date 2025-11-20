@@ -11,6 +11,8 @@ use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\ScreeningExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ScreeningController extends Controller
 {
@@ -121,5 +123,15 @@ class ScreeningController extends Controller
     {
         $screening->delete();
         return redirect()->route('admin.screening.index')->with('success', 'Data screening berhasil dihapus');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new ScreeningExport, 'screenings.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        return Excel::download(new ScreeningExport, 'screenings.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

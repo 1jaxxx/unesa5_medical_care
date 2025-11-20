@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Obat;
 use Illuminate\Http\Request;
+use App\Exports\ObatExport;
+use App\Imports\ObatImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ObatController extends Controller
 {
@@ -59,5 +62,26 @@ class ObatController extends Controller
     {
         $obat->delete();
         return redirect()->route('admin.obat.index')->with('success', 'Data obat berhasil dihapus');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new ObatExport, 'obats.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        return Excel::download(new ObatExport, 'obats.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new ObatImport, $request->file('file'));
+
+        return redirect()->route('admin.obat.index')->with('success', 'Data obat berhasil diimpor!');
     }
 }

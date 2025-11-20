@@ -13,11 +13,33 @@
                     {{-- Header --}}
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-semibold text-gray-700">Data Program Studi</h3>
-                        <a href="{{ route('admin.prodi.create') }}"
-                           class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-md transition duration-150 ease-in-out">
-                            + Tambah Prodi
-                        </a>
+                        <div class="flex items-center gap-2">
+                            <a href="{{ route('admin.prodi.export.excel') }}"
+                               class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-lg shadow-md transition duration-150 ease-in-out">
+                                Export to Excel
+                            </a>
+                            <a href="{{ route('admin.prodi.export.pdf') }}"
+                               class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow-md transition duration-150 ease-in-out">
+                                Export to PDF
+                            </a>
+                            <form action="{{ route('admin.prodi.import.excel') }}" method="POST" enctype="multipart/form-data" id="import-form">
+                                @csrf
+                                <input type="file" name="file" class="hidden" id="import-excel">
+                                <label for="import-excel" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                    Import Excel
+                                </label>
+                            </form>
+                            <a href="{{ route('admin.prodi.create') }}"
+                               class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-md transition duration-150 ease-in-out">
+                                + Tambah Prodi
+                            </a>
+                        </div>
                     </div>
+<script>
+    document.getElementById('import-excel').addEventListener('change', function() {
+        document.getElementById('import-form').submit();
+    });
+</script>
 
                     {{-- Pesan Sukses --}}
                     @if (session('success'))

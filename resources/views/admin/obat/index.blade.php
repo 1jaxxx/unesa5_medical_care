@@ -11,10 +11,30 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="flex justify-between items-center mb-4">
                         <h1 class="text-2xl font-bold">Daftar Obat</h1>
-                        <a href="{{ route('admin.obat.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                            Tambah Obat
-                        </a>
+                        <div>
+                            <a href="{{ route('admin.obat.export.excel') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                Export to Excel
+                            </a>
+                            <a href="{{ route('admin.obat.export.pdf') }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                Export to PDF
+                            </a>
+                            <form action="{{ route('admin.obat.import.excel') }}" method="POST" enctype="multipart/form-data" id="import-form" class="inline">
+                                @csrf
+                                <input type="file" name="file" class="hidden" id="import-excel">
+                                <label for="import-excel" class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                                    Import Excel
+                                </label>
+                            </form>
+                            <a href="{{ route('admin.obat.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                Tambah Obat
+                            </a>
+                        </div>
                     </div>
+<script>
+    document.getElementById('import-excel').addEventListener('change', function() {
+        document.getElementById('import-form').submit();
+    });
+</script>
 
                     @if (session('success'))
                         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
