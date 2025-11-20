@@ -78,11 +78,27 @@ class VisitObserver
     /**
      * Handle the Visit "deleted" event.
      */
+    /**
+     * Handle the Visit "deleting" event.
+     */
+    public function deleting(Visit $visit): void
+    {
+        // Hapus screening terkait
+        $visit->screening()->delete();
+
+        // Hapus resep terkait
+        $visit->resep()->delete();
+
+        // Hapus riwayat kunjungan terkait
+        \App\Models\RiwayatKunjungan::where('id_visit', $visit->id_visit)->delete();
+    }
+
+    /**
+     * Handle the Visit "deleted" event.
+     */
     public function deleted(Visit $visit): void
     {
         if (!Auth::check()) return;
-
-        \App\Models\RiwayatKunjungan::where('id_visit', $visit->id_visit)->delete();
 
         $user = Auth::user();
         $aksi = "{$user->nama} menghapus Kunjungan #{$visit->id_visit}.";

@@ -20,6 +20,8 @@ use App\Observers\ScreeningObserver;
 use App\Observers\StaffObserver;
 use App\Observers\UserObserver;
 use App\Observers\VisitObserver;
+use App\Models\RiwayatKunjungan;
+use App\Observers\RiwayatKunjunganObserver;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -47,6 +49,7 @@ class AppServiceProvider extends ServiceProvider
         Dosen::observe(DosenObserver::class);
         Staff::observe(StaffObserver::class);
         User::observe(UserObserver::class);
+        RiwayatKunjungan::observe(RiwayatKunjunganObserver::class);
 
         Gate::before(function (User $user, $ability) {
             if ($user->role === 'admin' && $ability !== 'view-my-visits') {
