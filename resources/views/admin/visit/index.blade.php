@@ -33,12 +33,22 @@
                                     Dokter
                                 </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Status
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Aksi
                                 </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($visits as $visit)
+                            @php
+                                $statusClasses = [
+                                    'pending' => 'bg-yellow-100 text-yellow-800',
+                                    'inprogress' => 'bg-blue-100 text-blue-800',
+                                    'completed' => 'bg-green-100 text-green-800',
+                                ];
+                            @endphp
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $visit->tgl_kunjungan }}
@@ -54,6 +64,11 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $visit->dokter->nama ?? 'Belum ditugaskan' }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusClasses[$visit->status] ?? 'bg-gray-100 text-gray-800' }}">
+                                        {{ ucfirst($visit->status) }}
+                                    </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <a href="{{ route('admin.visit.edit', $visit->id_visit) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>

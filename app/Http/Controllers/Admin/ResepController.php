@@ -7,6 +7,7 @@ use App\Models\Resep;
 use App\Models\Obat;
 use App\Models\Visit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ResepController extends Controller
 {
@@ -19,7 +20,14 @@ class ResepController extends Controller
     public function create()
     {
         $obat = Obat::all();
-        $visits = Visit::all();
+        
+        $user = Auth::user();
+        if ($user->role === 'dokter') {
+            $visits = Visit::where('dokter_id', $user->id_users)->get();
+        } else {
+            $visits = Visit::all();
+        }
+
         return view('admin.resep.create', compact('obat', 'visits'));
     }
 
@@ -46,7 +54,14 @@ class ResepController extends Controller
     public function edit(Resep $resep)
     {
         $obat = Obat::all();
-        $visits = Visit::all();
+
+        $user = Auth::user();
+        if ($user->role === 'dokter') {
+            $visits = Visit::where('dokter_id', $user->id_users)->get();
+        } else {
+            $visits = Visit::all();
+        }
+
         return view('admin.resep.edit', compact('resep', 'obat', 'visits'));
     }
 
