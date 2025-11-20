@@ -11,6 +11,9 @@ use App\Models\Staff;
 use App\Models\Prodi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Exports\PasienExport;
+use App\Imports\PasienImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PasienController extends Controller
 {
@@ -219,5 +222,26 @@ class PasienController extends Controller
             default:
                 return null;
         }
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new PasienExport, 'pasien.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        return Excel::download(new PasienExport, 'pasien.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new PasienImport, $request->file('file'));
+
+        return redirect()->route('admin.pasien.index')->with('success', 'Data pasien berhasil diimpor!');
     }
 }

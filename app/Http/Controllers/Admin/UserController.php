@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use App\Exports\UserExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -108,5 +110,15 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new UserExport, 'users.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        return Excel::download(new UserExport, 'users.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

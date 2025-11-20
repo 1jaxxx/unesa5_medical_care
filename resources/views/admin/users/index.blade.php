@@ -12,10 +12,20 @@
 
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-semibold text-gray-700">Data Pengguna</h3>
-                        <a href="{{ route('admin.users.create') }}"
-                           class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-md transition duration-150 ease-in-out">
-                            + Tambah Pengguna
-                        </a>
+                        <div>
+                            <a href="{{ route('admin.users.export.excel') }}"
+                               class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-lg shadow-md transition duration-150 ease-in-out mr-2">
+                                Export to Excel
+                            </a>
+                            <a href="{{ route('admin.users.export.pdf') }}"
+                               class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow-md transition duration-150 ease-in-out mr-2">
+                                Export to PDF
+                            </a>
+                            <a href="{{ route('admin.users.create') }}"
+                               class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-md transition duration-150 ease-in-out">
+                                + Tambah Pengguna
+                            </a>
+                        </div>
                     </div>
 
                     @if (session('success'))

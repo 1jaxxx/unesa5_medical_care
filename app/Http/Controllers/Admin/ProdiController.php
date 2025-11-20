@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Prodi;
 use Illuminate\Http\Request;
+use App\Exports\ProdiExport;
+use App\Imports\ProdiImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProdiController extends Controller
 {
@@ -53,5 +56,26 @@ class ProdiController extends Controller
     {
         $prodi->delete();
         return redirect()->route('admin.prodi.index')->with('success', 'Program studi berhasil dihapus');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new ProdiExport, 'prodi.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        return Excel::download(new ProdiExport, 'prodi.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new ProdiImport, $request->file('file'));
+
+        return redirect()->route('admin.prodi.index')->with('success', 'Data prodi berhasil diimpor!');
     }
 }

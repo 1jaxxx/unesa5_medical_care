@@ -11,6 +11,8 @@ use App\Models\Dosen;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Exports\VisitExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VisitController extends Controller
 {
@@ -141,5 +143,15 @@ class VisitController extends Controller
     {
         $visit->delete();
         return redirect()->route('admin.visit.index')->with('success', 'Data kunjungan berhasil dihapus');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new VisitExport, 'visits.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        return Excel::download(new VisitExport, 'visits.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }
