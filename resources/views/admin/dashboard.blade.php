@@ -7,130 +7,176 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg text-blue flex items-center justify-between">
                 <div class="max-w-xl">
-                    <h2 class="text-2xl font-bold text-gray-900">Selamat Datang di Halaman Admin!</h2>
-                    <p class="mt-2 text-gray-600">Ini adalah pusat kendali untuk mengelola semua aspek UNESA 5 MEDICAL CARE.
+                    <h2 class="text-2xl font-bold">Selamat Datang di Halaman Admin!</h2>
+                    <p class="mt-2 text-black-100">
+                        Ini adalah pusat kendali untuk mengelola semua aspek UNESA 5 MEDICAL CARE.
                     </p>
-                </div>
-            </div>
 
-            <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                <div class="p-6 bg-white shadow-sm sm:rounded-lg">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fa-solid fa-users text-3xl text-blue-500"></i>
-                        </div>
-                        <div class="ml-5 w-0 flex-1">
-                            <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">Total Pasien</dt>
-                                <dd class="text-3xl font-bold text-gray-900" id="totalPasien">{{ $totalPasien }}</dd>
-                            </dl>
-                        </div>
+                    <div class="mt-5 inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-lg w-fit shadow-sm">
+                        <i class="fa-regular fa-calendar text-lg"></i>
+                        <span id="tanggalHariIni"></span>
                     </div>
                 </div>
 
-                <div class="p-6 bg-white shadow-sm sm:rounded-lg">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fa-solid fa-graduation-cap text-3xl text-green-500"></i>
-                        </div>
-                        <div class="ml-5 w-0 flex-1">
-                            <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">Total Prodi</dt>
-                                <dd class="text-3xl font-bold text-gray-900" id="totalProdi">{{ $totalProdi }}</dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="p-6 bg-white shadow-sm sm:rounded-lg">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fa-solid fa-stethoscope text-3xl text-red-500"></i>
-                        </div>
-                        <div class="ml-5 w-0 flex-1">
-                            <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">Kunjungan Hari Ini</dt>
-                                <dd class="text-3xl font-bold text-gray-900" id="kunjunganHariIni">{{ $kunjunganHariIni }}</dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
+                <img src="https://i.pinimg.com/736x/3d/0f/5a/3d0f5ab922631b14e3cbb942102da487.jpg" alt="Welcome" class="w-36 h-36 object-cover rounded-x2">
             </div>
 
-            <!-- Grafik Kunjungan Per Hari -->
-            <div class="mt-8 p-6 bg-white shadow-sm sm:rounded-lg">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Kunjungan Per Hari (7 Hari Terakhir)</h3>
-                <canvas id="visitsChart" width="400" height="200"></canvas>
+        <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+        <!-- Total Pasien -->
+        <div class="p-6 bg-white shadow-sm rounded-lg border">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm text-gray-500">Total Pasien</p>
+                    <h3 id="totalPasien" class="text-3xl font-bold mt-1">{{ $totalPasien }}</h3>
+                </div>
+                <i class="fa-solid fa-users text-3xl text-blue-500"></i>
             </div>
+            <canvas id="chartPasien" height="60"></canvas>
+        </div>
+
+        <!-- Total Prodi -->
+        <div class="p-6 bg-white shadow-sm rounded-lg border">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm text-gray-500">Total Prodi</p>
+                    <h3 id="totalProdi" class="text-3xl font-bold mt-1">{{ $totalProdi }}</h3>
+                </div>
+                <i class="fa-solid fa-graduation-cap text-3xl text-indigo-500"></i>
+            </div>
+            <canvas id="chartProdi" height="60"></canvas>
+        </div>
+
+        <!-- Kunjungan -->
+        <div class="p-6 bg-white shadow-sm rounded-lg border">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm text-gray-500">Kunjungan Hari Ini</p>
+                    <h3 id="kunjunganHariIni" class="text-3xl font-bold mt-1">{{ $kunjunganHariIni }}</h3>
+                </div>
+                <i class="fa-solid fa-stethoscope text-3xl text-red-500"></i>
+            </div>
+            <canvas id="chartKunjunganMini" height="60"></canvas>
+        </div>
+
+        <!-- Antrian -->
+        <div class="p-6 bg-white shadow-sm rounded-lg border">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm text-gray-500">Antrian Saat Ini</p>
+                    <h3 id="antrianPasien" class="text-3xl font-bold mt-1">{{ $antrianPasien }}</h3>
+                </div>
+                <i class="fa-solid fa-clock text-3xl text-yellow-500"></i>
+            </div>
+            <canvas id="chartAntrian" height="60"></canvas>
         </div>
     </div>
 
-    <!-- Include Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        let visitsChart;
+        <!-- Grafik Kunjungan Per Hari -->
+                <div class="bg-white p-6 rounded-lg shadow mt-8">
+                    <h3 class="text-xl font-bold mb-4">Kunjungan 7 Hari Terakhir</h3>
 
-        function initChart(labels, data) {
-            const ctx = document.getElementById('visitsChart').getContext('2d');
-            visitsChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Kunjungan',
-                        data: data,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        tension: 0.1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                    <canvas id="weeklyChart" height="80"></canvas>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Include Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            const visitsPerDay = {!! json_encode($visitsPerDay ?? []) !!};
+            const chartMiniData = Object.values(visitsPerDay);
+
+            function createMiniChart(id, color) {
+                new Chart(document.getElementById(id).getContext("2d"), {
+                    type: "line",
+                    data: {
+                        labels: chartMiniData.map((_, i) => i),
+                        datasets: [{
+                            data: chartMiniData,
+                            borderColor: color,
+                            borderWidth: 2,
+                            fill: false,
+                            tension: 0.55,
+                            pointRadius: 0
+                        }]
+                    },
+                    options: {
+                        plugins: { legend: { display: false } },
+                        scales: { x: { display: false }, y: { display: false } }
                     }
-                }
+                });
+            }
+
+            function createWeeklyChart() {
+                const labels = Object.keys(visitsPerDay);
+                const data = Object.values(visitsPerDay);
+
+                new Chart(document.getElementById("weeklyChart").getContext("2d"), {
+                    type: "line",
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: "Kunjungan",
+                            data: data,
+                            borderColor: "#3b82f6",
+                            backgroundColor: "rgba(59, 130, 246, 0.1)",
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                createMiniChart("chartPasien", "#3b82f6");
+                createMiniChart("chartProdi", "#6366f1");
+                createMiniChart("chartKunjunganMini", "#d8201dff");
+                createMiniChart("chartAntrian", "#f59e0b");
+                createWeeklyChart();
             });
-        }
 
-        function updateChart(labels, data) {
-            visitsChart.data.labels = labels;
-            visitsChart.data.datasets[0].data = data;
-            visitsChart.update();
-        }
+            async function updateRealtime() {
+                try {
+                    let r = await fetch("/admin/dashboard/realtime");
+                    let d = await r.json();
 
-        function updateDashboard() {
-            fetch("{{ route('admin.dashboard.data') }}", {
-                credentials: 'same-origin'
-            })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('totalPasien').textContent = data.totalPasien;
-                    document.getElementById('totalProdi').textContent = data.totalProdi;
-                    document.getElementById('kunjunganHariIni').textContent = data.kunjunganHariIni;
-                    const labels = Object.keys(data.visitsPerDay);
-                    const values = Object.values(data.visitsPerDay);
-                    if (visitsChart) {
-                        updateChart(labels, values);
-                    } else {
-                        initChart(labels, values);
+                    document.getElementById("totalPasien").textContent = d.totalPasien;
+                    document.getElementById("totalProdi").textContent = d.totalProdi;
+                    document.getElementById("kunjunganHariIni").textContent = d.kunjunganHariIni;
+                    document.getElementById("antrianPasien").textContent = d.antrianPasien;
+
+                    const weeklyChart = Chart.getChart("weeklyChart");
+                    if (weeklyChart) {
+                        weeklyChart.data.labels = Object.keys(d.visitsPerDay);
+                        weeklyChart.data.datasets[0].data = Object.values(d.visitsPerDay);
+                        weeklyChart.update();
                     }
-                })
-                .catch(error => console.error('Error fetching dashboard data:', error));
-        }
+                } catch (e) {
+                    console.log("Realtime gagal:", e);
+                }
+            }
 
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', function() {
-            const initialLabels = @json(array_keys($visitsPerDay));
-            const initialData = @json(array_values($visitsPerDay));
-            initChart(initialLabels, initialData);
+            setInterval(updateRealtime, 5000);
+        </script>
 
-            // Update every 5 seconds
-            setInterval(updateDashboard, 5000);
-        });
+        <script>
+            const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+            const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+
+            function setTanggalWelcome() {
+                let d = new Date();
+                document.getElementById("tanggalHariIni").innerText = `${hari[d.getDay()]}, ${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
+            }
+
+            setTanggalWelcome();
     </script>
 </x-admin-layout>

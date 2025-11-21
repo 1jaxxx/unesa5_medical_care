@@ -9,7 +9,7 @@
                     UNESA KAMPUS 5 <br class="hidden md:block"> MEDICAL CARE
                 </h1>
                 <p class="text-lg md:text-xl font-light text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0">
-                    Lorem Ipsum siamet entah tulisannnya aoa aja males banget  mikir, pake chat gpt aja gimana??
+                    Layanan kesehatan terpercaya untuk seluruh civitas akademika Kampus 5.
                 </p>
                 <div
                     class="flex flex-col sm:flex-row justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4">

@@ -11,14 +11,14 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="flex justify-between items-center mb-4">
                         <h1 class="text-2xl font-bold">Daftar Resep</h1>
-                        <div>
+                        <div class="flex gap-3">
                             <a href="{{ route('admin.resep.export.excel') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                                 Export to Excel
                             </a>
                             <a href="{{ route('admin.resep.export.pdf') }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                                 Export to PDF
                             </a>
-                            <a href="{{ route('admin.resep.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                            <a href="{{ route('admin.resep.create') }}" class="bg-blue-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                                 Tambah Resep
                             </a>
                         </div>

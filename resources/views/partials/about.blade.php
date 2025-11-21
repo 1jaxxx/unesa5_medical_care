@@ -9,29 +9,32 @@
                     About Unesa 5 Medical Care
                 </p>
                 <p class="mt-6 text-xl text-gray-600">
-                    Unesa 5 Medical Care didirikan dengan satu misi: memastikan setiap mahasiswa dapat menjalani kehidupan akademik mereka dengan kondisi fisik dan mental yang prima.
+                    Unesa 5 Medical Care hadir dengan satu tujuan: mendukung setiap mahasiswa agar dapat menjalani aktivitas akademik dengan kondisi fisik dan mental yang optimal.
                 </p>
                 <p class="mt-4 text-lg text-gray-600">
-                    Tim kami terdiri dari dokter, perawat, dan psikolog berlisensi yang berdedikasi untuk memberikan perawatan terbaik dengan ramah dan profesional. Kami memahami tantangan unik yang dihadapi mahasiswa dan siap menjadi sistem pendukung Anda.
+                    Tim kami terdiri dari dokter, perawat, dan psikolog berlisensi yang berdedikasi memberikan pelayanan ramah, profesional, dan mudah diakses. Kami memahami berbagai tantangan kesehatan yang dapat dialami mahasiswa, dan siap menjadi dukungan medis yang Anda butuhkan.
+                </p>
+                <p class="mt-4 text-lg text-gray-600">
+                    Mengapa memilih Unesa 5 Medical Care?
                 </p>
                 <ul class="mt-8 space-y-4">
                     <li class="flex items-start">
                         <div class="flex-shrink-0">
                             <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                         </div>
-                        <p class="ml-3 text-lg text-gray-600">Berlisensi Penuh dan Profesional</p>
+                        <p class="ml-3 text-lg text-gray-600">Tenaga Medis Berlisensi & Berpengalaman</p>
                     </li>
                     <li class="flex items-start">
                         <div class="flex-shrink-0">
                             <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                         </div>
-                        <p class="ml-3 text-lg text-gray-600">Fokus pada Kebutuhan Mahasiswa</p>
+                        <p class="ml-3 text-lg text-gray-600">Layanan yang Berfokus pada Kebutuhan Mahasiswa</p>
                     </li>
                     <li class="flex items-start">
                         <div class="flex-shrink-0">
                             <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                         </div>
-                        <p class="ml-3 text-lg text-gray-600">Rahasia Medis Terjamin</p>
+                        <p class="ml-3 text-lg text-gray-600">Kerahasiaan Data Medis Terjamin</p>
                     </li>
                 </ul>
             </div>

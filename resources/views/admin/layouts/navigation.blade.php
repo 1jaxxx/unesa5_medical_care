@@ -15,19 +15,19 @@
 
         <nav class="space-y-1">
             <a href="{{ route('admin.dashboard') }}"
-                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition {{ request()->routeIs('admin.dashboard') ? 'bg-blue-100 text-blue-700' : '' }}">
                 <i class="mdi mdi-view-dashboard text-lg"></i>
                 <span>Dashboard</span>
             </a>
 
             @can('manage-users')
             <a href="{{ route('admin.users.index') }}"
-                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition {{ request()->routeIs('admin.users.*') ? 'bg-blue-100 text-blue-700' : '' }}">
                 <i class="fa-solid fa-users text-base"></i>
                 <span>User Management</span>
             </a>
             <a href="{{ route('admin.logs.index') }}"
-                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition {{ request()->routeIs('admin.logs.index') ? 'bg-blue-100 text-blue-700' : '' }}">
                 <i class="fa-solid fa-clipboard-list text-base"></i>
                 <span>Log Aktivitas</span>
             </a>
@@ -35,7 +35,7 @@
 
             @can('add-pasien')
             <a href="{{ route('admin.pasien.index') }}"
-                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition {{ request()->routeIs('admin.pasien.*') ? 'bg-blue-100 text-blue-700' : '' }}">
                 <i class="fa-solid fa-user text-base"></i>
                 <span>Pasien</span>
             </a>
@@ -43,7 +43,7 @@
 
             @can('add-prodi')
             <a href="{{ route('admin.prodi.index') }}"
-                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition {{ request()->routeIs('admin.prodi.*') ? 'bg-blue-100 text-blue-700' : '' }}">
                 <i class="fa-solid fa-graduation-cap text-base"></i>
                 <span>Program Studi</span>
             </a>
@@ -51,7 +51,7 @@
 
             @can('add-visit')
             <a href="{{ route('admin.visit.index') }}"
-                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition {{ request()->routeIs('admin.visit.*') ? 'bg-blue-100 text-blue-700' : '' }}">
                 <i class="fa-solid fa-stethoscope text-base"></i> {{-- Using a stethoscope icon for visit --}}
                 <span>Kunjungan</span>
             </a>
@@ -59,7 +59,7 @@
 
             @can('view-my-visits')
             <a href="{{ route('admin.visit.my_visits') }}"
-                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                 class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition {{ request()->routeIs('admin.visit.my_visits') ? 'bg-blue-100 text-blue-700' : '' }}">
                 <i class="fa-solid fa-book-medical text-base"></i>
                 <span>Kunjungan Saya</span>
             </a>
@@ -67,7 +67,7 @@
 
             @can('add-screening')
             <a href="{{ route('admin.screening.index') }}"
-                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition {{ request()->routeIs('admin.screening.*') ? 'bg-blue-100 text-blue-700' : '' }}">
                 <i class="fa-solid fa-heart-pulse text-base"></i>
                 <span>Screening</span>
             </a>
@@ -75,7 +75,7 @@
 
             @can('add-resep')
             <a href="{{ route('admin.resep.index') }}"
-                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition {{ request()->routeIs('admin.resep.*') ? 'bg-blue-100 text-blue-700' : '' }}">
                 <i class="fa-solid fa-prescription-bottle-medical text-base"></i> {{-- Using a prescription bottle icon for resep --}}
                 <span>Resep</span>
             </a>
@@ -83,7 +83,7 @@
 
             @can('add-obat')
             <a href="{{ route('admin.obat.index') }}"
-                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition">
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition {{ request()->routeIs('admin.obat.*') ? 'bg-blue-100 text-blue-700' : '' }}">
                 <i class="fa-solid fa-pills text-base"></i> {{-- Using a pills icon for obat --}}
                 <span>Obat</span>
             </a>
