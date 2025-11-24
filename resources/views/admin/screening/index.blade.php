@@ -4,16 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Data Screening') }}
             </h2>
-            <div class="flex items-center gap-2">
-                <a href="{{ route('admin.screening.export.excel') }}"
-                   class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                    Export to Excel
-                </a>
-                <a href="{{ route('admin.screening.export.pdf') }}"
-                   class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                    Export to PDF
-                </a>
-            </div>
+            
         </div>
     </x-slot>
 
@@ -21,6 +12,18 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+
+                <div class="flex justify-end items-center gap-2 mb-6">
+                    <a href="{{ route('admin.screening.export.excel') }}"
+                    class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-medium text-sm text-white hover:bg-green-700 active:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition">
+                        Export to Excel
+                    </a>
+
+                    <a href="{{ route('admin.screening.export.pdf') }}"
+                    class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-medium text-sm text-white hover:bg-red-700 active:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition">
+                        Export to PDF
+                    </a>
+                </div>
 
                     {{-- <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-semibold text-gray-700">Data Semua Screening</h3>

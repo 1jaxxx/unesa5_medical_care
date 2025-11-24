@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="bg-gradient-to-b from-[#4EB9FA] to-[#2E9CD9] border-t border-[#2E9CD9]">
+<footer class="bg-gradient-to-b from-[#6FCBFF] to-[#4FB7F0] border-t border-[#1C7DBD]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Divider -->
         <div class="border-t border-white border-opacity-30 mb-6"></div>

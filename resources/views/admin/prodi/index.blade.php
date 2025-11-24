@@ -25,7 +25,7 @@
                             <form action="{{ route('admin.prodi.import.excel') }}" method="POST" enctype="multipart/form-data" id="import-form">
                                 @csrf
                                 <input type="file" name="file" class="hidden" id="import-excel">
-                                <label for="import-excel" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                <label for="import-excel" class="inline-flex items-center px-4 py-2 bg-gray-800 text-white text-sm font-semibold rounded-md hover:bg-gray-800 active:bg-gray-800 transition">
                                     Import Excel
                                 </label>
                             </form>
@@ -51,7 +51,7 @@
                     {{-- Tabel --}}
                     <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm">
                         <table class="min-w-full table-auto divide-y divide-gray-200">
-                            <thead class="bg-blue-50">
+                            <thead class="bg-gray-100">
                                 <tr>
                                     <th class="w-24 px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                         No
@@ -67,7 +67,7 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($prodi as $item)
                                     <tr class="hover:bg-blue-50 transition duration-150 ease-in-out">
-                                        <td class="px-6 py-4 text-sm text-gray-700 text-left">{{ $loop->iteration }}</td>
+                                        <td class="px-6 py-4 text-sm text-gray-800 text-left">{{ $loop->iteration }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-800">{{ $item->nama_prodi }}</td>
                                         <td class="px-6 py-4 text-center text-sm font-medium">
                                             <div class="flex justify-center items-center space-x-4">

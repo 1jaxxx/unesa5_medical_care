@@ -36,7 +36,7 @@
 
                     <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm">
                         <table class="min-w-full table-auto divide-y divide-gray-200">
-                            <thead class="bg-blue-50">
+                            <thead class="bg-gray-100">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">No</th>
                                     <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nama</th>
@@ -50,7 +50,7 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($users as $user)
                                     <tr class="hover:bg-blue-50 transition duration-150 ease-in-out">
-                                        <td class="px-6 py-4 text-sm text-gray-700">{{ $loop->iteration }}</td>
+                                        <td class="px-6 py-4 text-sm text-gray-800">{{ $loop->iteration }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-800">{{ $user->nama }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-800">{{ $user->email }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-800">{{ $user->role }}</td>
