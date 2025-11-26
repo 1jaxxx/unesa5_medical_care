@@ -1,8 +1,12 @@
 <x-admin-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Daftar Prodi') }}
-        </h2>
+        <div class="custom-header">
+            <div class="max-w-7xl mx-auto px-4">
+                <h2 class="font-semibold text-xl leading-tight text-blue-900">
+                    {{ __('Daftar Prodi') }}
+                </h2>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -11,30 +15,36 @@
                 <div class="p-6 text-gray-900">
 
                     {{-- Header --}}
-                    <div class="flex justify-between items-center mb-6">
+                    <div class="flex flex-wrap justify-between items-center mb-6 gap-3">
                         <h3 class="text-lg font-semibold text-gray-700">Data Program Studi</h3>
-                        <div class="flex items-center gap-2">
+
+                        {{-- Tombol Aksi --}}
+                        <div class="flex flex-wrap items-center gap-2">
                             <a href="{{ route('admin.prodi.export.excel') }}"
-                               class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-lg shadow-md transition duration-150 ease-in-out">
+                               class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-lg shadow-md transition">
                                 Export to Excel
                             </a>
+
                             <a href="{{ route('admin.prodi.export.pdf') }}"
-                               class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow-md transition duration-150 ease-in-out">
+                               class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow-md transition">
                                 Export to PDF
                             </a>
+
                             <form action="{{ route('admin.prodi.import.excel') }}" method="POST" enctype="multipart/form-data" id="import-form">
                                 @csrf
                                 <input type="file" name="file" class="hidden" id="import-excel">
-                                <label for="import-excel" class="inline-flex items-center px-4 py-2 bg-gray-800 text-white text-sm font-semibold rounded-md hover:bg-gray-800 active:bg-gray-800 transition">
+                                <label for="import-excel" class="inline-flex items-center px-4 py-2 bg-gray-800 text-white text-sm font-semibold rounded-md hover:bg-gray-900 transition">
                                     Import Excel
                                 </label>
                             </form>
+
                             <a href="{{ route('admin.prodi.create') }}"
-                               class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-md transition duration-150 ease-in-out">
+                               class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-md transition">
                                 + Tambah Prodi
                             </a>
                         </div>
                     </div>
+
 <script>
     document.getElementById('import-excel').addEventListener('change', function() {
         document.getElementById('import-form').submit();
@@ -64,38 +74,39 @@
                                     </th>
                                 </tr>
                             </thead>
+
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($prodi as $item)
                                     <tr class="hover:bg-blue-50 transition duration-150 ease-in-out">
-                                        <td class="px-6 py-4 text-sm text-gray-800 text-left">{{ $loop->iteration }}</td>
+                                        <td class="px-6 py-4 text-sm text-gray-800">{{ $loop->iteration }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-800">{{ $item->nama_prodi }}</td>
-                                        <td class="px-6 py-4 text-center text-sm font-medium">
+                                        <td class="px-6 py-4 text-center">
                                             <div class="flex justify-center items-center space-x-4">
-                                                {{-- Tombol Edit --}}
+
+                                                {{-- Edit --}}
                                                 <a href="{{ route('admin.prodi.edit', $item) }}"
                                                    class="text-yellow-600 hover:text-yellow-800" title="Edit">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
-                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                        stroke-width="2">
+                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.586a2 2 0 112.828 2.828L10.828 15H8v-2.828l8.586-8.586z" />
+                                                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.586a2 2 0 112.828 2.828L10.828 15H8v-2.828l8.586-8.586z" />
                                                     </svg>
                                                 </a>
 
-                                                {{-- Tombol Hapus --}}
+                                                {{-- Hapus --}}
                                                 <form action="{{ route('admin.prodi.destroy', $item) }}" method="POST"
                                                     onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="text-red-600 hover:text-red-800" title="Hapus">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
-                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                            stroke-width="2">
+                                                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                         </svg>
                                                     </button>
                                                 </form>
+
                                             </div>
                                         </td>
                                     </tr>

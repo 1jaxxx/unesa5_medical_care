@@ -1,23 +1,57 @@
 <x-admin-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Log Aktivitas') }}
-        </h2>
+        <div class="custom-header">
+            <div class="max-w-7xl mx-auto px-4">
+                <h2 class="font-semibold text-xl leading-tight text-blue-900">
+                    {{ __('Log Aktivitas') }}
+                </h2>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+
                     <h1 class="text-2xl font-bold mb-4">Log Aktivitas Sistem</h1>
+
+                    <div class="sm:hidden space-y-4">
+                        @forelse ($logs as $log)
+                            <div class="border rounded-lg p-4 shadow-sm bg-gray-50">
+                                <p class="text-sm text-gray-500">
+                                    <span class="font-semibold">No:</span>
+                                    {{ ($logs->currentPage() - 1) * $logs->perPage() + $loop->iteration }}
+                                </p>
+
+                                <p class="mt-1 text-sm text-gray-700 break-words">
+                                    <span class="font-semibold">Waktu:</span><br>
+                                    {{ $log->waktu->format('d M Y, H:i:s') }}
+                                </p>
+
+                                <p class="mt-1 text-sm text-gray-700 break-words">
+                                    <span class="font-semibold">Pengguna:</span><br>
+                                    {{ $log->user->nama ?? 'N/A' }}
+                                </p>
+
+                                <p class="mt-1 text-sm text-gray-700 break-words">
+                                    <span class="font-semibold">Aksi:</span><br>
+                                    {{ $log->aksi }}
+                                </p>
+                            </div>
+                        @empty
+                            <p class="text-center text-sm text-gray-500">Tidak ada aktivitas yang tercatat.</p>
+                        @endforelse
+                    </div>
+
                     <div class="hidden sm:block overflow-x-auto border border-gray-200 rounded-lg mt-4">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-100">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">No</th>
-                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Waktu</th>
-                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Pengguna</th>
-                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">No</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Waktu</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Pengguna</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Aksi</th>
                                 </tr>
                             </thead>
 
@@ -33,7 +67,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {{ $log->user->nama ?? 'N/A' }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 break-words max-w-xs">
                                             {{ $log->aksi }}
                                         </td>
                                     </tr>
@@ -51,6 +85,7 @@
                     <div class="mt-6">
                         {{ $logs->links() }}
                     </div>
+
                 </div>
             </div>
         </div>

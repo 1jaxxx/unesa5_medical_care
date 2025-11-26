@@ -30,12 +30,13 @@
         @include('admin.layouts.navigation')
 
         <div :class="{'md:ml-60': sidebarOpen}" class="flex-1 transition-all duration-300">
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-                    <button @click="sidebarOpen = !sidebarOpen" class="md:hidden text-gray-500 focus:outline-none">
+            <header class="sticky top-0 z-40 w-full bg-blue-200 text-white shadow-md">
+                <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+                    <button @click="sidebarOpen = !sidebarOpen" class="md:hidden text-white focus:outline-none">
                         <i class="fa-solid fa-bars text-2xl"></i>
                     </button>
-                    <div class="flex-1 text-center md:text-left">
+
+                    <div class="flex-1 text-center md:text-left font-semibold text-xl">
                         {{ $header }}
                     </div>
                 </div>
