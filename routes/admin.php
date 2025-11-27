@@ -20,14 +20,14 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->as('admin.')->group(fu
     Route::prefix('pasien')->name('pasien.')->controller(PasienController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
+        Route::get('/export/excel', 'exportExcel')->name('export.excel');
+        Route::get('/export/pdf', 'exportPdf')->name('export.pdf');
+        Route::post('/import/excel', 'importExcel')->name('import.excel');
         Route::post('/', 'store')->name('store');
         Route::get('/{type}/{id}', 'show')->name('show');
         Route::get('/{type}/{id}/edit', 'edit')->name('edit');
         Route::put('/{type}/{id}', 'update')->name('update');
         Route::delete('/{type}/{id}', 'destroy')->name('destroy');
-        Route::get('/export/excel', 'exportExcel')->name('export.excel');
-        Route::get('/export/pdf', 'exportPdf')->name('export.pdf');
-        Route::post('/import/excel', 'importExcel')->name('import.excel');
     });
 
     Route::get('prodi/export/excel', [ProdiController::class, 'exportExcel'])->name('prodi.export.excel');

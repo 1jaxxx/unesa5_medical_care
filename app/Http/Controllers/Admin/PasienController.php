@@ -14,16 +14,37 @@ use Illuminate\Support\Facades\DB;
 use App\Exports\PasienExport;
 use App\Imports\PasienImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PasienController extends Controller
 {
     public function index(Request $request)
     {
-        $user = Auth::user();
-        $type = $request->get('type', 'all');
         $perPage = $request->get('per_page', 10);
         $sort = $request->get('sort', 'created_at');
         $direction = $request->get('direction', 'desc');
+        
+        $query = $this->getPasienQuery($request);
+        
+        $pasien = $query->orderBy($sort, $direction)->paginate($perPage);
+
+        $type = $request->get('type', 'all');
+        $search = $request->get('search');
+
+        $pageTitle = match($type) {
+            'mahasiswa' => 'Data Mahasiswa',
+            'dosen' => 'Data Dosen',
+            'staff' => 'Data Staff',
+            default => 'Data Semua Pasien',
+        };
+
+        return view('admin.pasien.index', compact('pasien', 'type', 'pageTitle', 'sort', 'direction', 'search'));
+    }
+
+    private function getPasienQuery(Request $request)
+    {
+        $user = Auth::user();
+        $type = $request->get('type', 'all');
         $search = $request->get('search');
 
         $mahasiswaQuery = Mahasiswa::with('prodi')->select(
@@ -70,26 +91,15 @@ class PasienController extends Controller
 
         if ($type !== 'all') {
             if ($type === 'mahasiswa') {
-                $pasien = $mahasiswaQuery->orderBy($sort, $direction)->paginate($perPage);
+                return $mahasiswaQuery;
             } elseif ($type === 'dosen') {
-                $pasien = $dosenQuery->orderBy($sort, $direction)->paginate($perPage);
+                return $dosenQuery;
             } elseif ($type === 'staff') {
-                $pasien = $staffQuery->orderBy($sort, $direction)->paginate($perPage);
+                return $staffQuery;
             }
-        } else {
-            $pasien = $mahasiswaQuery->union($dosenQuery)->union($staffQuery)
-                ->orderBy($sort, $direction)
-                ->paginate($perPage);
         }
 
-        $pageTitle = match($type) {
-            'mahasiswa' => 'Data Mahasiswa',
-            'dosen' => 'Data Dosen',
-            'staff' => 'Data Staff',
-            default => 'Data Semua Pasien',
-        };
-
-        return view('admin.pasien.index', compact('pasien', 'type', 'pageTitle', 'sort', 'direction', 'search'));
+        return $mahasiswaQuery->union($dosenQuery)->union($staffQuery);
     }
 
     public function create(Request $request)
@@ -240,14 +250,17 @@ class PasienController extends Controller
         }
     }
 
-    public function exportExcel()
+    public function exportExcel(Request $request)
     {
-        return Excel::download(new PasienExport, 'pasien.xlsx');
+        $pasien = $this->getPasienQuery($request)->get();
+        return Excel::download(new PasienExport($pasien), 'pasien.xlsx');
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        return Excel::download(new PasienExport, 'pasien.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        $pasien = $this->getPasienQuery($request)->get();
+        $pdf = Pdf::loadView('admin.pasien.pdf', ['pasien' => $pasien]);
+        return $pdf->stream('pasien.pdf');
     }
 
     public function importExcel(Request $request)

@@ -2,37 +2,26 @@
 
 namespace App\Exports;
 
-use App\Models\Mahasiswa;
-use App\Models\Dosen;
-use App\Models\Staff;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
 class PasienExport implements FromCollection, WithHeadings, WithMapping
 {
+    protected $pasien;
+
+    public function __construct(Collection $pasien)
+    {
+        $this->pasien = $pasien;
+    }
+
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        $mahasiswaQuery = Mahasiswa::with('prodi')->select(
-            'id_mahasiswa as id', 'nama', 'nim as identifier', DB::raw("'mahasiswa' as type"), 
-            'jenis_kelamin', 'tgl_lahir', 'tempat_lahir', 'id_prodi', 'email', 'no_telp', 'created_at'
-        );
-        $dosenQuery = Dosen::select(
-            'id_dosen as id', 'nama', 'nidn as identifier', DB::raw("'dosen' as type"),
-            'jenis_kelamin', 'tgl_lahir', 'tempat_lahir', DB::raw("NULL as id_prodi"),
-            'email', 'no_telp', 'created_at'
-        );
-        $staffQuery = Staff::select(
-            'id_staff as id', 'nama', 'bagian as identifier', DB::raw("'staff' as type"),
-            'jenis_kelamin', 'tgl_lahir', 'tempat_lahir', DB::raw("NULL as id_prodi"),
-            'email', 'no_telp', 'created_at'
-        );
-
-        return $mahasiswaQuery->union($dosenQuery)->union($staffQuery)->get();
+        return $this->pasien;
     }
 
     /**
