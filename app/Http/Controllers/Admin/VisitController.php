@@ -194,6 +194,18 @@ class VisitController extends Controller
         return redirect()->route('admin.visit.index')->with('success', 'Data kunjungan berhasil dihapus');
     }
 
+    public function printCard(Visit $visit)
+    {
+        $visit->load(['mahasiswa', 'dosen', 'staff', 'dokter', 'screening', 'resep.obat']);
+        
+        $pasien = $visit->pasien; // Assuming a 'pasien' accessor exists on the Visit model
+        $pasienName = $pasien ? $pasien->nama : 'unknown';
+        $visitDate = (new \Carbon\Carbon($visit->tgl_kunjungan))->format('d-m-Y');
+
+        $pdf = Pdf::loadView('admin.visit.card_pdf', ['visit' => $visit]);
+        return $pdf->stream("kartu-pasien-{$pasienName}-{$visitDate}.pdf");
+    }
+
     public function exportExcel(Request $request)
     {
         $visits = $this->getVisitQuery($request)->get();

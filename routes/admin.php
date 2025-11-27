@@ -37,6 +37,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->as('admin.')->group(fu
     Route::get('my-visits', [VisitController::class, 'myVisits'])->name('visit.my_visits')->middleware('can:view-my-visits');
     Route::get('visit/export/excel', [VisitController::class, 'exportExcel'])->name('visit.export.excel');
     Route::get('visit/export/pdf', [VisitController::class, 'exportPdf'])->name('visit.export.pdf');
+    Route::get('visit/{visit}/print-card', [VisitController::class, 'printCard'])->name('visit.print_card');
     Route::resource('visit', controller: VisitController::class);
     Route::get('screening/{screening}/modal', [ScreeningController::class, 'showModal'])->name('screening.show.modal');
     Route::get('visits/{visit}/screening/create', [ScreeningController::class, 'create'])->name('screening.create_for_visit');
