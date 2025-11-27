@@ -7,7 +7,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Laporan Data Pasien</title>
+    <title>Laporan Data Screening</title>
     <style>
         @page {
             margin: 20px 25px;
@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Times New Roman', Times, serif;
-            font-size: 12px;
+            font-size: 11px;
             color: #333;
         }
         
@@ -116,40 +116,48 @@
     </footer>
 
     <main>
-        <h3 class="report-title">Laporan Data Pasien</h3>
+        <h3 class="report-title">Laporan Data Screening</h3>
         
         <table class="main-table">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama</th>
-                    <th>Identifier</th>
-                    <th>Tipe</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Tanggal Lahir</th>
-                    <th>Tempat Lahir</th>
-                    <th>Prodi</th>
-                    <th>Email</th>
-                    <th>No. Telp</th>
+                    <th>Pasien</th>
+                    <th>Tgl Screening</th>
+                    <th>BB (kg)</th>
+                    <th>TB (cm)</th>
+                    <th>IMT</th>
+                    <th>Tekanan Darah</th>
+                    <th>Status Gizi</th>
+                    <th>Kebugaran</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($pasien as $p)
+                @forelse($screenings as $screening)
+                    @php
+                        $pasienName = 'N/A';
+                        if ($screening->type_pasien === 'mahasiswa' && $screening->mahasiswa) {
+                            $pasienName = $screening->mahasiswa->nama;
+                        } elseif ($screening->type_pasien === 'dosen' && $screening->dosen) {
+                            $pasienName = $screening->dosen->nama;
+                        } elseif ($screening->type_pasien === 'staff' && $screening->staff) {
+                            $pasienName = $screening->staff->nama;
+                        }
+                    @endphp
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $p->nama }}</td>
-                        <td>{{ $p->identifier }}</td>
-                        <td>{{ ucfirst($p->type) }}</td>
-                        <td>{{ $p->jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($p->tgl_lahir)->format('d-m-Y') }}</td>
-                        <td>{{ $p->tempat_lahir }}</td>
-                        <td>{{ $p->type === 'mahasiswa' ? ($p->prodi ? $p->prodi->nama_prodi : '-') : '-' }}</td>
-                        <td>{{ $p->email }}</td>
-                        <td>{{ $p->no_telp }}</td>
+                        <td>{{ $pasienName }}</td>
+                        <td>{{ \Carbon\Carbon::parse($screening->tgl_screening)->format('d-m-Y') }}</td>
+                        <td>{{ $screening->berat_badan }}</td>
+                        <td>{{ $screening->tinggi_badan }}</td>
+                        <td>{{ $screening->imt }}</td>
+                        <td>{{ $screening->tekanan_darah }}</td>
+                        <td>{{ $screening->status_gizi }}</td>
+                        <td>{{ ucfirst($screening->kebugaran) }}</td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="10" style="text-align: center; padding: 20px;">Tidak ada data pasien yang tersedia.</td>
+                        <td colspan="9" style="text-align: center; padding: 20px;">Tidak ada data screening yang tersedia.</td>
                     </tr>
                 @endforelse
             </tbody>

@@ -13,18 +13,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\ScreeningExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ScreeningController extends Controller
 {
-    public function index(Request $request)
+    private function getScreeningQuery(Request $request)
     {
         $user = Auth::user();
         $query = Screening::with(['mahasiswa', 'dosen', 'staff', 'visit']);
 
         $search = $request->get('search');
         $type = $request->get('type');
-        $sort = $request->get('sort', 'tgl_screening');
-        $direction = $request->get('direction', 'desc');
 
         if ($user->role === 'dokter') {
             $query->whereHas('visit', function ($q) use ($user) {
@@ -52,9 +51,24 @@ class ScreeningController extends Controller
         if ($type && $type !== 'all') {
             $query->where('type_pasien', $type);
         }
+        
+        return $query;
+    }
 
-        $screenings = $query->orderBy($sort, $direction)->paginate(10);
-        return view('admin.screening.index', compact('screenings', 'search', 'type', 'sort', 'direction'));
+    public function index(Request $request)
+    {
+        $sort = $request->get('sort', 'tgl_screening');
+        $direction = $request->get('direction', 'desc');
+
+        $screenings = $this->getScreeningQuery($request)->orderBy($sort, $direction)->paginate(10);
+        
+        return view('admin.screening.index', [
+            'screenings' => $screenings,
+            'search' => $request->get('search'),
+            'type' => $request->get('type'),
+            'sort' => $sort,
+            'direction' => $direction
+        ]);
     }
 
     public function create(Visit $visit)
@@ -151,13 +165,16 @@ class ScreeningController extends Controller
         return redirect()->route('admin.screening.index')->with('success', 'Data screening berhasil dihapus');
     }
 
-    public function exportExcel()
+    public function exportExcel(Request $request)
     {
-        return Excel::download(new ScreeningExport, 'screenings.xlsx');
+        $screenings = $this->getScreeningQuery($request)->get();
+        return Excel::download(new ScreeningExport($screenings), 'screenings.xlsx');
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        return Excel::download(new ScreeningExport, 'screenings.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        $screenings = $this->getScreeningQuery($request)->get();
+        $pdf = Pdf::loadView('admin.screening.pdf', ['screenings' => $screenings]);
+        return $pdf->stream('laporan-screening.pdf');
     }
 }

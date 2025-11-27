@@ -159,6 +159,11 @@
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <div class="flex items-center gap-3">
+                                                <a href="{{ route('admin.visit.print_card', $visit->id_visit) }}" target="_blank" class="text-gray-600 hover:text-gray-900" title="Cetak Kartu Pasien">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v6a2 2 0 002 2h12a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </a>
                                                 <a href="{{ route('admin.screening.create_for_visit', $visit->id_visit) }}" class="text-green-600 hover:text-green-900" title="Mulai Screening">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                         <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />

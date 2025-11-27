@@ -7,7 +7,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Laporan Data Pasien</title>
+    <title>Laporan Data Pengguna</title>
     <style>
         @page {
             margin: 20px 25px;
@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Times New Roman', Times, serif;
-            font-size: 12px;
+            font-size: 11px;
             color: #333;
         }
         
@@ -116,40 +116,32 @@
     </footer>
 
     <main>
-        <h3 class="report-title">Laporan Data Pasien</h3>
+        <h3 class="report-title">Laporan Data Pengguna</h3>
         
         <table class="main-table">
             <thead>
                 <tr>
                     <th>No</th>
                     <th>Nama</th>
-                    <th>Identifier</th>
-                    <th>Tipe</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Tanggal Lahir</th>
-                    <th>Tempat Lahir</th>
-                    <th>Prodi</th>
                     <th>Email</th>
-                    <th>No. Telp</th>
+                    <th>Role</th>
+                    <th>Spesialisasi</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($pasien as $p)
+                @forelse($users as $user)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $p->nama }}</td>
-                        <td>{{ $p->identifier }}</td>
-                        <td>{{ ucfirst($p->type) }}</td>
-                        <td>{{ $p->jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($p->tgl_lahir)->format('d-m-Y') }}</td>
-                        <td>{{ $p->tempat_lahir }}</td>
-                        <td>{{ $p->type === 'mahasiswa' ? ($p->prodi ? $p->prodi->nama_prodi : '-') : '-' }}</td>
-                        <td>{{ $p->email }}</td>
-                        <td>{{ $p->no_telp }}</td>
+                        <td>{{ $user->nama }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ ucfirst($user->role) }}</td>
+                        <td>{{ $user->specialization ?? '-' }}</td>
+                        <td>{{ $user->is_active ? 'Aktif' : 'Tidak Aktif' }}</td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="10" style="text-align: center; padding: 20px;">Tidak ada data pasien yang tersedia.</td>
+                        <td colspan="6" style="text-align: center; padding: 20px;">Tidak ada data pengguna yang tersedia.</td>
                     </tr>
                 @endforelse
             </tbody>

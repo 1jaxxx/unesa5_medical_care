@@ -8,16 +8,14 @@ use Illuminate\Http\Request;
 use App\Exports\ObatExport;
 use App\Imports\ObatImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ObatController extends Controller
 {
-    public function index(Request $request)
+    private function getObatQuery(Request $request)
     {
         $search = $request->get('search');
-        $sort = $request->get('sort', 'nama_obat');
-        $direction = $request->get('direction', 'asc');
         $stock_status = $request->get('stock_status');
-
         $query = Obat::query();
 
         if ($search) {
@@ -33,9 +31,23 @@ class ObatController extends Controller
             $query->where('stok', '=', 0);
         }
 
-        $obat = $query->orderBy($sort, $direction)->paginate(10);
+        return $query;
+    }
+
+    public function index(Request $request)
+    {
+        $sort = $request->get('sort', 'nama_obat');
+        $direction = $request->get('direction', 'asc');
         
-        return view('admin.obat.index', compact('obat', 'search', 'sort', 'direction', 'stock_status'));
+        $obat = $this->getObatQuery($request)->orderBy($sort, $direction)->paginate(10);
+        
+        return view('admin.obat.index', [
+            'obat' => $obat,
+            'search' => $request->get('search'),
+            'sort' => $sort,
+            'direction' => $direction,
+            'stock_status' => $request->get('stock_status')
+        ]);
     }
 
     public function create()
@@ -85,14 +97,17 @@ class ObatController extends Controller
         return redirect()->route('admin.obat.index')->with('success', 'Data obat berhasil dihapus');
     }
 
-    public function exportExcel()
+    public function exportExcel(Request $request)
     {
-        return Excel::download(new ObatExport, 'obats.xlsx');
+        $obats = $this->getObatQuery($request)->get();
+        return Excel::download(new ObatExport($obats), 'obats.xlsx');
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        return Excel::download(new ObatExport, 'obats.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        $obats = $this->getObatQuery($request)->get();
+        $pdf = Pdf::loadView('admin.obat.pdf', ['obats' => $obats]);
+        return $pdf->stream('laporan-obat.pdf');
     }
 
     public function importExcel(Request $request)
