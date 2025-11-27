@@ -1,8 +1,12 @@
 <x-admin-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Manajemen Obat') }}
-        </h2>
+        <div class="custom-header">
+            <div class="max-w-7xl mx-auto px-4">
+                <h2 class="font-semibold text-xl leading-tight text-blue-900">
+                    {{ __('Manajemen Obat') }}
+                </h2>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
