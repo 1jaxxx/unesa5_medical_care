@@ -16,10 +16,15 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ScreeningController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         $query = Screening::with(['mahasiswa', 'dosen', 'staff', 'visit']);
+
+        $search = $request->get('search');
+        $type = $request->get('type');
+        $sort = $request->get('sort', 'tgl_screening');
+        $direction = $request->get('direction', 'desc');
 
         if ($user->role === 'dokter') {
             $query->whereHas('visit', function ($q) use ($user) {
@@ -27,8 +32,29 @@ class ScreeningController extends Controller
             });
         }
 
-        $screenings = $query->paginate(10);
-        return view('admin.screening.index', compact('screenings'));
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('status_gizi', 'like', "%{$search}%")
+                  ->orWhere('kebugaran', 'like', "%{$search}%")
+                  ->orWhere('imt', 'like', "%{$search}%")
+                  ->orWhereHas('mahasiswa', function ($q) use ($search) {
+                      $q->where('nama', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('dosen', function ($q) use ($search) {
+                      $q->where('nama', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('staff', function ($q) use ($search) {
+                      $q->where('nama', 'like', "%{$search}%");
+                  });
+            });
+        }
+        
+        if ($type && $type !== 'all') {
+            $query->where('type_pasien', $type);
+        }
+
+        $screenings = $query->orderBy($sort, $direction)->paginate(10);
+        return view('admin.screening.index', compact('screenings', 'search', 'type', 'sort', 'direction'));
     }
 
     public function create(Visit $visit)

@@ -16,26 +16,82 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class VisitController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         $query = Visit::with(['mahasiswa', 'dosen', 'staff', 'dokter']);
+
+        $search = $request->get('search');
+        $status = $request->get('status');
+        $sort = $request->get('sort', 'tgl_kunjungan');
+        $direction = $request->get('direction', 'desc');
 
         if ($user->role === 'dokter') {
             $query->where('dokter_id', $user->id_users);
         }
 
-        $visits = $query->paginate(10);
-        return view('admin.visit.index', compact('visits'));
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('keluhan', 'like', "%{$search}%")
+                  ->orWhere('diagnosis', 'like', "%{$search}%")
+                  ->orWhereHas('mahasiswa', function ($q) use ($search) {
+                      $q->where('nama', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('dosen', function ($q) use ($search) {
+                      $q->where('nama', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('staff', function ($q) use ($search) {
+                      $q->where('nama', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('dokter', function ($q) use ($search) {
+                      $q->where('nama', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        if ($status && $status !== 'all') {
+            $query->where('status', $status);
+        }
+
+        $visits = $query->orderBy($sort, $direction)->paginate(10);
+
+        return view('admin.visit.index', compact('visits', 'search', 'status', 'sort', 'direction'));
     }
 
-    public function myVisits()
+    public function myVisits(Request $request)
     {
         $user = Auth::user();
-        $visits = Visit::with(['mahasiswa', 'dosen', 'staff', 'dokter'])
-            ->where('dokter_id', $user->id_users)
-            ->paginate(10);
-        return view('admin.visit.my_visits', compact('visits'));
+        $query = Visit::with(['mahasiswa', 'dosen', 'staff', 'dokter'])
+            ->where('dokter_id', $user->id_users);
+
+        $search = $request->get('search');
+        $status = $request->get('status');
+        $sort = $request->get('sort', 'tgl_kunjungan');
+        $direction = $request->get('direction', 'desc');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('keluhan', 'like', "%{$search}%")
+                  ->orWhere('diagnosis', 'like', "%{$search}%")
+                  ->orWhereHas('mahasiswa', function ($q) use ($search) {
+                      $q->where('nama', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('dosen', function ($q) use ($search) {
+                      $q->where('nama', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('staff', function ($q) use ($search) {
+                      $q->where('nama', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        if ($status && $status !== 'all') {
+            $query->where('status', $status);
+        }
+
+        $visits = $query->orderBy($sort, $direction)->paginate(10);
+        
+        return view('admin.visit.my_visits', compact('visits', 'search', 'status', 'sort', 'direction'));
     }
 
     public function create()

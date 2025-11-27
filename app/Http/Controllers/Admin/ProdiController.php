@@ -11,10 +11,21 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ProdiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $prodi = Prodi::paginate(10);
-        return view('admin.prodi.index', compact('prodi'));
+        $search = $request->get('search');
+        $sort = $request->get('sort', 'nama_prodi');
+        $direction = $request->get('direction', 'asc');
+
+        $query = Prodi::query();
+
+        if ($search) {
+            $query->where('nama_prodi', 'like', "%{$search}%");
+        }
+
+        $prodi = $query->orderBy($sort, $direction)->paginate(10);
+
+        return view('admin.prodi.index', compact('prodi', 'search', 'sort', 'direction'));
     }
 
     public function create()

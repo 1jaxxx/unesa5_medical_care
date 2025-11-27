@@ -11,10 +11,31 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ObatController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $obat = Obat::paginate(10);
-        return view('admin.obat.index', compact('obat'));
+        $search = $request->get('search');
+        $sort = $request->get('sort', 'nama_obat');
+        $direction = $request->get('direction', 'asc');
+        $stock_status = $request->get('stock_status');
+
+        $query = Obat::query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_obat', 'like', "%{$search}%")
+                  ->orWhere('jenis_obat', 'like', "%{$search}%");
+            });
+        }
+
+        if ($stock_status === 'in_stock') {
+            $query->where('stok', '>', 0);
+        } elseif ($stock_status === 'out_of_stock') {
+            $query->where('stok', '=', 0);
+        }
+
+        $obat = $query->orderBy($sort, $direction)->paginate(10);
+        
+        return view('admin.obat.index', compact('obat', 'search', 'sort', 'direction', 'stock_status'));
     }
 
     public function create()
