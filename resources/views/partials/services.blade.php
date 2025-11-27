@@ -1,8 +1,8 @@
 
-<section id="services" class="py-20 md:py-24 bg-gradient-to-br from-blue-100 to-indigo-100">
+<section id="services" class="py-20 md:py-24 bg-[#4EB9FA]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Our Services</h2>
-        <p class="text-lg text-slate-700 max-w-2xl mx-auto mb-12">
+        <h2 class="text-6xl font-extrabold text-gray-50 mb-4">Our Services</h2>
+        <p class="text-lg text-slate-50 max-w-2xl mx-auto mb-12">
            Lihat pilihan layanan kesehatan yang dapat Anda akses di kampus.
         </p>
 
