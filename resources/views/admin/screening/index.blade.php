@@ -15,20 +15,39 @@
                         <div class="flex flex-col md:flex-row justify-between gap-4">
                             <!-- Left side: Search and Filters -->
                             <div class="flex-1 space-y-4">
-                                <form method="GET" action="{{ route('admin.screening.index') }}">
-                                    <label for="search" class="sr-only">Cari</label>
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                                    <form method="GET" action="{{ route('admin.screening.index') }}" class="flex-1">
+                                        <label for="search" class="sr-only">Cari</label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                            </div>
+                                            <input type="search" name="search" id="search" value="{{ $search ?? '' }}"
+                                                class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                                placeholder="Cari pasien, status gizi, dll...">
                                         </div>
-                                        <input type="search" name="search" id="search" value="{{ $search ?? '' }}"
-                                            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                            placeholder="Cari pasien, status gizi, dll...">
+                                         @if(request('type'))
+                                            <input type="hidden" name="type" value="{{ request('type') }}">
+                                        @endif
+                                    </form>
+                                    <div class="flex items-center gap-3">
+                                        <a href="{{ route('admin.screening.export.excel', request()->all()) }}"
+                                           class="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 bg-green-600 text-white text-sm font-semibold rounded-md hover:bg-green-700 active:bg-green-800 transition shadow-sm">
+                                            <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                              <path d="M2 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm7 4V6h3v2H9zm-3 4V8h3v2H6zm6 0V8h3v2h-3zm-3 4v-2h3v2H9zm-3 0v-2h3v2H6z" />
+                                            </svg>
+                                            Export
+                                        </a>
+                                         <a href="{{ route('admin.screening.export.pdf', request()->all()) }}"
+                                            class="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-md hover:bg-red-700 active:bg-red-800 transition shadow-sm">
+                                             <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                               <path fill-rule="evenodd" d="M3 17a2 2 0 012-2h10a2 2 0 012 2v2H3v-2zm4-3.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5a.5.5 0 01-.5-.5zM3 6a2 2 0 012-2h10a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2V6zm4 3.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5a.5.5 0 01-.5-.5z" clip-rule="evenodd" />
+                                             </svg>
+                                            PDF
+                                         </a>
                                     </div>
-                                     @if(request('type'))
-                                        <input type="hidden" name="type" value="{{ request('type') }}">
-                                    @endif
-                                </form>
+                                </div>
+                                
 
                                 <div class="flex flex-wrap items-center gap-2">
                                     <span class="text-sm font-medium text-gray-700 mr-2">Tipe Pasien:</span>
@@ -49,23 +68,11 @@
                                         @endforeach
                                     </div>
                                 </div>
-                            <!-- Right side: Action Buttons -->
+                            </div>
+                            <!-- Right side: Action Buttons (This section is now empty or removed as buttons are moved) -->
                             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-end gap-3 mt-2 md:mt-0">
                                 <div class="flex items-center gap-3">
-                                    <a href="{{ route('admin.screening.export.excel', request()->all()) }}"
-                                       class="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 bg-green-600 text-white text-sm font-semibold rounded-md hover:bg-green-700 active:bg-green-800 transition shadow-sm">
-                                        <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                          <path d="M2 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm7 4V6h3v2H9zm-3 4V8h3v2H6zm6 0V8h3v2h-3zm-3 4v-2h3v2H9zm-3 0v-2h3v2H6z" />
-                                        </svg>
-                                        Export
-                                    </a>
-                                     <a href="{{ route('admin.screening.export.pdf', request()->all()) }}"
-                                        class="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-md hover:bg-red-700 active:bg-red-800 transition shadow-sm">
-                                         <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                           <path fill-rule="evenodd" d="M3 17a2 2 0 012-2h10a2 2 0 012 2v2H3v-2zm4-3.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5a.5.5 0 01-.5-.5zM3 6a2 2 0 012-2h10a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2V6zm4 3.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5a.5.5 0 01-.5-.5z" clip-rule="evenodd" />
-                                         </svg>
-                                        PDF
-                                     </a>
+                                    
                                 </div>
                             </div>
                         </div>
