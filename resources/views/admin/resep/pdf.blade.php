@@ -7,7 +7,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Laporan Data Pasien</title>
+    <title>Laporan Data Resep</title>
     <style>
         @page {
             margin: 20px 25px;
@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Times New Roman', Times, serif;
-            font-size: 12px;
+            font-size: 11px;
             color: #333;
         }
         
@@ -116,40 +116,46 @@
     </footer>
 
     <main>
-        <h3 class="report-title">Laporan Data Pasien</h3>
+        <h3 class="report-title">Laporan Data Resep</h3>
         
         <table class="main-table">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama</th>
-                    <th>Identifier</th>
-                    <th>Tipe</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Tanggal Lahir</th>
-                    <th>Tempat Lahir</th>
-                    <th>Prodi</th>
-                    <th>Email</th>
-                    <th>No. Telp</th>
+                    <th>Pasien</th>
+                    <th>Obat</th>
+                    <th>Dosis</th>
+                    <th>Jumlah</th>
+                    <th>Tgl Diberikan</th>
+                    <th>Catatan</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($pasien as $p)
+                @forelse($resep as $item)
+                    @php
+                        $pasienName = 'N/A';
+                        if ($item->visit && $item->visit->type_pasien) {
+                            if ($item->visit->type_pasien === 'mahasiswa' && $item->visit->mahasiswa) {
+                                $pasienName = $item->visit->mahasiswa->nama;
+                            } elseif ($item->visit->type_pasien === 'dosen' && $item->visit->dosen) {
+                                $pasienName = $item->visit->dosen->nama;
+                            } elseif ($item->visit->type_pasien === 'staff' && $item->visit->staff) {
+                                $pasienName = $item->visit->staff->nama;
+                            }
+                        }
+                    @endphp
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $p->nama }}</td>
-                        <td>{{ $p->identifier }}</td>
-                        <td>{{ ucfirst($p->type) }}</td>
-                        <td>{{ $p->jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($p->tgl_lahir)->format('d-m-Y') }}</td>
-                        <td>{{ $p->tempat_lahir }}</td>
-                        <td>{{ $p->type === 'mahasiswa' ? ($p->prodi ? $p->prodi->nama_prodi : '-') : '-' }}</td>
-                        <td>{{ $p->email }}</td>
-                        <td>{{ $p->no_telp }}</td>
+                        <td>{{ $pasienName }}</td>
+                        <td>{{ $item->obat ? $item->obat->nama_obat : 'N/A' }}</td>
+                        <td>{{ $item->dosis }}</td>
+                        <td>{{ $item->jumlah }}</td>
+                        <td>{{ \Carbon\Carbon::parse($item->tgl_diberikan)->format('d-m-Y') }}</td>
+                        <td>{{ $item->catatan }}</td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="10" style="text-align: center; padding: 20px;">Tidak ada data pasien yang tersedia.</td>
+                        <td colspan="7" style="text-align: center; padding: 20px;">Tidak ada data resep yang tersedia.</td>
                     </tr>
                 @endforelse
             </tbody>

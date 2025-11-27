@@ -8,22 +8,29 @@ use Illuminate\Http\Request;
 use App\Exports\ProdiExport;
 use App\Imports\ProdiImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProdiController extends Controller
 {
+    private function getProdiQuery(Request $request)
+    {
+        $search = $request->get('search');
+        $query = Prodi::query();
+
+        if ($search) {
+            $query->where('nama_prodi', 'like', "%{$search}%");
+        }
+        
+        return $query;
+    }
+
     public function index(Request $request)
     {
         $search = $request->get('search');
         $sort = $request->get('sort', 'nama_prodi');
         $direction = $request->get('direction', 'asc');
 
-        $query = Prodi::query();
-
-        if ($search) {
-            $query->where('nama_prodi', 'like', "%{$search}%");
-        }
-
-        $prodi = $query->orderBy($sort, $direction)->paginate(10);
+        $prodi = $this->getProdiQuery($request)->orderBy($sort, $direction)->paginate(10);
 
         return view('admin.prodi.index', compact('prodi', 'search', 'sort', 'direction'));
     }
@@ -69,14 +76,17 @@ class ProdiController extends Controller
         return redirect()->route('admin.prodi.index')->with('success', 'Program studi berhasil dihapus');
     }
 
-    public function exportExcel()
+    public function exportExcel(Request $request)
     {
-        return Excel::download(new ProdiExport, 'prodi.xlsx');
+        $prodi = $this->getProdiQuery($request)->get();
+        return Excel::download(new ProdiExport($prodi), 'prodi.xlsx');
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        return Excel::download(new ProdiExport, 'prodi.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        $prodi = $this->getProdiQuery($request)->get();
+        $pdf = Pdf::loadView('admin.prodi.pdf', ['prodi' => $prodi]);
+        return $pdf->stream('laporan-prodi.pdf');
     }
 
     public function importExcel(Request $request)

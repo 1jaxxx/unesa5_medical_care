@@ -7,7 +7,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Laporan Data Pasien</title>
+    <title>Laporan Data Program Studi</title>
     <style>
         @page {
             margin: 20px 25px;
@@ -80,7 +80,7 @@
 
         .main-table th, .main-table td {
             border: 1px solid #999;
-            padding: 6px;
+            padding: 8px;
             text-align: left;
         }
 
@@ -116,40 +116,24 @@
     </footer>
 
     <main>
-        <h3 class="report-title">Laporan Data Pasien</h3>
+        <h3 class="report-title">Laporan Data Program Studi</h3>
         
         <table class="main-table">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Nama</th>
-                    <th>Identifier</th>
-                    <th>Tipe</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Tanggal Lahir</th>
-                    <th>Tempat Lahir</th>
-                    <th>Prodi</th>
-                    <th>Email</th>
-                    <th>No. Telp</th>
+                    <th style="width: 10%;">No</th>
+                    <th>Nama Program Studi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($pasien as $p)
+                @forelse($prodi as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $p->nama }}</td>
-                        <td>{{ $p->identifier }}</td>
-                        <td>{{ ucfirst($p->type) }}</td>
-                        <td>{{ $p->jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($p->tgl_lahir)->format('d-m-Y') }}</td>
-                        <td>{{ $p->tempat_lahir }}</td>
-                        <td>{{ $p->type === 'mahasiswa' ? ($p->prodi ? $p->prodi->nama_prodi : '-') : '-' }}</td>
-                        <td>{{ $p->email }}</td>
-                        <td>{{ $p->no_telp }}</td>
+                        <td>{{ $item->nama_prodi }}</td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="10" style="text-align: center; padding: 20px;">Tidak ada data pasien yang tersedia.</td>
+                        <td colspan="2" style="text-align: center; padding: 20px;">Tidak ada data program studi yang tersedia.</td>
                     </tr>
                 @endforelse
             </tbody>

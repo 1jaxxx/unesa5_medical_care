@@ -13,18 +13,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Exports\VisitExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class VisitController extends Controller
 {
-    public function index(Request $request)
+    private function getVisitQuery(Request $request)
     {
         $user = Auth::user();
         $query = Visit::with(['mahasiswa', 'dosen', 'staff', 'dokter']);
 
         $search = $request->get('search');
         $status = $request->get('status');
-        $sort = $request->get('sort', 'tgl_kunjungan');
-        $direction = $request->get('direction', 'desc');
 
         if ($user->role === 'dokter') {
             $query->where('dokter_id', $user->id_users);
@@ -53,45 +52,39 @@ class VisitController extends Controller
             $query->where('status', $status);
         }
 
-        $visits = $query->orderBy($sort, $direction)->paginate(10);
+        return $query;
+    }
 
-        return view('admin.visit.index', compact('visits', 'search', 'status', 'sort', 'direction'));
+    public function index(Request $request)
+    {
+        $sort = $request->get('sort', 'tgl_kunjungan');
+        $direction = $request->get('direction', 'desc');
+
+        $visits = $this->getVisitQuery($request)->orderBy($sort, $direction)->paginate(10);
+
+        return view('admin.visit.index', [
+            'visits' => $visits,
+            'search' => $request->get('search'),
+            'status' => $request->get('status'),
+            'sort' => $sort,
+            'direction' => $direction
+        ]);
     }
 
     public function myVisits(Request $request)
     {
-        $user = Auth::user();
-        $query = Visit::with(['mahasiswa', 'dosen', 'staff', 'dokter'])
-            ->where('dokter_id', $user->id_users);
-
-        $search = $request->get('search');
-        $status = $request->get('status');
         $sort = $request->get('sort', 'tgl_kunjungan');
         $direction = $request->get('direction', 'desc');
 
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('keluhan', 'like', "%{$search}%")
-                  ->orWhere('diagnosis', 'like', "%{$search}%")
-                  ->orWhereHas('mahasiswa', function ($q) use ($search) {
-                      $q->where('nama', 'like', "%{$search}%");
-                  })
-                  ->orWhereHas('dosen', function ($q) use ($search) {
-                      $q->where('nama', 'like', "%{$search}%");
-                  })
-                  ->orWhereHas('staff', function ($q) use ($search) {
-                      $q->where('nama', 'like', "%{$search}%");
-                  });
-            });
-        }
-
-        if ($status && $status !== 'all') {
-            $query->where('status', $status);
-        }
-
-        $visits = $query->orderBy($sort, $direction)->paginate(10);
+        $visits = $this->getVisitQuery($request)->orderBy($sort, $direction)->paginate(10);
         
-        return view('admin.visit.my_visits', compact('visits', 'search', 'status', 'sort', 'direction'));
+        return view('admin.visit.my_visits', [
+            'visits' => $visits,
+            'search' => $request->get('search'),
+            'status' => $request->get('status'),
+            'sort' => $sort,
+            'direction' => $direction
+        ]);
     }
 
     public function create()
@@ -201,13 +194,16 @@ class VisitController extends Controller
         return redirect()->route('admin.visit.index')->with('success', 'Data kunjungan berhasil dihapus');
     }
 
-    public function exportExcel()
+    public function exportExcel(Request $request)
     {
-        return Excel::download(new VisitExport, 'visits.xlsx');
+        $visits = $this->getVisitQuery($request)->get();
+        return Excel::download(new VisitExport($visits), 'visits.xlsx');
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        return Excel::download(new VisitExport, 'visits.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        $visits = $this->getVisitQuery($request)->get();
+        $pdf = Pdf::loadView('admin.visit.pdf', ['visits' => $visits]);
+        return $pdf->stream('laporan-kunjungan.pdf');
     }
 }

@@ -9,19 +9,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use App\Exports\UserExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
+    private function getUserQuery(Request $request)
     {
         $search = $request->get('search');
-        $sort = $request->get('sort', 'nama');
-        $direction = $request->get('direction', 'asc');
         $role = $request->get('role');
-
         $query = User::query();
 
         if ($search) {
@@ -35,9 +30,26 @@ class UserController extends Controller
             $query->where('role', $role);
         }
 
-        $users = $query->orderBy($sort, $direction)->paginate(10);
+        return $query;
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $sort = $request->get('sort', 'nama');
+        $direction = $request->get('direction', 'asc');
         
-        return view('admin.users.index', compact('users', 'search', 'sort', 'direction', 'role'));
+        $users = $this->getUserQuery($request)->orderBy($sort, $direction)->paginate(10);
+        
+        return view('admin.users.index', [
+            'users' => $users,
+            'search' => $request->get('search'),
+            'sort' => $sort,
+            'direction' => $direction,
+            'role' => $request->get('role')
+        ]);
     }
 
     /**
@@ -131,13 +143,16 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
     }
 
-    public function exportExcel()
+    public function exportExcel(Request $request)
     {
-        return Excel::download(new UserExport, 'users.xlsx');
+        $users = $this->getUserQuery($request)->get();
+        return Excel::download(new UserExport($users), 'users.xlsx');
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        return Excel::download(new UserExport, 'users.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        $users = $this->getUserQuery($request)->get();
+        $pdf = Pdf::loadView('admin.users.pdf', ['users' => $users]);
+        return $pdf->stream('laporan-pengguna.pdf');
     }
 }

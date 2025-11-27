@@ -10,15 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\ResepExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ResepController extends Controller
 {
-    public function index(Request $request)
+    private function getResepQuery(Request $request)
     {
         $search = $request->get('search');
-        $sort = $request->get('sort', 'tgl_diberikan');
-        $direction = $request->get('direction', 'desc');
-
         $query = Resep::with(['obat', 'visit.mahasiswa', 'visit.dosen', 'visit.staff', 'visit.dokter']);
 
         if ($search) {
@@ -41,9 +39,23 @@ class ResepController extends Controller
                   });
             });
         }
+
+        return $query;
+    }
+
+    public function index(Request $request)
+    {
+        $sort = $request->get('sort', 'tgl_diberikan');
+        $direction = $request->get('direction', 'desc');
+
+        $resep = $this->getResepQuery($request)->orderBy($sort, $direction)->paginate(10);
         
-        $resep = $query->orderBy($sort, $direction)->paginate(10);
-        return view('admin.resep.index', compact('resep', 'search', 'sort', 'direction'));
+        return view('admin.resep.index', [
+            'resep' => $resep,
+            'search' => $request->get('search'),
+            'sort' => $sort,
+            'direction' => $direction
+        ]);
     }
 
     public function create()
@@ -115,13 +127,16 @@ class ResepController extends Controller
         return redirect()->route('admin.resep.index')->with('success', 'Data resep berhasil dihapus');
     }
 
-    public function exportExcel()
+    public function exportExcel(Request $request)
     {
-        return Excel::download(new ResepExport, 'reseps.xlsx');
+        $resep = $this->getResepQuery($request)->get();
+        return Excel::download(new ResepExport($resep), 'reseps.xlsx');
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        return Excel::download(new ResepExport, 'reseps.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        $resep = $this->getResepQuery($request)->get();
+        $pdf = Pdf::loadView('admin.resep.pdf', ['resep' => $resep]);
+        return $pdf->stream('laporan-resep.pdf');
     }
 }
