@@ -13,10 +13,37 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ResepController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $resep = Resep::with(['obat', 'visit'])->paginate(10);
-        return view('admin.resep.index', compact('resep'));
+        $search = $request->get('search');
+        $sort = $request->get('sort', 'tgl_diberikan');
+        $direction = $request->get('direction', 'desc');
+
+        $query = Resep::with(['obat', 'visit.mahasiswa', 'visit.dosen', 'visit.staff', 'visit.dokter']);
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('dosis', 'like', "%{$search}%")
+                  ->orWhere('catatan', 'like', "%{$search}%")
+                  ->orWhereHas('obat', function ($q) use ($search) {
+                      $q->where('nama_obat', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('visit', function ($q) use ($search) {
+                      $q->whereHas('mahasiswa', function ($q) use ($search) {
+                          $q->where('nama', 'like', "%{$search}%");
+                      })->orWhereHas('dosen', function ($q) use ($search) {
+                          $q->where('nama', 'like', "%{$search}%");
+                      })->orWhereHas('staff', function ($q) use ($search) {
+                          $q->where('nama', 'like', "%{$search}%");
+                      })->orWhereHas('dokter', function ($q) use ($search) {
+                          $q->where('nama', 'like', "%{$search}%");
+                      });
+                  });
+            });
+        }
+        
+        $resep = $query->orderBy($sort, $direction)->paginate(10);
+        return view('admin.resep.index', compact('resep', 'search', 'sort', 'direction'));
     }
 
     public function create()

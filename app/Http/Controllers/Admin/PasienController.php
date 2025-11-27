@@ -24,6 +24,7 @@ class PasienController extends Controller
         $perPage = $request->get('per_page', 10);
         $sort = $request->get('sort', 'created_at');
         $direction = $request->get('direction', 'desc');
+        $search = $request->get('search');
 
         $mahasiswaQuery = Mahasiswa::with('prodi')->select(
             'id_mahasiswa as id', 'nama', 'nim as identifier', DB::raw("'mahasiswa' as type"), 
@@ -39,6 +40,21 @@ class PasienController extends Controller
             'jenis_kelamin', 'tgl_lahir', 'tempat_lahir', DB::raw("NULL as id_prodi"),
             'email', 'no_telp', 'created_at'
         );
+
+        if ($search) {
+            $mahasiswaQuery->where(function ($query) use ($search) {
+                $query->where('nama', 'like', "%{$search}%")
+                      ->orWhere('nim', 'like', "%{$search}%");
+            });
+            $dosenQuery->where(function ($query) use ($search) {
+                $query->where('nama', 'like', "%{$search}%")
+                      ->orWhere('nidn', 'like', "%{$search}%");
+            });
+            $staffQuery->where(function ($query) use ($search) {
+                $query->where('nama', 'like', "%{$search}%")
+                      ->orWhere('bagian', 'like', "%{$search}%");
+            });
+        }
 
         if ($user->role === 'dokter') {
             $visits = Visit::where('dokter_id', $user->id_users)->get();
@@ -73,7 +89,7 @@ class PasienController extends Controller
             default => 'Data Semua Pasien',
         };
 
-        return view('admin.pasien.index', compact('pasien', 'type', 'pageTitle', 'sort', 'direction'));
+        return view('admin.pasien.index', compact('pasien', 'type', 'pageTitle', 'sort', 'direction', 'search'));
     }
 
     public function create(Request $request)
