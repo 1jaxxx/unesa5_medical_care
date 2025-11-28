@@ -144,7 +144,7 @@
                                         </td>
 
                                         <td class="px-6 py-4 text-sm text-gray-900 font-medium">
-                                            {{ $visit->pasien->nama }}
+                                            {{ $visit->pasien?->nama ?? 'N/A' }}
                                         </td>
 
                                         <td class="px-6 py-4 text-sm text-gray-700 max-w-xs truncate">
@@ -177,7 +177,7 @@
                                                 <a href="{{ route('admin.visit.edit', $visit->id_visit) }}" class="text-yellow-600 hover:text-yellow-900" title="Edit">
                                                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.586a2 2 0 112.828 2.828L10.828 15H8v-2.828l8.586-8.586z" /></svg>
                                                 </a>
-                                                <form action="{{ route('admin.visit.destroy', $visit->id_visit) }}" method="POST" onsubmit="return confirm('Hapus kunjungan ini?')">
+                                                <form action="{{ route('admin.visit.destroy', $visit->id_visit) }}" method="POST" onsubmit="showDeleteConfirm(event); return false;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="text-red-600 hover:text-red-900" title="Hapus">
