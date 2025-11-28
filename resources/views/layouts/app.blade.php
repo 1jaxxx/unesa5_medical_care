@@ -8,6 +8,9 @@
     <!-- Judul Halaman Dinamis -->
     <title>@yield('title', 'Kampus Medical Care')</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('assets/icon/icon.png') }}?v=1">
+
     <!-- Memuat Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Scripts -->
