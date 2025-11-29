@@ -4,7 +4,7 @@
         <div class="lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center">
             
             <!-- Konten Teks -->
-            <div>
+            <div class="about-content">
                 <p class="mt-2 text-4xl font-bold text-gray-900 sm:text-5xl">
                     About Unesa 5 Medical Care
                 </p>
@@ -18,19 +18,19 @@
                     Mengapa memilih Unesa 5 Medical Care?
                 </p>
                 <ul class="mt-8 space-y-4">
-                    <li class="flex items-start">
+                    <li class="flex items-start" data-animate="fadeInLeft">
                         <div class="flex-shrink-0">
                             <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                         </div>
                         <p class="ml-3 text-lg text-gray-600">Tenaga Medis Berlisensi & Berpengalaman</p>
                     </li>
-                    <li class="flex items-start">
+                    <li class="flex items-start" data-animate="fadeInLeft">
                         <div class="flex-shrink-0">
                             <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                         </div>
                         <p class="ml-3 text-lg text-gray-600">Layanan yang Berfokus pada Kebutuhan Mahasiswa</p>
                     </li>
-                    <li class="flex items-start">
+                    <li class="flex items-start" data-animate="fadeInLeft">
                         <div class="flex-shrink-0">
                             <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                         </div>
@@ -40,13 +40,14 @@
             </div>
             
             <!-- Placeholder Gambar -->
-            <div class="mt-10 lg:mt-0">
+            <div class="about-image mt-10 lg:mt-0">
                 <div class_exists
-                    class="w-full h-80 bg-gray-200 rounded-xl shadow-xl flex items-center justify-center">
-                    <img class="w-full h-full object-cover rounded-xl" src="https://pojokkata.com/wp-content/uploads/2024/07/IMG-20240720-WA0118.jpg" alt="Tim Medis KampusCare">
+                    class="w-full h-80 bg-gray-200 rounded-xl shadow-xl flex items-center justify-center overflow-hidden">
+                    <img class="w-full h-full object-cover rounded-xl transform transition-transform duration-300 hover:scale-110" src="https://pojokkata.com/wp-content/uploads/2024/07/IMG-20240720-WA0118.jpg" alt="Tim Medis KampusCare">
                 </div>
             </div>
             
         </div>
     </div>
 </section>
+

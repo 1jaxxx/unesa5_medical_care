@@ -26,10 +26,20 @@
         body {
             font-family: 'poppins', sans-serif;
         }
+        
+        /* Initial loading state */
+        body.loading {
+            opacity: 0;
+        }
+        
+        body.loaded {
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-50 text-gray-800 loading">
 
     <!-- Memuat Navbar PUBLIK (bukan navigasi admin) -->
     @include('partials.navbar')
@@ -42,6 +52,10 @@
     <!-- Memuat Footer -->
     @include('partials.footer')
 
+    <!-- Landing Page Animations -->
+    <script src="{{ asset('js/landing-animations.js') }}"></script>
+
 </body>
 
 </html>
+
