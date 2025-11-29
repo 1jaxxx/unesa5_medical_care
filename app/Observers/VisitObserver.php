@@ -65,7 +65,8 @@ class VisitObserver
         if ($visit->wasChanged('status')) {
             $oldStatus = $visit->getOriginal('status');
             $newStatus = $visit->status;
-            $aksi = "{$user->nama} mengubah status Kunjungan #{$visit->id_visit} dari '{$oldStatus}' menjadi '{$newStatus}'.";
+            $pasienName = $visit->pasien->nama ?? 'N/A';
+            $aksi = "{$user->nama} mengubah status kunjungan pasien '{$pasienName}' dari '{$oldStatus}' menjadi '{$newStatus}'.";
 
             LogAktivitas::create([
                 'id_users' => $user->id_users,
@@ -101,7 +102,8 @@ class VisitObserver
         if (!Auth::check()) return;
 
         $user = Auth::user();
-        $aksi = "{$user->nama} menghapus Kunjungan #{$visit->id_visit}.";
+        $pasienName = $visit->pasien->nama ?? 'N/A';
+        $aksi = "{$user->nama} menghapus kunjungan pasien '{$pasienName}'.";
 
         LogAktivitas::create([
             'id_users' => $user->id_users,
