@@ -25,8 +25,8 @@ class ObatExport implements FromCollection, WithHeadings, WithMapping, ShouldAut
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return $this->obats;
@@ -77,7 +77,7 @@ class ObatExport implements FromCollection, WithHeadings, WithMapping, ShouldAut
     public function styles(Worksheet $sheet)
     {
         $lastColumn = $sheet->getHighestColumn();
-        
+
         // Report Title
         $sheet->setCellValue('A1', 'LAPORAN DATA OBAT');
         $sheet->mergeCells('A1:' . $lastColumn . '1');
@@ -85,7 +85,7 @@ class ObatExport implements FromCollection, WithHeadings, WithMapping, ShouldAut
         $sheet->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
         // Clinic Info
-        $sheet->setCellValue('A2', 'UNESA MEDICAL CENTER');
+        $sheet->setCellValue('A2', 'UNESA 5 MEDICAL CENTER');
         $sheet->mergeCells('A2:' . $lastColumn . '2');
         $sheet->getStyle('A2')->getFont()->setSize(12);
         $sheet->getStyle('A2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
@@ -122,7 +122,7 @@ class ObatExport implements FromCollection, WithHeadings, WithMapping, ShouldAut
                 ],
             ]);
         }
-        
+
         return [];
     }
 }

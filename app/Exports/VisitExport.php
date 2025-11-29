@@ -25,8 +25,8 @@ class VisitExport implements FromCollection, WithHeadings, WithMapping, ShouldAu
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return $this->visits;
@@ -96,7 +96,7 @@ class VisitExport implements FromCollection, WithHeadings, WithMapping, ShouldAu
         $sheet->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
         // Clinic Info
-        $sheet->setCellValue('A2', 'UNESA MEDICAL CENTER');
+        $sheet->setCellValue('A2', 'UNESA 5 MEDICAL CENTER');
         $sheet->mergeCells('A2:G2');
         $sheet->getStyle('A2')->getFont()->setSize(12);
         $sheet->getStyle('A2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
@@ -134,7 +134,7 @@ class VisitExport implements FromCollection, WithHeadings, WithMapping, ShouldAu
                 ],
             ]);
         }
-        
+
         return [];
     }
 }

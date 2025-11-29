@@ -1,15 +1,15 @@
 
 <section id="services" class="py-20 md:py-24 bg-[#4EB9FA]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-6xl font-extrabold text-gray-50 mb-4">Our Services</h2>
-        <p class="text-lg text-slate-50 max-w-2xl mx-auto mb-12">
+        <h2 class="text-6xl font-extrabold text-gray-50 mb-4" data-animate="fadeInUp">Our Services</h2>
+        <p class="text-lg text-slate-50 max-w-2xl mx-auto mb-12" data-animate="fadeInUp">
            Lihat pilihan layanan kesehatan yang dapat Anda akses di kampus.
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
             <!-- Service Card 1 -->
-            <div class="group bg-neutral-50 backdrop-blur-lg p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02] flex flex-col items-center border border-white/30">
+            <div class="service-card group bg-neutral-50 backdrop-blur-lg p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02] flex flex-col items-center border border-white/30">
                 <div class="relative w-28 h-28 mb-6">
                     <img src="{{ asset('assets/icon/pemeriksaan.png') }}" alt="Pemeriksaan Umum Icon" class="absolute inset-0 object-contain w-full h-full transition-transform duration-300 group-hover:scale-110">
                 </div>
@@ -20,7 +20,7 @@
             </div>
 
             <!-- Service Card 2 -->
-            <div class="group bg-neutral-50 backdrop-blur-lg p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02] flex flex-col items-center border border-white/30">
+            <div class="service-card group bg-neutral-50 backdrop-blur-lg p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02] flex flex-col items-center border border-white/30">
                 <div class="relative w-28 h-28 mb-6">
                     <img src="{{ asset('assets/icon/konsultasi.png') }}" alt="Pemeriksaan Umum Icon" class="absolute inset-0 object-contain w-full h-full transition-transform duration-300 group-hover:scale-110">
                 </div>
@@ -31,7 +31,7 @@
             </div>
 
             <!-- Service Card 3 -->
-            <div class="group bg-neutral-50 backdrop-blur-lg p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02] flex flex-col items-center border border-white/30">
+            <div class="service-card group bg-neutral-50 backdrop-blur-lg p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02] flex flex-col items-center border border-white/30">
                 <div class="relative w-28 h-28 mb-6">
                     <img src="{{ asset('assets/icon/penanganan_keluhan.png') }}" alt="Pemeriksaan Umum Icon" class="absolute inset-0 object-contain w-full h-full transition-transform duration-300 group-hover:scale-110">
                 </div>
@@ -42,7 +42,7 @@
             </div>
 
             <!-- Service Card 4 -->
-            <div class="group bg-neutral-50 backdrop-blur-lg p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02] flex flex-col items-center border border-white/30">
+            <div class="service-card group bg-neutral-50 backdrop-blur-lg p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02] flex flex-col items-center border border-white/30">
                 <div class="relative w-28 h-28 mb-6">
                     <img src="{{ asset('assets/icon/layanan_darurat.png') }}" alt="Pemeriksaan Umum Icon" class="absolute inset-0 object-contain w-full h-full transition-transform duration-300 group-hover:scale-110">
                 </div>
