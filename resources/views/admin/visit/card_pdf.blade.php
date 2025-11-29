@@ -7,6 +7,7 @@
     $pasienName = $pasien ? $pasien->nama : 'N/A';
     $pasienIdLabel = 'ID Pasien';
     $pasienIdValue = 'N/A';
+
     if ($pasien) {
         switch ($visit->type_pasien) {
             case 'mahasiswa':
@@ -25,136 +26,204 @@
     }
     $visitDate = \Carbon\Carbon::parse($visit->tgl_kunjungan);
 @endphp
+
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
     <meta charset="UTF-8">
-    <title>Resep Pasien - {{ $pasienName }}</title>
+    <title>Resep & Resume Medis - {{ $pasienName }}</title>
     <style>
+        /* Reset & Base Styles */
         @page {
-            margin: 0.5cm 1cm;
+            margin: 1cm;
         }
 
         body {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 12pt;
-            color: #000;
+            font-family: Arial, Helvetica, sans-serif;
+            /* Font sans-serif lebih modern */
+            font-size: 11pt;
+            color: #333;
+            line-height: 1.4;
         }
 
         .container {
             width: 100%;
-            max-width: 800px;
-            margin: auto;
+            margin: 0 auto;
         }
 
-        .header-table {
+        table {
             width: 100%;
-            border-bottom: 2px solid #000;
-            padding-bottom: 8px;
+            border-collapse: collapse;
         }
 
-        .header-table td {
-            vertical-align: middle;
+        /* Header Section */
+        .header-table {
+            border-bottom: 3px double #444;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
         }
 
         .logo {
-            width: 60px;
+            width: 70px;
             height: auto;
         }
 
         .clinic-info {
             text-align: center;
+            vertical-align: middle;
         }
 
-        .clinic-info h2 {
+        .clinic-name {
             font-size: 16pt;
+            font-weight: bold;
             margin: 0;
-            font-weight: bold;
+            color: #000;
+            text-transform: uppercase;
         }
 
-        .clinic-info p {
-            font-size: 10pt;
-            margin: 2px 0;
+        .clinic-address {
+            font-size: 9pt;
+            margin: 5px 0 0 0;
+            color: #555;
         }
 
-        .info-header {
+        /* Patient & Doctor Info Box */
+        .info-box {
             width: 100%;
-            margin-top: 15px;
-            border-bottom: 1px solid #999;
-            padding-bottom: 10px;
+            margin-bottom: 25px;
+            background-color: #f8f9fa;
+            /* Background abu-abu tipis agar rapi */
+            border: 1px solid #ddd;
         }
 
-        .info-header td {
+        .info-box td {
+            padding: 8px 12px;
             vertical-align: top;
-            font-size: 11pt;
-            padding: 1px 5px;
+            width: 50%;
         }
 
-        .main-content {
-            margin-top: 20px;
-            padding-left: 10px;
-        }
-
-        .diagnosis-block {
-            margin-bottom: 15px;
-        }
-
-        .diagnosis-block span {
+        .info-label {
             font-weight: bold;
+            color: #555;
+            font-size: 9pt;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .info-value {
+            font-weight: bold;
+            font-size: 11pt;
+            color: #000;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 12pt;
+            font-weight: bold;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            color: #2c3e50;
+            text-transform: uppercase;
+        }
+
+        /* Diagnosis & Prescription */
+        .content-block {
+            margin-bottom: 25px;
+        }
+
+        .diagnosis-text {
+            font-size: 12pt;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .rx-container {
+            display: table;
+            width: 100%;
+            margin-top: 10px;
         }
 
         .rx-symbol {
-            font-family: "DejaVu Sans", sans-serif;
-            font-size: 32pt;
+            display: table-cell;
+            width: 40px;
+            font-family: serif;
+            /* Simbol R/ tetap bagus pakai serif */
+            font-size: 36pt;
             font-weight: bold;
-            float: left;
-            margin-right: 10px;
-            line-height: 1;
-        }
-
-        .prescription-list {
-            list-style-type: none;
-            padding-left: 45px;
-        }
-
-        .prescription-list li {
-            margin-bottom: 15px;
-            font-size: 14pt;
-        }
-
-        .prescription-list .drug-name {
-            font-weight: bold;
-        }
-
-        .prescription-list .signa {
-            padding-left: 10px;
             font-style: italic;
+            vertical-align: top;
+            color: #2c3e50;
         }
 
-        .screening-section {
-            margin-top: 25px;
-            border-top: 1px dashed #ccc;
-            padding-top: 10px;
+        .rx-list {
+            display: table-cell;
+            vertical-align: top;
+            padding-left: 10px;
+        }
+
+        .drug-item {
+            margin-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 5px;
+        }
+
+        .drug-name {
+            font-weight: bold;
+            font-size: 11pt;
+        }
+
+        .drug-dose {
+            font-style: italic;
+            color: #555;
+            margin-left: 5px;
+        }
+
+        .drug-note {
+            display: block;
+            font-size: 9pt;
+            color: #777;
+            margin-top: 2px;
+        }
+
+        /* Screening Table */
+        .table-screening th,
+        .table-screening td {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
             font-size: 10pt;
         }
 
-        .screening-section h4 {
-            margin: 0 0 5px 0;
-            font-size: 11pt;
+        .table-screening th {
+            background-color: #eee;
+            text-align: left;
+            width: 35%;
+        }
+
+        .table-screening td {
             font-weight: bold;
         }
 
-        .signature-block {
-            margin-top: 50px;
-            width: 300px;
-            float: right;
-            text-align: center;
-            font-size: 12pt;
+        /* Signature */
+        .signature-section {
+            width: 100%;
+            margin-top: 40px;
         }
 
-        .signature-block .signature-space {
-            height: 60px;
+        .signature-box {
+            float: right;
+            width: 250px;
+            text-align: center;
+        }
+
+        .signature-space {
+            height: 70px;
+        }
+
+        .doctor-name {
+            font-weight: bold;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -163,128 +232,124 @@
     <div class="container">
         <table class="header-table">
             <tr>
-                <td style="width: 70px;">
+                <td style="width: 80px;">
                     <img src="{{ $imageSrc }}" alt="Logo" class="logo">
                 </td>
                 <td class="clinic-info">
-                    <h2>UNESA 5 MEDICAL CENTER</h2>
-                    <p>Jl. Maospati - Barat Nomor 358-360, Kec. Maospati, Kabupaten Magetan, Jawa Timur, 60213</p>
-                    <p>Telepon: (031) 1234567 | Email: info@unesa.ac.id</p>
+                    <h2 class="clinic-name">UNESA 5 MEDICAL CENTER</h2>
+                    <p class="clinic-address">
+                        Jl. Maospati - Barat Nomor 358-360, Kec. Maospati, Kab. Magetan, Jawa Timur 60213<br>
+                        Telp: (031) 1234567 | Email: info@unesa.ac.id
+                    </p>
                 </td>
             </tr>
         </table>
 
-        <table class="info-header">
+        <table class="info-box">
             <tr>
-                <td style="width: 50%;">
-                    <b>Pasien:</b> {{ $pasienName }} <br>
-                    <b>{{ $pasienIdLabel }}:</b> {{ $pasienIdValue }} <br>
-                    <b>Tgl. Lahir:</b>
-                    {{ $pasien ? \Carbon\Carbon::parse($pasien->tgl_lahir)->isoFormat('D MMM YYYY') : 'N/A' }}
+                <td>
+                    <span class="info-label">DATA PASIEN</span>
+                    <div class="info-value">{{ $pasienName }}</div>
+                    <div style="font-size: 10pt; margin-top: 4px;">
+                        {{ $pasienIdLabel }}: {{ $pasienIdValue }} <br>
+                        Tgl. Lahir:
+                        {{ $pasien ? \Carbon\Carbon::parse($pasien->tgl_lahir)->isoFormat('D MMMM YYYY') : '-' }}
+                    </div>
                 </td>
-                <td style="width: 50%; text-align: right;">
-                    <b>Dokter:</b> {{ $visit->dokter ? $visit->dokter->nama : 'N/A' }} <br>
-                    <b>Spesialisasi:</b> {{ $visit->dokter ? $visit->dokter->specialization ?? 'Umum' : 'N/A' }} <br>
-                    <b>Tanggal:</b> {{ $visitDate->isoFormat('D MMMM YYYY') }}
+                <td style="text-align: right; border-left: 1px solid #ddd;">
+                    <span class="info-label">DOKTER PEMERIKSA</span>
+                    <div class="info-value">{{ $visit->dokter ? $visit->dokter->nama : '-' }}</div>
+                    <div style="font-size: 10pt; margin-top: 4px;">
+                        {{ $visit->dokter ? $visit->dokter->specialization ?? 'Dokter Umum' : '-' }} <br>
+                        Tgl. Kunjungan: {{ $visitDate->isoFormat('D MMMM YYYY') }}
+                    </div>
                 </td>
             </tr>
         </table>
 
-        <div class="main-content">
+        <div class="content-block">
+            <div class="section-title">Instruksi Medis</div>
+
             @if ($visit->diagnosis)
-                <div class="diagnosis-block">
-                    <span>Diagnosis:</span> {{ $visit->diagnosis }}
+                <div style="margin-bottom: 15px; background: #fdfdfd; padding: 10px; border-left: 4px solid #333;">
+                    <span style="font-weight:bold; color: #555;">Diagnosis Utama:</span><br>
+                    <span style="font-size: 12pt;">{{ $visit->diagnosis }}</span>
                 </div>
             @endif
 
             @if ($visit->resep && $visit->resep->count() > 0)
-                <div>
-                    <span class="rx-symbol">R/</span>
-                    <ol class="prescription-list">
+                <div class="rx-container">
+                    {{-- <div class="rx-symbol">R/</div> --}}
+                    <div class="rx-list">
                         @foreach ($visit->resep as $resep)
-                            <li>
-                                <span class="drug-name">{{ $resep->obat ? $resep->obat->nama_obat : 'N/A' }} No.
-                                    {{ $resep->jumlah }}</span><br>
-                                <span class="signa">S. {{ $resep->dosis }}</span>
+                            <div class="drug-item">
+                                <span class="drug-name">{{ $resep->obat ? $resep->obat->nama_obat : 'Obat' }}</span>
+                                <span style="float:right;">Jumlah. {{ $resep->jumlah }}</span>
+                                <br>
+                                <span class="drug-dose">S. {{ $resep->dosis }}</span>
                                 @if ($resep->catatan)
-                                    <br><span class="signa" style="font-size: 10pt;">Catatan:
-                                        {{ $resep->catatan }}</span>
+                                    <span class="drug-note">({{ $resep->catatan }})</span>
                                 @endif
-                            </li>
+                            </div>
                         @endforeach
-                    </ol>
+                    </div>
                 </div>
             @else
-                <p>Tidak ada resep obat yang diberikan.</p>
+                <p style="font-style: italic; color: #777;">- Tidak ada resep obat -</p>
             @endif
         </div>
 
-        <div style="clear: both;"></div>
-
         @if ($visit->screening)
-            <div class="screening-section">
-                <h4>Hasil Screening</h4>
-                <table class="info-table">
+            <div class="content-block" style="page-break-inside: avoid;">
+                <div class="section-title">Hasil Pemeriksaan Fisik (Screening)</div>
+                <table class="table-screening">
                     <tr>
-                        <td>Tanggal Screening</td>
-                        <td>:</td>
+                        <th>Tanggal Screening</th>
                         <td>{{ \Carbon\Carbon::parse($visit->screening->tgl_screening)->isoFormat('D MMMM YYYY') }}
                         </td>
                     </tr>
                     <tr>
-                        <td>Berat Badan</td>
-                        <td>:</td>
-                        <td>{{ $visit->screening->berat_badan }} kg</td>
+                        <th>Tanda Vital</th>
+                        <td>
+                            TD: {{ $visit->screening->tekanan_darah }} mmHg &nbsp;|&nbsp;
+                            BB: {{ $visit->screening->berat_badan }} kg &nbsp;|&nbsp;
+                            TB: {{ $visit->screening->tinggi_badan }} cm
+                        </td>
                     </tr>
                     <tr>
-                        <td>Tinggi Badan</td>
-                        <td>:</td>
-                        <td>{{ $visit->screening->tinggi_badan }} cm</td>
+                        <th>Indeks Massa Tubuh (IMT)</th>
+                        <td>{{ $visit->screening->imt }} ({{ $visit->screening->status_gizi }})</td>
                     </tr>
                     <tr>
-                        <td>IMT (Indeks Massa Tubuh)</td>
-                        <td>:</td>
-                        <td>{{ $visit->screening->imt }}</td>
+                        <th>Fungsi Indera</th>
+                        <td>
+                            Penglihatan: {{ $visit->screening->penglihatan }} <br>
+                            Pendengaran: {{ $visit->screening->pendengaran }}
+                        </td>
                     </tr>
                     <tr>
-                        <td>Status Gizi</td>
-                        <td>:</td>
-                        <td>{{ $visit->screening->status_gizi }}</td>
-                    </tr>
-                    <tr>
-                        <td>Pendengaran</td>
-                        <td>:</td>
-                        <td>{{ $visit->screening->pendengaran }}</td>
-                    </tr>
-                    <tr>
-                        <td>Penglihatan</td>
-                        <td>:</td>
-                        <td>{{ $visit->screening->penglihatan }}</td>
-                    </tr>
-                    <tr>
-                        <td>Tekanan Darah</td>
-                        <td>:</td>
-                        <td>{{ $visit->screening->tekanan_darah }}</td>
-                    </tr>
-                    <tr>
-                        <td>Kecacatan</td>
-                        <td>:</td>
-                        <td>{{ $visit->screening->kecacatan }}</td>
-                    </tr>
-                    <tr>
-                        <td>Kebugaran</td>
-                        <td>:</td>
-                        <td>{{ ucfirst($visit->screening->kebugaran) }}</td>
+                        <th>Kondisi Fisik Lain</th>
+                        <td>
+                            Kecacatan: {{ $visit->screening->kecacatan }} <br>
+                            Kebugaran: {{ ucfirst($visit->screening->kebugaran) }}
+                        </td>
                     </tr>
                 </table>
             </div>
         @endif
 
-        <div class="signature-block">
-            Surabaya, {{ $visitDate->isoFormat('D MMMM YYYY') }}<br>
-            Dokter yang memeriksa,
-            <div class="signature-space"></div>
-            <u>{{ $visit->dokter ? $visit->dokter->nama : '____________________' }}</u>
+        <div class="signature-section">
+            <div class="signature-box">
+                <p style="margin-bottom: 5px;">Magetan, {{ $visitDate->isoFormat('D MMMM YYYY') }}</p>
+                <p style="font-size: 10pt; color: #555;">Dokter Penanggung Jawab,</p>
+                <div class="signature-space">
+                </div>
+                <div class="doctor-name">{{ $visit->dokter ? $visit->dokter->nama : '____________________' }}</div>
+                @if ($visit->dokter && $visit->dokter->sip)
+                    <div style="font-size: 8pt;">SIP. {{ $visit->dokter->sip }}</div>
+                @endif
+            </div>
+            <div style="clear: both;"></div>
         </div>
     </div>
 </body>
