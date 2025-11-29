@@ -24,8 +24,8 @@ class PasienExport implements FromCollection, WithHeadings, WithMapping, ShouldA
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return $this->pasien;
@@ -92,7 +92,7 @@ class PasienExport implements FromCollection, WithHeadings, WithMapping, ShouldA
         $sheet->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
         // Clinic Info
-        $sheet->setCellValue('A2', 'UNESA MEDICAL CENTER');
+        $sheet->setCellValue('A2', 'UNESA 5 MEDICAL CENTER');
         $sheet->mergeCells('A2:J2');
         $sheet->getStyle('A2')->getFont()->setSize(12);
         $sheet->getStyle('A2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
@@ -130,7 +130,7 @@ class PasienExport implements FromCollection, WithHeadings, WithMapping, ShouldA
                 ],
             ],
         ]);
-        
+
         // Align all cells to center for a cleaner look
         $sheet->getStyle('A:J')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
 

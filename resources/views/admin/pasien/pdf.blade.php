@@ -5,6 +5,7 @@
 @endphp
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Laporan Data Pasien</title>
@@ -18,13 +19,13 @@
             font-size: 12px;
             color: #333;
         }
-        
+
         footer {
-            position: fixed; 
-            bottom: -20px; 
-            left: 0px; 
+            position: fixed;
+            bottom: -20px;
+            left: 0px;
             right: 0px;
-            height: 50px; 
+            height: 50px;
             text-align: center;
             font-size: 10px;
             color: #7f8c8d;
@@ -78,7 +79,8 @@
             border-collapse: collapse;
         }
 
-        .main-table th, .main-table td {
+        .main-table th,
+        .main-table td {
             border: 1px solid #999;
             padding: 6px;
             text-align: left;
@@ -95,6 +97,7 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <table class="header-table">
@@ -103,9 +106,9 @@
                     <img src="{{ $imageSrc }}" alt="Logo" class="logo">
                 </td>
                 <td class="clinic-info">
-                    <h2>UNESA MEDICAL CENTER</h2>
-                    <p>Jl. Kampus Unesa, Lidah Wetan, Surabaya</p>
-                    <p>Telepon: (031) 1234567 | Email: medical.center@unesa.ac.id</p>
+                    <h2>UNESA 5 MEDICAL CENTER</h2>
+                    <p>Jl. Maospati - Barat Nomor 358-360, Kec. Maospati, Kabupaten Magetan, Jawa Timur</p>
+                    <p>Telepon: (031) 1234567 | Email: info@unesa.ac.id</p>
                 </td>
             </tr>
         </table>
@@ -117,7 +120,7 @@
 
     <main>
         <h3 class="report-title">Laporan Data Pasien</h3>
-        
+
         <table class="main-table">
             <thead>
                 <tr>
@@ -149,11 +152,13 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="10" style="text-align: center; padding: 20px;">Tidak ada data pasien yang tersedia.</td>
+                        <td colspan="10" style="text-align: center; padding: 20px;">Tidak ada data pasien yang
+                            tersedia.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
     </main>
 </body>
+
 </html>
