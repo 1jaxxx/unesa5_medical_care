@@ -9,6 +9,7 @@ use App\Exports\ObatExport;
 use App\Imports\ObatImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Database\QueryException;
 
 class ObatController extends Controller
 {
@@ -93,8 +94,16 @@ class ObatController extends Controller
 
     public function destroy(Obat $obat)
     {
-        $obat->delete();
-        return redirect()->route('admin.obat.index')->with('success', 'Data obat berhasil dihapus');
+        try {
+            $obat->delete();
+            return redirect()->route('admin.obat.index')->with('success', 'Data obat berhasil dihapus');
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1451) {
+                return redirect()->route('admin.obat.index')->with('error', 'Data obat tidak dapat dihapus karena masih terhubung dengan data resep.');
+            }
+            return redirect()->route('admin.obat.index')->with('error', 'Terjadi kesalahan saat menghapus data obat.');
+        }
     }
 
     public function exportExcel(Request $request)

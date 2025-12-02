@@ -73,7 +73,7 @@
                                      </a>
                                     <form action="{{ route('admin.obat.import.excel') }}" method="POST" enctype="multipart/form-data" id="import-form-obat">
                                         @csrf
-                                        <input type="file" name="file" class="hidden" id="import-excel-obat">
+                                        <input type="file" name="file" class="hidden" id="import-excel-obat" accept=".xls,.xlsx,.csv">
                                         <label for="import-excel-obat" class="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 bg-gray-800 text-white text-sm font-semibold rounded-md hover:bg-gray-800 active:bg-gray-800 transition shadow-sm cursor-pointer">
                                             <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fill-rule="evenodd" d="M.077 3.518A2 2 0 012.071 2h15.858a2 2 0 011.994 1.518L18.42 8H1.58L.077 3.518zM6.5 10a.5.5 0 00-.5.5v2a.5.5 0 00.5.5h7a.5.5 0 00.5-.5v-2a.5.5 0 00-.5-.5h-7z" clip-rule="evenodd" />
@@ -98,6 +98,20 @@
                             document.getElementById('import-form-obat').submit();
                         });
                     </script>
+
+                    {{-- Pesan Sukses --}}
+                    @if (session('success'))
+                        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-md shadow-sm" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    {{-- Pesan Error --}}
+                    @if (session('error'))
+                        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md shadow-sm" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
 
                     @php
                         function sortIcon($field) {

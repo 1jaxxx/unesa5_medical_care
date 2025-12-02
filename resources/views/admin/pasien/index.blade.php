@@ -92,7 +92,7 @@
                                      </a>
                                     <form action="{{ route('admin.pasien.import.excel') }}" method="POST" enctype="multipart/form-data" id="import-form-pasien">
                                         @csrf
-                                        <input type="file" name="file" class="hidden" id="import-excel-pasien">
+                                        <input type="file" name="file" class="hidden" id="import-excel-pasien" accept=".xls,.xlsx,.csv">
                                         <label for="import-excel-pasien" class="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 bg-gray-800 text-white text-sm font-semibold rounded-md hover:bg-gray-800 active:bg-gray-800 transition shadow-sm cursor-pointer">
                                             <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fill-rule="evenodd" d="M.077 3.518A2 2 0 012.071 2h15.858a2 2 0 011.994 1.518L18.42 8H1.58L.077 3.518zM6.5 10a.5.5 0 00-.5.5v2a.5.5 0 00.5.5h7a.5.5 0 00.5-.5v-2a.5.5 0 00-.5-.5h-7z" clip-rule="evenodd" />

@@ -92,7 +92,7 @@ class ProdiController extends Controller
     public function importExcel(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx,xls',
+            'file' => 'required|mimes:xlsx,xls,csv',
         ]);
 
         Excel::import(new ProdiImport, $request->file('file'));
