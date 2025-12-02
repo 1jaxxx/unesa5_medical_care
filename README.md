@@ -1,72 +1,90 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
+  <img src="https://github.com/1jaxxx/unesa5_medical_care/blob/main/public/assets/icon/icon.png" 
+       width="150" 
+       alt="App Logo"
+       style="margin-bottom: 10px;" />
+</div>
+
+<div align="center">
+  <img 
+    src="https://readme-typing-svg.herokuapp.com?font=Roboto+Mono&size=32&duration=3500&pause=1500&color=00C2FF&center=true&vCenter=true&width=700&lines=UNESA+5+Medical+Care;Healthcare+Management+System"
+    alt="Typing Animation"
+  />
+</div>
+
+<br>
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+
+  <!-- PHP -->
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/php/php-original.svg" width="26" />
+  <img src="https://img.shields.io/badge/BACKEND-PHP-blue?style=for-the-badge" />
+
+  <!-- Laravel -->
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/laravel/laravel-original.svg" width="26" />
+  <img src="https://img.shields.io/badge/FRAMEWORK-LARAVEL-red?style=for-the-badge" />
+
+  <!-- TailwindCSS -->
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-original.svg" width="26" />
+  <img src="https://img.shields.io/badge/STYLING-TailwindCSS-38BDF8?style=for-the-badge" />
+
+  <!-- MySQL -->
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg" width="26" />
+  <img src="https://img.shields.io/badge/DATABASE-MySQL-00618A?style=for-the-badge" />
+
+  <!-- Web -->
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/chrome/chrome-original.svg" width="26" />
+  <img src="https://img.shields.io/badge/PLATFORM-Web-0A7DB5?style=for-the-badge" />
+
 </p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ---
 
-## 🔍 Fitur
+## 🏥 Tentang Proyek  
+UNESA 5 Medical Care adalah aplikasi layanan kesehatan internal yang dirancang untuk membantu proses pelayanan medis bagi civitas akademika Kampus 5. Aplikasi ini memberikan akses yang lebih cepat dan mudah terhadap layanan kesehatan, serta menyediakan sistem pengelolaan data yang terpusat untuk admin, petugas, dan dokter.
 
-- 🔎 Pencarian
+---
 
- ##  Contributor
+## ✨ Fitur Utama  
+
+### 🔐 1. Autentikasi & Role Pengguna   
+- **Admin** → mengelola seluruh data dan pengguna  
+- **Petugas** → menangani pendaftaran & pelayanan lapangan  
+- **Dokter** → mengakses data pemeriksaan & menangani keluhan pasien    
+
+### 📊 2. Dashboard Statistik
+- Total pasien
+- Total prodi
+- Jumlah kunjungan
+- Jumlah antrian
+- Grafik kunjungan 
+  
+### 🩺 3. Manajemen Rekam Medis  
+- Tambah, edit, hapus data rekam medis pasien  
+- Riwayat pelayanan lengkap per pasien  
+- Layanan & tindakan berdasarkan dokter yang menangani  
+
+### 📤 4. Ekspor Data  
+Data dapat diekspor ke berbagai format, seperti:  
+- **PDF** → laporan pelayanan atau rekam medis  
+- **Excel** → rekap data untuk dokumentasi/administrasi  
+
+### 📥 5. Import Data Excel  
+- Import data pengguna atau dataset layanan secara massal  
+- Menghemat waktu input manual bagi admin/petugas  
+
+---
+
+## 🛠️ Teknologi yang Digunakan
+| Bagian | Teknologi |
+|-------|-----------|
+| **Backend** | PHP (Laravel) |
+| **Frontend** | Blade + Tailwind CSS |
+| **Database** | MySQL |
+
+---
+
+ ##  👥 Kontributor
 | NAMA | NIM |
 |--------|--------|
 | **Izha Valensy** | 24111814125 |
@@ -75,6 +93,4 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 | **Manda Fatimah Azaziah** | 24111814044 |
 | **Muhammad Noor Abizar** | 24111814105 |
 
-
 ---
-
