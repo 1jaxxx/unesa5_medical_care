@@ -95,7 +95,14 @@ class ProdiController extends Controller
             'file' => 'required|mimes:xlsx,xls,csv',
         ]);
 
-        Excel::import(new ProdiImport, $request->file('file'));
+        try {
+            Excel::import(new ProdiImport, $request->file('file'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            // You can process failures further if needed.
+            // For now, redirect back with a generic error message.
+            return redirect()->route('admin.prodi.index')->with('error', 'Gagal mengimpor data. Pastikan file Anda memiliki kolom "nama_prodi".');
+        }
 
         return redirect()->route('admin.prodi.index')->with('success', 'Data prodi berhasil diimpor!');
     }

@@ -269,7 +269,13 @@ class PasienController extends Controller
             'file' => 'required|mimes:xlsx,xls',
         ]);
 
-        Excel::import(new PasienImport, $request->file('file'));
+        try {
+            Excel::import(new PasienImport, $request->file('file'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            // You can log failures or pass them to the view if you want to be more specific
+            return redirect()->route('admin.pasien.index')->with('error', 'Gagal mengimpor data. Pastikan semua kolom yang wajib diisi dan formatnya benar.');
+        }
 
         return redirect()->route('admin.pasien.index')->with('success', 'Data pasien berhasil diimpor!');
     }

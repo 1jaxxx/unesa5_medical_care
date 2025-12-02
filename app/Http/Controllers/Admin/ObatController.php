@@ -125,7 +125,11 @@ class ObatController extends Controller
             'file' => 'required|mimes:xlsx,xls',
         ]);
 
-        Excel::import(new ObatImport, $request->file('file'));
+        try {
+            Excel::import(new ObatImport, $request->file('file'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            return redirect()->route('admin.obat.index')->with('error', 'Gagal mengimpor data. Pastikan semua kolom yang wajib diisi dan formatnya benar.');
+        }
 
         return redirect()->route('admin.obat.index')->with('success', 'Data obat berhasil diimpor!');
     }
