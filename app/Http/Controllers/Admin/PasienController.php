@@ -118,7 +118,7 @@ class PasienController extends Controller
             'tempat_lahir' => 'required',
             'tgl_lahir' => 'required|date',
             'email' => 'required|email',
-            'no_telp' => 'required'
+            'no_telp' => 'required|numeric|max_digits:13'
         ]);
 
         switch($request->type_pasien) {
@@ -195,7 +195,7 @@ class PasienController extends Controller
             'tempat_lahir' => 'required',
             'tgl_lahir' => 'required|date',
             'email' => 'required|email',
-            'no_telp' => 'required'
+            'no_telp' => 'required|numeric|max_digits:13'
         ]);
 
         switch($type) {

@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\LogAktivitas;
+use App\Models\Obat;
 use App\Models\Resep;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,6 +14,13 @@ class ResepObserver
      */
     public function created(Resep $resep): void
     {
+        // Kurangi stok obat
+        $obat = Obat::find($resep->id_obat);
+        if ($obat) {
+            $obat->stok -= $resep->jumlah;
+            $obat->save();
+        }
+
         if (!Auth::check()) return;
 
         $user = Auth::user();
@@ -32,6 +40,22 @@ class ResepObserver
      */
     public function updated(Resep $resep): void
     {
+        $original = $resep->getOriginal();
+
+        // Kembalikan stok obat lama
+        $obatLama = Obat::find($original['id_obat']);
+        if ($obatLama) {
+            $obatLama->stok += $original['jumlah'];
+            $obatLama->save();
+        }
+
+        // Kurangi stok obat baru
+        $obatBaru = Obat::find($resep->id_obat);
+        if ($obatBaru) {
+            $obatBaru->stok -= $resep->jumlah;
+            $obatBaru->save();
+        }
+
         if (!Auth::check()) return;
 
         $user = Auth::user();

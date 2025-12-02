@@ -5,6 +5,10 @@
         </h2>
     </x-slot>
 
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{{ asset('css/select2-custom.css') }}" rel="stylesheet" />
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -32,16 +36,29 @@
                                 <select name="id_obat" id="id_obat" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                     <option value="">Pilih Obat</option>
                                     @foreach ($obat as $item)
-                                        <option value="{{ $item->id_obat }}" {{ old('id_obat', $resep->id_obat) == $item->id_obat ? 'selected' : '' }}>{{ $item->nama_obat }}</option>
+                                        <option value="{{ $item->id_obat }}"
+                                                data-stok="{{ $item->stok }}"
+                                                {{ old('id_obat', $resep->id_obat) == $item->id_obat ? 'selected' : '' }}
+                                                @if($item->stok <= 0 && $item->id_obat != $resep->id_obat) disabled @endif>
+                                            {{ $item->nama_obat }}
+                                            @if($item->stok > 0)
+                                                (Stok: {{ $item->stok }})
+                                            @else
+                                                (Habis)
+                                            @endif
+                                        </option>
                                     @endforeach
                                 </select>
+                                <div id="stok-display" class="text-sm text-gray-600 mt-1"></div>
                             </div>
                             <div>
                                 <label for="id_visit" class="block font-medium text-sm text-gray-700">Visit</label>
                                 <select name="id_visit" id="id_visit" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                     <option value="">Pilih Visit</option>
                                     @foreach ($visits as $visit)
-                                        <option value="{{ $visit->id_visit }}" {{ old('id_visit', $resep->id_visit) == $visit->id_visit ? 'selected' : '' }}>{{ $visit->id_visit }} - {{ $visit->pasien->nama }}</option>
+                                        <option value="{{ $visit->id_visit }}" {{ old('id_visit', $resep->id_visit) == $visit->id_visit ? 'selected' : '' }}>
+                                            {{ $visit->mahasiswa->nama ?? $visit->dosen->nama ?? $visit->staff->nama }} ({{ $visit->tgl_kunjungan }})
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -76,4 +93,59 @@
             </div>
         </div>
     </div>
+
+    <!-- Select2 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#id_obat').select2({
+                placeholder: "Ketik untuk mencari obat...",
+                allowClear: true,
+                width: '100%',
+                language: {
+                    noResults: function() {
+                        return "Obat tidak ditemukan";
+                    },
+                    searching: function() {
+                        return "Mencari...";
+                    }
+                }
+            });
+
+            $('#id_visit').select2({
+                placeholder: "Ketik untuk mencari visit...",
+                allowClear: true,
+                width: '100%',
+                language: {
+                    noResults: function() {
+                        return "Visit tidak ditemukan";
+                    },
+                    searching: function() {
+                        return "Mencari...";
+                    }
+                }
+            });
+
+            const obatSelect = $('#id_obat');
+            const stokDisplay = $('#stok-display');
+
+            function updateStokDisplay() {
+                const selectedOption = obatSelect.find('option:selected');
+                const stok = selectedOption.data('stok');
+
+                if (stok) {
+                    stokDisplay.text(`Stok yang tersedia: ${stok}`);
+                } else {
+                    stokDisplay.text('');
+                }
+            }
+
+            // Initial display update
+            updateStokDisplay();
+
+            // Update display on change
+            obatSelect.on('change', updateStokDisplay);
+        });
+    </script>
 </x-admin-layout>

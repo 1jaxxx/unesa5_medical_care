@@ -96,7 +96,7 @@
                             <div>
                                 <x-input-label for="no_telp" :value="__('Nomor Telepon')" />
                                 <x-text-input id="no_telp" name="no_telp" type="text" class="mt-1 block w-full"
-                                    :value="old('no_telp')" required />
+                                    :value="old('no_telp')" required inputmode="numeric" pattern="[0-9]*" maxlength="13" />
                                 <x-input-error class="mt-2" :messages="$errors->get('no_telp')" />
                             </div>
                         </div>

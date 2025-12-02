@@ -60,14 +60,21 @@ class ResepController extends Controller
 
     public function create()
     {
-        $obat = Obat::all();
+        $obat = Obat::orderBy('nama_obat', 'asc')->get();
         
         $user = Auth::user();
+        $visitQuery = Visit::with('mahasiswa', 'dosen', 'staff', 'dokter')
+            ->leftJoin('mahasiswa', 'visit.id_mahasiswa', '=', 'mahasiswa.id_mahasiswa')
+            ->leftJoin('dosen', 'visit.id_dosen', '=', 'dosen.id_dosen')
+            ->leftJoin('staff', 'visit.id_staff', '=', 'staff.id_staff')
+            ->select('visit.*') // Prevents column name collisions
+            ->orderByRaw('COALESCE(mahasiswa.nama, dosen.nama, staff.nama) ASC');
+
         if ($user->role === 'dokter') {
-            $visits = Visit::where('dokter_id', $user->id_users)->get();
-        } else {
-            $visits = Visit::all();
+            $visitQuery->where('visit.dokter_id', $user->id_users);
         }
+
+        $visits = $visitQuery->get();
 
         return view('admin.resep.create', compact('obat', 'visits'));
     }
@@ -78,7 +85,17 @@ class ResepController extends Controller
             'id_obat' => 'required|exists:obat,id_obat',
             'id_visit' => 'required|exists:visit,id_visit',
             'dosis' => 'required',
-            'jumlah' => 'required|integer|min:1',
+            'jumlah' => [
+                'required',
+                'integer',
+                'min:1',
+                function ($attribute, $value, $fail) use ($request) {
+                    $obat = Obat::find($request->id_obat);
+                    if ($obat && $obat->stok < $value) {
+                        $fail("Stok obat tidak mencukupi. Stok tersedia: {$obat->stok}.");
+                    }
+                },
+            ],
             'tgl_diberikan' => 'required|date',
             'catatan' => 'nullable|string'
         ]);
@@ -94,14 +111,21 @@ class ResepController extends Controller
 
     public function edit(Resep $resep)
     {
-        $obat = Obat::all();
+        $obat = Obat::orderBy('nama_obat', 'asc')->get();
 
         $user = Auth::user();
+        $visitQuery = Visit::with('mahasiswa', 'dosen', 'staff', 'dokter')
+            ->leftJoin('mahasiswa', 'visit.id_mahasiswa', '=', 'mahasiswa.id_mahasiswa')
+            ->leftJoin('dosen', 'visit.id_dosen', '=', 'dosen.id_dosen')
+            ->leftJoin('staff', 'visit.id_staff', '=', 'staff.id_staff')
+            ->select('visit.*') // Prevents column name collisions
+            ->orderByRaw('COALESCE(mahasiswa.nama, dosen.nama, staff.nama) ASC');
+        
         if ($user->role === 'dokter') {
-            $visits = Visit::where('dokter_id', $user->id_users)->get();
-        } else {
-            $visits = Visit::all();
+            $visitQuery->where('visit.dokter_id', $user->id_users);
         }
+
+        $visits = $visitQuery->get();
 
         return view('admin.resep.edit', compact('resep', 'obat', 'visits'));
     }
@@ -112,7 +136,25 @@ class ResepController extends Controller
             'id_obat' => 'required|exists:obat,id_obat',
             'id_visit' => 'required|exists:visit,id_visit',
             'dosis' => 'required',
-            'jumlah' => 'required|integer|min:1',
+            'jumlah' => [
+                'required',
+                'integer',
+                'min:1',
+                function ($attribute, $value, $fail) use ($request, $resep) {
+                    $obat = Obat::find($request->id_obat);
+                    if (!$obat) return; // Obat not found, other validation will catch this.
+
+                    $stokTersedia = $obat->stok;
+                    // Jika obat yang diedit sama dengan obat sebelumnya, tambahkan stok yang sudah diresepkan
+                    if ($request->id_obat == $resep->id_obat) {
+                        $stokTersedia += $resep->jumlah;
+                    }
+
+                    if ($stokTersedia < $value) {
+                        $fail("Stok obat tidak mencukupi. Stok tersedia untuk diresepkan: {$stokTersedia}.");
+                    }
+                },
+            ],
             'tgl_diberikan' => 'required|date',
             'catatan' => 'nullable|string'
         ]);
