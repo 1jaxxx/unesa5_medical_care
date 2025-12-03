@@ -93,7 +93,7 @@
         <div class="mt-auto border-t pt-4 text-sm">
             <span class="text-gray-700">{{ Auth::user()->nama }}</span>
 
-            <a href="{{ route('profile.edit') }}" class="block text-blue-500 hover:underline mt-2">Profile</a>
+            {{-- <a href="{{ route('profile.edit') }}" class="block text-blue-500 hover:underline mt-2">Profile</a> --}}
 
             <form method="POST" action="{{ route('logout') }}">
                 @csrf

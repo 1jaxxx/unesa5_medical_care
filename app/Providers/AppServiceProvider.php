@@ -24,6 +24,7 @@ use App\Models\RiwayatKunjungan;
 use App\Observers\RiwayatKunjunganObserver;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL; // <-- IMPORT BARU
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,6 +41,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        if ($this->app->environment('production') || config('app.env') === 'staging') {
+            URL::forceScheme('https');
+        }
+        // ---------------------------------------------------
+
         Visit::observe(VisitObserver::class);
         Obat::observe(ObatObserver::class);
         Prodi::observe(ProdiObserver::class);
@@ -55,7 +62,7 @@ class AppServiceProvider extends ServiceProvider
             if ($user->role === 'admin' && $ability !== 'view-my-visits') {
                 return true;
             }
-            return null; // Tambahkan ini untuk kejelasan, meskipun defaultnya adalah null
+            return null; 
         });
 
         Gate::define('manage-users', function (User $user) {
