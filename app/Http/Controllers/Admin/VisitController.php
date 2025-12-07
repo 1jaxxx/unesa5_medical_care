@@ -9,6 +9,7 @@ use App\Models\Visit;
 use App\Models\Mahasiswa;
 use App\Models\Dosen;
 use App\Models\Staff;
+use App\Models\Lainnya;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Exports\VisitExport;
@@ -20,7 +21,7 @@ class VisitController extends Controller
     private function getVisitQuery(Request $request)
     {
         $user = Auth::user();
-        $query = Visit::with(['mahasiswa', 'dosen', 'staff', 'dokter']);
+        $query = Visit::with(['mahasiswa', 'dosen', 'staff', 'lainnya', 'dokter']);
 
         $search = $request->get('search');
         $status = $request->get('status');
@@ -32,19 +33,22 @@ class VisitController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('keluhan', 'like', "%{$search}%")
-                  ->orWhere('diagnosis', 'like', "%{$search}%")
-                  ->orWhereHas('mahasiswa', function ($q) use ($search) {
-                      $q->where('nama', 'like', "%{$search}%");
-                  })
-                  ->orWhereHas('dosen', function ($q) use ($search) {
-                      $q->where('nama', 'like', "%{$search}%");
-                  })
-                  ->orWhereHas('staff', function ($q) use ($search) {
-                      $q->where('nama', 'like', "%{$search}%");
-                  })
-                  ->orWhereHas('dokter', function ($q) use ($search) {
-                      $q->where('nama', 'like', "%{$search}%");
-                  });
+                    ->orWhere('diagnosis', 'like', "%{$search}%")
+                    ->orWhereHas('mahasiswa', function ($q) use ($search) {
+                        $q->where('nama', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('dosen', function ($q) use ($search) {
+                        $q->where('nama', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('staff', function ($q) use ($search) {
+                        $q->where('nama', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('lainnya', function ($q) use ($search) {
+                        $q->where('nama', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('dokter', function ($q) use ($search) {
+                        $q->where('nama', 'like', "%{$search}%");
+                    });
             });
         }
 
@@ -77,7 +81,7 @@ class VisitController extends Controller
         $direction = $request->get('direction', 'desc');
 
         $visits = $this->getVisitQuery($request)->orderBy($sort, $direction)->paginate(10);
-        
+
         return view('admin.visit.my_visits', [
             'visits' => $visits,
             'search' => $request->get('search'),
@@ -92,8 +96,9 @@ class VisitController extends Controller
         $mahasiswa = Mahasiswa::select('id_mahasiswa as id', 'nama', DB::raw("'mahasiswa' as type"))->get();
         $dosen = Dosen::select('id_dosen as id', 'nama', DB::raw("'dosen' as type"))->get();
         $staff = Staff::select('id_staff as id', 'nama', DB::raw("'staff' as type"))->get();
+        $lainnya = Lainnya::select('id_lainnya as id', 'nama', DB::raw("'lainnya' as type"))->get();
 
-        $pasien = $mahasiswa->concat($dosen)->concat($staff);
+        $pasien = $mahasiswa->concat($dosen)->concat($staff)->concat($lainnya);
         $dokters = User::where('role', 'dokter')->get();
         return view('admin.visit.create', compact('pasien', 'dokters'));
     }
@@ -103,7 +108,7 @@ class VisitController extends Controller
         $validated = $request->validate([
             'pasien' => ['required', 'string', function ($attribute, $value, $fail) {
                 list($type, $id) = explode('-', $value);
-                if (!in_array($type, ['mahasiswa', 'dosen', 'staff'])) {
+                if (!in_array($type, ['mahasiswa', 'dosen', 'staff', 'lainnya'])) {
                     $fail('Tipe pasien tidak valid.');
                     return;
                 }
@@ -121,14 +126,15 @@ class VisitController extends Controller
 
         list($type, $id) = explode('-', $request->pasien);
 
-        Visit::create([
+        $visitData = [
             'type_pasien' => $type,
-            'id_' . $type => $id,
             'tgl_kunjungan' => $validated['tgl_kunjungan'],
             'keluhan' => $validated['keluhan'],
             'diagnosis' => $validated['diagnosis'],
             'dokter_id' => $validated['dokter_id'],
-        ]);
+        ];
+        $visitData['id_' . $type] = $id;
+        Visit::create($visitData);
 
         return redirect()->route('admin.visit.index')->with('success', 'Data kunjungan berhasil ditambahkan');
     }
@@ -144,7 +150,9 @@ class VisitController extends Controller
         $dosen = Dosen::select('id_dosen as id', 'nama', DB::raw("'dosen' as type"))->get();
         $staff = Staff::select('id_staff as id', 'nama', DB::raw("'staff' as type"))->get();
 
-        $pasien = $mahasiswa->concat($dosen)->concat($staff);
+        $lainnya = Lainnya::select('id_lainnya as id', 'nama', DB::raw("'lainnya' as type"))->get();
+
+        $pasien = $mahasiswa->concat($dosen)->concat($staff)->concat($lainnya);
         $dokters = User::where('role', 'dokter')->get();
         return view('admin.visit.edit', compact('visit', 'pasien', 'dokters'));
     }
@@ -154,7 +162,7 @@ class VisitController extends Controller
         $validated = $request->validate([
             'pasien' => ['required', 'string', function ($attribute, $value, $fail) {
                 list($type, $id) = explode('-', $value);
-                if (!in_array($type, ['mahasiswa', 'dosen', 'staff'])) {
+                if (!in_array($type, ['mahasiswa', 'dosen', 'staff', 'lainnya'])) {
                     $fail('Tipe pasien tidak valid.');
                     return;
                 }
@@ -178,6 +186,7 @@ class VisitController extends Controller
             'id_mahasiswa' => $type === 'mahasiswa' ? $id : null,
             'id_dosen' => $type === 'dosen' ? $id : null,
             'id_staff' => $type === 'staff' ? $id : null,
+            'id_lainnya' => $type === 'lainnya' ? $id : null,
             'tgl_kunjungan' => $validated['tgl_kunjungan'],
             'keluhan' => $validated['keluhan'],
             'diagnosis' => $validated['diagnosis'],
@@ -197,7 +206,7 @@ class VisitController extends Controller
     public function printCard(Visit $visit)
     {
         $visit->load(['mahasiswa', 'dosen', 'staff', 'dokter', 'screening', 'resep.obat']);
-        
+
         $pasien = $visit->pasien; // Assuming a 'pasien' accessor exists on the Visit model
         $pasienName = $pasien ? $pasien->nama : 'unknown';
         $visitDate = (new \Carbon\Carbon($visit->tgl_kunjungan))->format('d-m-Y');

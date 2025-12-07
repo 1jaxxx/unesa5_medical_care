@@ -17,6 +17,7 @@ class Visit extends Model
         'id_mahasiswa',
         'id_dosen',
         'id_staff',
+        'id_lainnya',
         'dokter_id',
         'status'
     ];
@@ -36,6 +37,11 @@ class Visit extends Model
         return $this->belongsTo(Staff::class, 'id_staff', 'id_staff');
     }
 
+    public function lainnya()
+    {
+        return $this->belongsTo(Lainnya::class, 'id_lainnya', 'id_lainnya');
+    }
+
     public function dokter()
     {
         return $this->belongsTo(User::class, 'dokter_id', 'id_users');
@@ -50,6 +56,8 @@ class Visit extends Model
                 return $this->dosen;
             case 'staff':
                 return $this->staff;
+            case 'lainnya':
+                return $this->lainnya;
             default:
                 return null;
         }

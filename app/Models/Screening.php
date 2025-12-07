@@ -24,7 +24,8 @@ class Screening extends Model
         'type_pasien',
         'id_mahasiswa',
         'id_dosen',
-        'id_staff'
+        'id_staff',
+        'id_lainnya'
     ];
 
     public function mahasiswa()
@@ -42,6 +43,11 @@ class Screening extends Model
         return $this->belongsTo(Staff::class, 'id_staff', 'id_staff');
     }
 
+    public function lainnya()
+    {
+        return $this->belongsTo(Lainnya::class, 'id_lainnya', 'id_lainnya');
+    }
+
     public function getPasienAttribute()
     {
         switch ($this->type_pasien) {
@@ -51,6 +57,8 @@ class Screening extends Model
                 return $this->dosen;
             case 'staff':
                 return $this->staff;
+            case 'lainnya':
+                return $this->lainnya;
             default:
                 return null;
         }

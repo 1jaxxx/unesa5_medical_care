@@ -20,7 +20,7 @@ class ScreeningController extends Controller
     private function getScreeningQuery(Request $request)
     {
         $user = Auth::user();
-        $query = Screening::with(['mahasiswa', 'dosen', 'staff', 'visit']);
+        $query = Screening::with(['mahasiswa', 'dosen', 'staff', 'lainnya', 'visit']);
 
         $search = $request->get('search');
         $type = $request->get('type');
@@ -43,6 +43,9 @@ class ScreeningController extends Controller
                       $q->where('nama', 'like', "%{$search}%");
                   })
                   ->orWhereHas('staff', function ($q) use ($search) {
+                      $q->where('nama', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('lainnya', function ($q) use ($search) {
                       $q->where('nama', 'like', "%{$search}%");
                   });
             });
@@ -104,6 +107,7 @@ class ScreeningController extends Controller
             'id_mahasiswa' => $visit->id_mahasiswa,
             'id_dosen' => $visit->id_dosen,
             'id_staff' => $visit->id_staff,
+            'id_lainnya' => $visit->id_lainnya,
         ]);
 
         Screening::create($data);
@@ -153,6 +157,7 @@ class ScreeningController extends Controller
             'id_mahasiswa' => $visit->id_mahasiswa,
             'id_dosen' => $visit->id_dosen,
             'id_staff' => $visit->id_staff,
+            'id_lainnya' => $visit->id_lainnya,
         ]);
 
         $screening->update($data);

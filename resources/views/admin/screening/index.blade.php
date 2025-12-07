@@ -56,7 +56,7 @@
                                 <div class="flex flex-wrap items-center gap-2">
                                     <span class="text-sm font-medium text-gray-700 mr-2">Tipe Pasien:</span>
                                     @php
-                                        $types = ['all' => 'Semua', 'mahasiswa' => 'Mahasiswa', 'dosen' => 'Dosen', 'staff' => 'Staff'];
+                                        $types = ['all' => 'Semua', 'mahasiswa' => 'Mahasiswa', 'dosen' => 'Dosen', 'staff' => 'Staff', 'lainnya' => 'Lainnya'];
                                     @endphp
                                     <div class="flex flex-wrap rounded-md -space-x-px">
                                         @foreach($types as $key => $label)
@@ -135,6 +135,7 @@
                                                 'bg-blue-100 text-blue-800' => $screening->type_pasien === 'mahasiswa',
                                                 'bg-green-100 text-green-800' => $screening->type_pasien === 'dosen',
                                                 'bg-purple-100 text-purple-800' => $screening->type_pasien === 'staff',
+                                                'bg-yellow-100 text-yellow-800' => $screening->type_pasien === 'lainnya',
                                             ])>
                                                 {{ ucfirst($screening->type_pasien ?? 'N/A') }}
                                             </span>
