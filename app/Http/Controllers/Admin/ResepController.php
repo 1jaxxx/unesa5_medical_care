@@ -17,7 +17,7 @@ class ResepController extends Controller
     private function getResepQuery(Request $request)
     {
         $search = $request->get('search');
-        $query = Resep::with(['obat', 'visit.mahasiswa', 'visit.dosen', 'visit.staff', 'visit.dokter']);
+        $query = Resep::with(['obat', 'visit.mahasiswa', 'visit.dosen', 'visit.staff', 'visit.lainnya', 'visit.dokter']);
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -32,6 +32,8 @@ class ResepController extends Controller
                       })->orWhereHas('dosen', function ($q) use ($search) {
                           $q->where('nama', 'like', "%{$search}%");
                       })->orWhereHas('staff', function ($q) use ($search) {
+                          $q->where('nama', 'like', "%{$search}%");
+                      })->orWhereHas('lainnya', function ($q) use ($search) {
                           $q->where('nama', 'like', "%{$search}%");
                       })->orWhereHas('dokter', function ($q) use ($search) {
                           $q->where('nama', 'like', "%{$search}%");
@@ -63,12 +65,13 @@ class ResepController extends Controller
         $obat = Obat::orderBy('nama_obat', 'asc')->get();
         
         $user = Auth::user();
-        $visitQuery = Visit::with('mahasiswa', 'dosen', 'staff', 'dokter')
+        $visitQuery = Visit::with('mahasiswa', 'dosen', 'staff', 'lainnya', 'dokter')
             ->leftJoin('mahasiswa', 'visit.id_mahasiswa', '=', 'mahasiswa.id_mahasiswa')
             ->leftJoin('dosen', 'visit.id_dosen', '=', 'dosen.id_dosen')
             ->leftJoin('staff', 'visit.id_staff', '=', 'staff.id_staff')
+            ->leftJoin('lainnya', 'visit.id_lainnya', '=', 'lainnya.id_lainnya')
             ->select('visit.*') // Prevents column name collisions
-            ->orderByRaw('COALESCE(mahasiswa.nama, dosen.nama, staff.nama) ASC');
+            ->orderByRaw('COALESCE(mahasiswa.nama, dosen.nama, staff.nama, lainnya.nama) ASC');
 
         if ($user->role === 'dokter') {
             $visitQuery->where('visit.dokter_id', $user->id_users);
@@ -114,12 +117,13 @@ class ResepController extends Controller
         $obat = Obat::orderBy('nama_obat', 'asc')->get();
 
         $user = Auth::user();
-        $visitQuery = Visit::with('mahasiswa', 'dosen', 'staff', 'dokter')
+        $visitQuery = Visit::with('mahasiswa', 'dosen', 'staff', 'lainnya', 'dokter')
             ->leftJoin('mahasiswa', 'visit.id_mahasiswa', '=', 'mahasiswa.id_mahasiswa')
             ->leftJoin('dosen', 'visit.id_dosen', '=', 'dosen.id_dosen')
             ->leftJoin('staff', 'visit.id_staff', '=', 'staff.id_staff')
+            ->leftJoin('lainnya', 'visit.id_lainnya', '=', 'lainnya.id_lainnya')
             ->select('visit.*') // Prevents column name collisions
-            ->orderByRaw('COALESCE(mahasiswa.nama, dosen.nama, staff.nama) ASC');
+            ->orderByRaw('COALESCE(mahasiswa.nama, dosen.nama, staff.nama, lainnya.nama) ASC');
         
         if ($user->role === 'dokter') {
             $visitQuery->where('visit.dokter_id', $user->id_users);

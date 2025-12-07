@@ -57,7 +57,7 @@
                                     <option value="">Pilih Visit</option>
                                     @foreach ($visits as $visit)
                                         <option value="{{ $visit->id_visit }}" {{ old('id_visit', $resep->id_visit) == $visit->id_visit ? 'selected' : '' }}>
-                                            {{ $visit->mahasiswa->nama ?? $visit->dosen->nama ?? $visit->staff->nama }} ({{ $visit->tgl_kunjungan }})
+                                            {{ $visit->pasien->nama }} ({{ $visit->tgl_kunjungan }})
                                         </option>
                                     @endforeach
                                 </select>
