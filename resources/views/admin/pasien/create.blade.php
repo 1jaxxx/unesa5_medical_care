@@ -26,6 +26,7 @@
                                     <option value="mahasiswa">Mahasiswa</option>
                                     <option value="dosen">Dosen</option>
                                     <option value="staff">Staff</option>
+                                    <option value="lainnya">Lainnya</option>
                                 </select>
                                 <x-input-error class="mt-2" :messages="$errors->get('type_pasien')" />
                             </div>
@@ -60,6 +61,13 @@
                                 <x-text-input id="bagian" name="bagian" type="text" class="mt-1 block w-full"
                                     :value="old('bagian')" />
                                 <x-input-error class="mt-2" :messages="$errors->get('bagian')" />
+                            </div>
+
+                            <div class="nik-field hidden">
+                                <x-input-label for="nik" :value="__('NIK')" />
+                                <x-text-input id="nik" name="nik" type="text" class="mt-1 block w-full"
+                                    :value="old('nik')" />
+                                <x-input-error class="mt-2" :messages="$errors->get('nik')" />
                             </div>
 
                             <div>
@@ -109,5 +117,27 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const typeSelect = document.getElementById('type_pasien');
+            const prodiField = document.querySelector('.prodi-field');
+            const nimField = document.querySelector('.nim-field');
+            const nidnField = document.querySelector('.nidn-field');
+            const bagianField = document.querySelector('.bagian-field');
+            const nikField = document.querySelector('.nik-field');
 
+            function toggleFields() {
+                const selectedType = typeSelect.value;
+
+                prodiField.classList.toggle('hidden', selectedType !== 'mahasiswa');
+                nimField.classList.toggle('hidden', selectedType !== 'mahasiswa');
+                nidnField.classList.toggle('hidden', selectedType !== 'dosen');
+                bagianField.classList.toggle('hidden', selectedType !== 'staff');
+                nikField.classList.toggle('hidden', selectedType !== 'lainnya');
+            }
+
+            toggleFields();
+            typeSelect.addEventListener('change', toggleFields);
+        });
+    </script>
 </x-admin-layout>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Mahasiswa;
 use App\Models\Dosen;
 use App\Models\Staff;
+use App\Models\Lainnya;
 use App\Models\Prodi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,18 +24,19 @@ class PasienController extends Controller
         $perPage = $request->get('per_page', 10);
         $sort = $request->get('sort', 'created_at');
         $direction = $request->get('direction', 'desc');
-        
+
         $query = $this->getPasienQuery($request);
-        
+
         $pasien = $query->orderBy($sort, $direction)->paginate($perPage);
 
         $type = $request->get('type', 'all');
         $search = $request->get('search');
 
-        $pageTitle = match($type) {
+        $pageTitle = match ($type) {
             'mahasiswa' => 'Data Mahasiswa',
             'dosen' => 'Data Dosen',
             'staff' => 'Data Staff',
+            'lainnya' => 'Data Lainnya',
             default => 'Data Semua Pasien',
         };
 
@@ -48,32 +50,74 @@ class PasienController extends Controller
         $search = $request->get('search');
 
         $mahasiswaQuery = Mahasiswa::with('prodi')->select(
-            'id_mahasiswa as id', 'nama', 'nim as identifier', DB::raw("'mahasiswa' as type"), 
-            'jenis_kelamin', 'tgl_lahir', 'tempat_lahir', 'id_prodi', 'email', 'no_telp', 'created_at'
+            'id_mahasiswa as id',
+            'nama',
+            'nim as identifier',
+            DB::raw("'mahasiswa' as type"),
+            'jenis_kelamin',
+            'tgl_lahir',
+            'tempat_lahir',
+            'id_prodi',
+            'email',
+            'no_telp',
+            'created_at'
         );
         $dosenQuery = Dosen::select(
-            'id_dosen as id', 'nama', 'nidn as identifier', DB::raw("'dosen' as type"),
-            'jenis_kelamin', 'tgl_lahir', 'tempat_lahir', DB::raw("NULL as id_prodi"),
-            'email', 'no_telp', 'created_at'
+            'id_dosen as id',
+            'nama',
+            'nidn as identifier',
+            DB::raw("'dosen' as type"),
+            'jenis_kelamin',
+            'tgl_lahir',
+            'tempat_lahir',
+            DB::raw("NULL as id_prodi"),
+            'email',
+            'no_telp',
+            'created_at'
         );
         $staffQuery = Staff::select(
-            'id_staff as id', 'nama', 'bagian as identifier', DB::raw("'staff' as type"),
-            'jenis_kelamin', 'tgl_lahir', 'tempat_lahir', DB::raw("NULL as id_prodi"),
-            'email', 'no_telp', 'created_at'
+            'id_staff as id',
+            'nama',
+            'bagian as identifier',
+            DB::raw("'staff' as type"),
+            'jenis_kelamin',
+            'tgl_lahir',
+            'tempat_lahir',
+            DB::raw("NULL as id_prodi"),
+            'email',
+            'no_telp',
+            'created_at'
+        );
+        $lainnyaQuery = Lainnya::select(
+            'id_lainnya as id',
+            'nama',
+            'nik as identifier',
+            DB::raw("'lainnya' as type"),
+            'jenis_kelamin',
+            'tgl_lahir',
+            'tempat_lahir',
+            DB::raw("NULL as id_prodi"),
+            'email',
+            'no_telp',
+            'created_at'
         );
 
         if ($search) {
             $mahasiswaQuery->where(function ($query) use ($search) {
                 $query->where('nama', 'like', "%{$search}%")
-                      ->orWhere('nim', 'like', "%{$search}%");
+                    ->orWhere('nim', 'like', "%{$search}%");
             });
             $dosenQuery->where(function ($query) use ($search) {
                 $query->where('nama', 'like', "%{$search}%")
-                      ->orWhere('nidn', 'like', "%{$search}%");
+                    ->orWhere('nidn', 'like', "%{$search}%");
             });
             $staffQuery->where(function ($query) use ($search) {
                 $query->where('nama', 'like', "%{$search}%")
-                      ->orWhere('bagian', 'like', "%{$search}%");
+                    ->orWhere('bagian', 'like', "%{$search}%");
+            });
+            $lainnyaQuery->where(function ($query) use ($search) {
+                $query->where('nama', 'like', "%{$search}%")
+                    ->orWhere('nik', 'like', "%{$search}%");
             });
         }
 
@@ -83,10 +127,12 @@ class PasienController extends Controller
             $mahasiswaIds = $visits->where('type_pasien', 'mahasiswa')->pluck('id_mahasiswa')->unique();
             $dosenIds = $visits->where('type_pasien', 'dosen')->pluck('id_dosen')->unique();
             $staffIds = $visits->where('type_pasien', 'staff')->pluck('id_staff')->unique();
+            $lainnyaIds = $visits->where('type_pasien', 'lainnya')->pluck('id_lainnya')->unique();
 
             $mahasiswaQuery->whereIn('id_mahasiswa', $mahasiswaIds);
             $dosenQuery->whereIn('id_dosen', $dosenIds);
             $staffQuery->whereIn('id_staff', $staffIds);
+            $lainnyaQuery->whereIn('id_lainnya', $lainnyaIds);
         }
 
         if ($type !== 'all') {
@@ -96,10 +142,12 @@ class PasienController extends Controller
                 return $dosenQuery;
             } elseif ($type === 'staff') {
                 return $staffQuery;
+            } elseif ($type === 'lainnya') {
+                return $lainnyaQuery;
             }
         }
 
-        return $mahasiswaQuery->union($dosenQuery)->union($staffQuery);
+        return $mahasiswaQuery->union($dosenQuery)->union($staffQuery)->union($lainnyaQuery);
     }
 
     public function create(Request $request)
@@ -113,7 +161,7 @@ class PasienController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required',
-            'type_pasien' => 'required|in:mahasiswa,dosen,staff',
+            'type_pasien' => 'required|in:mahasiswa,dosen,staff,lainnya',
             'jenis_kelamin' => 'required|in:L,P',
             'tempat_lahir' => 'required',
             'tgl_lahir' => 'required|date',
@@ -121,7 +169,7 @@ class PasienController extends Controller
             'no_telp' => 'required|numeric|max_digits:13'
         ]);
 
-        switch($request->type_pasien) {
+        switch ($request->type_pasien) {
             case 'mahasiswa':
                 $additional = $request->validate([
                     'id_prodi' => 'required|exists:prodi,id_prodi',
@@ -129,19 +177,26 @@ class PasienController extends Controller
                 ]);
                 Mahasiswa::create(array_merge($validated, $additional));
                 break;
-            
+
             case 'dosen':
                 $additional = $request->validate([
                     'nidn' => 'required'
                 ]);
                 Dosen::create(array_merge($validated, $additional));
                 break;
-            
+
             case 'staff':
                 $additional = $request->validate([
                     'bagian' => 'required'
                 ]);
                 Staff::create(array_merge($validated, $additional));
+                break;
+
+            case 'lainnya':
+                $additional = $request->validate([
+                    'nik' => 'required'
+                ]);
+                Lainnya::create(array_merge($validated, $additional));
                 break;
         }
 
@@ -164,6 +219,9 @@ class PasienController extends Controller
             })
             ->when($type === 'staff', function ($query) use ($id) {
                 return $query->where('id_staff', $id);
+            })
+            ->when($type === 'lainnya', function ($query) use ($id) {
+                return $query->where('id_lainnya', $id);
             })
             ->with('dokter')
             ->orderBy('tgl_kunjungan', 'desc')
@@ -198,7 +256,7 @@ class PasienController extends Controller
             'no_telp' => 'required|numeric|max_digits:13'
         ]);
 
-        switch($type) {
+        switch ($type) {
             case 'mahasiswa':
                 $additional = $request->validate([
                     'id_prodi' => 'required|exists:prodi,id_prodi',
@@ -206,17 +264,23 @@ class PasienController extends Controller
                 ]);
                 $pasien->update(array_merge($validated, $additional));
                 break;
-            
+
             case 'dosen':
                 $additional = $request->validate([
                     'nidn' => 'required'
                 ]);
                 $pasien->update(array_merge($validated, $additional));
                 break;
-            
+
             case 'staff':
                 $additional = $request->validate([
                     'bagian' => 'required'
+                ]);
+                $pasien->update(array_merge($validated, $additional));
+                break;
+            case 'lainnya':
+                $additional = $request->validate([
+                    'nik' => 'required'
                 ]);
                 $pasien->update(array_merge($validated, $additional));
                 break;
@@ -238,13 +302,15 @@ class PasienController extends Controller
 
     private function getPasienByType($type, $id)
     {
-        switch($type) {
+        switch ($type) {
             case 'mahasiswa':
                 return Mahasiswa::with('prodi')->find($id);
             case 'dosen':
                 return Dosen::find($id);
             case 'staff':
                 return Staff::find($id);
+            case 'lainnya':
+                return Lainnya::find($id);
             default:
                 return null;
         }
