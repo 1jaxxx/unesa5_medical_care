@@ -1,0 +1,42 @@
+db.wali_murid.insertMany([
+    {
+        _id: 1,
+        id_siswa: "1",
+        nama_wali: "Mulyono",
+        nik_wali: "2341",
+        hubungan: "ayah",
+        telepon: "0812348294724"
+    },
+    {
+        _id: 2,
+        id_siswa: "2",
+        nama_wali: "Kim Dojka",
+        nik_wali: "12321",
+        hubungan: "ayah",
+        telepon: "081231741112"
+    },
+    {
+        _id: 3,
+        id_siswa: "3",
+        nama_wali: "Puji",
+        nik_wali: "45242",
+        hubungan: "ibu",
+        telepon: "084164782"
+    },
+    {
+        _id: 4,
+        id_siswa: "4",
+        nama_wali: "SIti Aisyah",
+        nik_wali: "98411",
+        hubungan: "ibuk",
+        telepon: "09886411132"
+    },
+    {
+        _id: 5,
+        id_siswa: "5",
+        nama_wali: "budiono siregar",
+        nik_wali: "09831",
+        hubungan: "ayah",
+        telepon: "0841341341"
+    }   
+])

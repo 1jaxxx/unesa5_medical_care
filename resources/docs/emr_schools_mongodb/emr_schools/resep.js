@@ -1,0 +1,37 @@
+db.pemberian_obat.insertMany([
+    {
+        _id: 1,
+        id_resep: 1,
+        id_obat: 1,
+        tanggal_diberikan: ISODate("2025-09-27T05:32:58Z"),
+        catatan: "harus abis"
+    },
+    {
+        _id: 2,
+        id_resep: 2,
+        id_obat: 2,
+        tanggal_diberikan: ISODate("2025-09-27T05:32:58Z"),
+        catatan: "jgn lupa harus abis"
+    },
+    {
+        _id: 3,
+        id_resep: 3,
+        id_obat: 3,
+        tanggal_diberikan: ISODate("2025-09-27T05:32:58Z"),
+        catatan: "pokoknya harus abis"
+    },
+    {
+        _id: 4,
+        id_resep: 4,
+        id_obat: 4,
+        tanggal_diberikan: ISODate("2025-09-27T05:32:58Z"),
+        catatan: "harus abis pokoknya!!!"
+    },
+    {
+        _id: 5,
+        id_resep: 5,
+        id_obat: 5,
+        tanggal_diberikan: ISODate("2025-09-27T05:32:58Z"),
+        catatan: "klo ga abis anu"
+    }
+])

@@ -1,0 +1,92 @@
+db.siswa.insertMany([
+    {
+        _id: 1,
+        id_kelas: "3",
+        id_sekolah: "1",
+        nama: "Jenar Aditya Bagaskara",
+        nis: "24111814093",
+        tgl_lahir: "2005-09-22",
+        tempat_lahir: "MAGETAN",
+        jenis_kelamin: "Laki-laki",
+        wali_siswa: [
+            {
+                nama_wali: "Dwi saputri",
+                nik_wali: "2341",
+                hubungan: "ayah",
+                telepon: "0812348294724"
+            }
+        ]
+    },
+    { 
+        _id: 2,
+        id_kelas: "9",
+        id_sekolah: "2",
+        nama: "Eka Veranina",
+        nis: "24111814004",
+        tgl_lahir: "2006-01-16",
+        tempat_lahir: "MAOSPATI",
+        jenis_kelamin: "Perempuan",
+        wali_siswa: [
+            {
+                nama_wali: "Kim Dojka",
+                nik_wali: "12321",
+                hubungan: "ayah",
+                telepon: "081231741112"
+            }
+        ]        
+    },
+    { 
+        _id: 3,
+        id_kelas: "12",
+        id_sekolah: "3",
+        nama: "Ello Adrian Hariadi",
+        nis: "24111814024",
+        tgl_lahir: "2005-12-22",
+        tempat_lahir: "PARANG",
+        jenis_kelamin: "Laki-laki",
+        wali_siswa: [
+            {
+                nama_wali: "Puji",
+                nik_wali: "45242",
+                hubungan: "ibu",
+                telepon: "084164782"
+            }
+        ]        
+    },
+    { 
+        _id: 4,
+        id_kelas: "15",
+        id_sekolah: "4",
+        nama: "Manda Fatimah Azaziah",
+        nis: "24111814044",
+        tgl_lahir: "2006-04-23",
+        tempat_lahir: "MAGETAN",
+        jenis_kelamin: "Perempuan",
+        wali_siswa: [
+            {
+                nama_wali: "SIti Aisyah",
+                nik_wali: "98411",
+                hubungan: "ibuk",
+                telepon: "09886411132"
+            }
+        ]
+    },
+    { 
+        _id: 5,
+        id_kelas: "18",
+        id_sekolah: "5",
+        nama: "Fadly Fais Fajarruddin",
+        nis: "24111814015",
+        tgl_lahir: "2006-08-04",
+        tempat_lahir: "KARANGANYAR",
+        jenis_kelamin: "Laki-laki",
+        wali_siswa: [
+            {
+                nama_wali: "budiono siregar",
+                nik_wali: "09831",
+                hubungan: "ayah",
+                telepon: "0841341341"
+            }
+        ]
+    }
+]);

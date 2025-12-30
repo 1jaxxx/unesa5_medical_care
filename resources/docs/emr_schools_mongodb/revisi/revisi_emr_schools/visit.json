@@ -1,0 +1,42 @@
+[
+  {
+    "_id": 1,
+    "id_siswa": "1",
+    "tgl_kunjungan": "2025-09-27 05:17:14",
+    "keluhan": "Sakit hati",
+    "diagnosis": "HTS",
+    "tindakan": "Jangan jadi Redflag"
+  },
+  {
+    "_id": 2,
+    "id_siswa": "2",
+    "tgl_kunjungan": "2025-09-27 05:17:14",
+    "keluhan": "Sakit Pinggang",
+    "diagnosis": "Tidur terlalu lama",
+    "tindakan": "Perlu di pijat"
+  },
+  {
+    "_id": 3,
+    "id_siswa": "3",
+    "tgl_kunjungan": "2025-09-27 05:17:14",
+    "keluhan": "Sakit tenggorakan",
+    "diagnosis": "Radang",
+    "tindakan": "Jangan minum es terus menerus"
+  },
+  {
+    "_id": 4,
+    "id_siswa": "4",
+    "tgl_kunjungan": "2025-09-27 05:17:14",
+    "keluhan": "Sakit perut",
+    "diagnosis": "Magh",
+    "tindakan": "Diberi Obat"
+  },
+  {
+    "_id": 5,
+    "id_siswa": "5",
+    "tgl_kunjungan": "2025-09-27 05:17:14",
+    "keluhan": "Pilek",
+    "diagnosis": "Flu",
+    "tindakan": "jangan maen hp"
+  }
+]

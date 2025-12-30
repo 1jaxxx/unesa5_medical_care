@@ -1,0 +1,20 @@
+[
+  { "_id": 1, "id_sekolah": 1, "nama_kelas": "10" },
+  { "_id": 2, "id_sekolah": 1, "nama_kelas": "11" },
+  { "_id": 3, "id_sekolah": 1, "nama_kelas": "12" },
+  { "_id": 4, "id_sekolah": 2, "nama_kelas": "1" },
+  { "_id": 5, "id_sekolah": 2, "nama_kelas": "2" },
+  { "_id": 6, "id_sekolah": 2, "nama_kelas": "3" },
+  { "_id": 7, "id_sekolah": 2, "nama_kelas": "4" },
+  { "_id": 8, "id_sekolah": 2, "nama_kelas": "5" },
+  { "_id": 9, "id_sekolah": 2, "nama_kelas": "6" },
+  { "_id": 10, "id_sekolah": 3, "nama_kelas": "10" },
+  { "_id": 11, "id_sekolah": 3, "nama_kelas": "11" },
+  { "_id": 12, "id_sekolah": 3, "nama_kelas": "12" },
+  { "_id": 13, "id_sekolah": 4, "nama_kelas": "10" },
+  { "_id": 14, "id_sekolah": 4, "nama_kelas": "11" },
+  { "_id": 15, "id_sekolah": 4, "nama_kelas": "12" },
+  { "_id": 16, "id_sekolah": 5, "nama_kelas": "10" },
+  { "_id": 17, "id_sekolah": 5, "nama_kelas": "11" },
+  { "_id": 18, "id_sekolah": 5, "nama_kelas": "12" }
+]

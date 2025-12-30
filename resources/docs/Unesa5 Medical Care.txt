@@ -1,0 +1,80 @@
+Unesa5 Medical Care
+
+table users
+	- id_users
+	- nama
+	- email
+	- password
+table log_aktivitas
+	- id_log
+	- id_users
+	- aksi
+	- Waktu
+
+
+
+table pasien
+	- id_pasien
+	- id_prodi
+	- nama
+	- type_pasien
+		- mahasiswa
+		- dosen
+		- staff
+	- nim (-- hanya diisi jika tipe = 'mahasiswa')
+	- nidn (-- hanya diisi jika tipe = 'dosen')
+	- bagian (-- hanya diisi jika tipe = 'staff')
+	- jenis_kelamin
+	- tempat/tgl lahir
+	- email
+	- no_telp
+table prodi
+	- id_prodi
+	- nama_prodi
+table screening 
+	- id_screening
+	- id_pasien
+	- id_visit
+	- tgl_screening 
+	- berat_badan -> decimal
+	- tinggi_badan -> decimal
+	- imt -> decimal
+	- pendengaran -> string
+	- penglihatan -> string
+	- tekanan darah -> string
+	- status gizi -> string
+	- kecacatan  -> string
+	- kebugaran
+		- kurang
+		- cukup
+		- bugar
+table visit
+	- id_visit 
+	- id_pasien
+	- tgl_kunjungan
+	- keluhan
+	- diagnosis
+table riwayat_kunjungan
+	- id_riwayat_visit
+	- id_pasien
+	- id_visit
+	- tgl_kunjungan (ambil dari table visit)
+	- keluhan (ambil dari table visit)
+	- diagnosis (ambil dari table visit)
+table resep 
+	- id_resep
+	- id_obat
+	- id_visit
+	- dosis
+	- jumlah
+table pemberian_obat
+	- id_pemberian
+	- id_resep
+	- tgl_diberikan
+	- cacatan
+table obat 
+	- id_obat
+	- nama_obat
+	- jenis_obat
+	- tgl_kadaluarsa
+	- stok	

@@ -1,0 +1,37 @@
+db.obat.insertMany([
+    {
+        _id: 1,
+        nama_obat: "Paracetamol",
+        jenis_obat: "Tablet",
+        stok: 15,
+        tanggal_kadaluarsa: ISODate("2032-09-30T00:00:00Z")
+    },
+    {
+        _id: 2,
+        nama_obat: "Amoxicillin",
+        jenis_obat: "Kapsul",
+        stok: 20,
+        tanggal_kadaluarsa: ISODate("2031-09-10T00:00:00Z")
+    },
+    {
+        _id: 3,
+        nama_obat: "Antasida",
+        jenis_obat: "Sirup",
+        stok: 30,
+        tanggal_kadaluarsa: ISODate("2030-09-17T00:00:00Z")
+    },
+    {
+        _id: 4,
+        nama_obat: "Ketoconazole",
+        jenis_obat: "Salep",
+        stok: 10,
+        tanggal_kadaluarsa: ISODate("2025-09-29T00:00:00Z")
+    },
+    {
+        _id: 5,
+        nama_obat: "Salbutamol",
+        jenis_obat: "Inhaler",
+        stok: 12,
+        tanggal_kadaluarsa: ISODate("2034-09-29T00:00:00Z")
+    }
+])

@@ -1,0 +1,486 @@
+[
+  {
+    "type": "header",
+    "version": "5.2.1",
+    "comment": "Export to JSON plugin for PHPMyAdmin"
+  },
+  { "type": "database", "name": "emr_schools" },
+  {
+    "type": "table",
+    "name": "kelas",
+    "database": "emr_schools",
+    "data": [
+      { "id_kelas": "1", "id_sekolah": "1", "nama_kelas": "kelas 10" },
+      { "id_kelas": "2", "id_sekolah": "1", "nama_kelas": "kelas 11" },
+      { "id_kelas": "3", "id_sekolah": "1", "nama_kelas": "kelas 12" },
+      { "id_kelas": "4", "id_sekolah": "2", "nama_kelas": "kelas 1" },
+      { "id_kelas": "5", "id_sekolah": "2", "nama_kelas": "kelas 2" },
+      { "id_kelas": "6", "id_sekolah": "2", "nama_kelas": "kelas 3" },
+      { "id_kelas": "7", "id_sekolah": "2", "nama_kelas": "kelas 4" },
+      { "id_kelas": "8", "id_sekolah": "2", "nama_kelas": "kelas 5" },
+      { "id_kelas": "9", "id_sekolah": "2", "nama_kelas": "kelas 6" },
+      { "id_kelas": "10", "id_sekolah": "3", "nama_kelas": "kelas 10" },
+      { "id_kelas": "11", "id_sekolah": "3", "nama_kelas": "kelas 11" },
+      { "id_kelas": "12", "id_sekolah": "3", "nama_kelas": "kelas 12" },
+      { "id_kelas": "13", "id_sekolah": "4", "nama_kelas": "kelas 10" },
+      { "id_kelas": "14", "id_sekolah": "4", "nama_kelas": "kelas 11" },
+      { "id_kelas": "15", "id_sekolah": "4", "nama_kelas": "kelas 12" },
+      { "id_kelas": "16", "id_sekolah": "5", "nama_kelas": "kelas 10" },
+      { "id_kelas": "17", "id_sekolah": "5", "nama_kelas": "kelas 11" },
+      { "id_kelas": "18", "id_sekolah": "5", "nama_kelas": "kelas 12" }
+    ]
+  },
+  {
+    "type": "table",
+    "name": "obat",
+    "database": "emr_schools",
+    "data": [
+      {
+        "id_obat": "1",
+        "nama_obat": "Paracetamol",
+        "jenis_obat": "Tablet",
+        "stok": "15",
+        "tanggal_kadaluarsa": "2032-09-30"
+      },
+      {
+        "id_obat": "2",
+        "nama_obat": "Amoxicillin",
+        "jenis_obat": "Kapsul",
+        "stok": "20",
+        "tanggal_kadaluarsa": "2031-09-10"
+      },
+      {
+        "id_obat": "3",
+        "nama_obat": "Antasida",
+        "jenis_obat": "Sirup",
+        "stok": "30",
+        "tanggal_kadaluarsa": "2030-09-17"
+      },
+      {
+        "id_obat": "4",
+        "nama_obat": "Ketoconazole",
+        "jenis_obat": "Salep",
+        "stok": "10",
+        "tanggal_kadaluarsa": "2025-09-29"
+      },
+      {
+        "id_obat": "5",
+        "nama_obat": "Salbutamol",
+        "jenis_obat": "Inhaler",
+        "stok": "12",
+        "tanggal_kadaluarsa": "2034-09-29"
+      }
+    ]
+  },
+  {
+    "type": "table",
+    "name": "pemberian_obat",
+    "database": "emr_schools",
+    "data": [
+      {
+        "id_pemberian": "1",
+        "id_resep": "1",
+        "id_obat": "1",
+        "tanggal_diberikan": "2025-09-27 05:32:58",
+        "catatan": "harus abis"
+      },
+      {
+        "id_pemberian": "2",
+        "id_resep": "2",
+        "id_obat": "2",
+        "tanggal_diberikan": "2025-09-27 05:32:58",
+        "catatan": "jgn lupa harus abis"
+      },
+      {
+        "id_pemberian": "3",
+        "id_resep": "3",
+        "id_obat": "3",
+        "tanggal_diberikan": "2025-09-27 05:32:58",
+        "catatan": "pokoknya harus abis"
+      },
+      {
+        "id_pemberian": "4",
+        "id_resep": "4",
+        "id_obat": "4",
+        "tanggal_diberikan": "2025-09-27 05:32:58",
+        "catatan": "harus abis pokoknya!!!"
+      },
+      {
+        "id_pemberian": "5",
+        "id_resep": "5",
+        "id_obat": "5",
+        "tanggal_diberikan": "2025-09-27 05:32:58",
+        "catatan": "klo ga abis anu"
+      }
+    ]
+  },
+  {
+    "type": "table",
+    "name": "resep",
+    "database": "emr_schools",
+    "data": [
+      {
+        "id_resep": "1",
+        "id_visit": "1",
+        "id_obat": "1",
+        "dosis": "Dosis tunggal",
+        "jumlah": "3"
+      },
+      {
+        "id_resep": "2",
+        "id_visit": "2",
+        "id_obat": "2",
+        "dosis": "Dosis harian",
+        "jumlah": "23"
+      },
+      {
+        "id_resep": "3",
+        "id_visit": "3",
+        "id_obat": "3",
+        "dosis": "Dosis harian",
+        "jumlah": "5"
+      },
+      {
+        "id_resep": "4",
+        "id_visit": "4",
+        "id_obat": "4",
+        "dosis": "Dosis maksimal",
+        "jumlah": "2"
+      },
+      {
+        "id_resep": "5",
+        "id_visit": "5",
+        "id_obat": "5",
+        "dosis": "Sedang",
+        "jumlah": "3"
+      }
+    ]
+  },
+  {
+    "type": "table",
+    "name": "screening",
+    "database": "emr_schools",
+    "data": [
+      {
+        "id_screening": "1",
+        "id_siswa": "1",
+        "id_tahun": "1",
+        "id_sekolah": "1",
+        "tanggal_screening": "2025-09-01",
+        "tinggi_badan": "160.00",
+        "berat_badan": "60.00",
+        "imt": "23.40",
+        "lingkar_perut": "12.00",
+        "status_gizi": "normal",
+        "tekanan_darah": "bagus",
+        "mata_kanan": "bagus",
+        "mata_kiri": "baik",
+        "anemia": "12.00",
+        "kecacatan": "tidak",
+        "pendengaran": "baik",
+        "kebugaran": "bugar",
+        "rujukan": "tidak ada rujukan"
+      },
+      {
+        "id_screening": "2",
+        "id_siswa": "2",
+        "id_tahun": "1",
+        "id_sekolah": "2",
+        "tanggal_screening": "2025-09-02",
+        "tinggi_badan": "160.00",
+        "berat_badan": "55.00",
+        "imt": "12.00",
+        "lingkar_perut": "12.00",
+        "status_gizi": "baik ",
+        "tekanan_darah": "normal",
+        "mata_kanan": "baik",
+        "mata_kiri": "baik",
+        "anemia": "23.00",
+        "kecacatan": "tidak ada kecacatan",
+        "pendengaran": "baik",
+        "kebugaran": "bugar",
+        "rujukan": "tidak ada rujukan"
+      },
+      {
+        "id_screening": "3",
+        "id_siswa": "3",
+        "id_tahun": "1",
+        "id_sekolah": "3",
+        "tanggal_screening": "2025-09-03",
+        "tinggi_badan": "200.00",
+        "berat_badan": "70.00",
+        "imt": "34.00",
+        "lingkar_perut": "23.00",
+        "status_gizi": "aman",
+        "tekanan_darah": "baik",
+        "mata_kanan": "normal",
+        "mata_kiri": "normal",
+        "anemia": "23.00",
+        "kecacatan": "tidak ada ",
+        "pendengaran": "aman",
+        "kebugaran": "kurang bugar",
+        "rujukan": "ada rujukan"
+      },
+      {
+        "id_screening": "4",
+        "id_siswa": "4",
+        "id_tahun": "1",
+        "id_sekolah": "4",
+        "tanggal_screening": "2025-09-04",
+        "tinggi_badan": "180.00",
+        "berat_badan": "50.00",
+        "imt": "23.00",
+        "lingkar_perut": "12.00",
+        "status_gizi": "aman",
+        "tekanan_darah": "aman",
+        "mata_kanan": "normal",
+        "mata_kiri": "baik",
+        "anemia": "45.00",
+        "kecacatan": "tidak ada",
+        "pendengaran": "normal",
+        "kebugaran": "bugar",
+        "rujukan": "tidak ada"
+      },
+      {
+        "id_screening": "5",
+        "id_siswa": "5",
+        "id_tahun": "1",
+        "id_sekolah": "5",
+        "tanggal_screening": "2025-09-05",
+        "tinggi_badan": "174.00",
+        "berat_badan": "21.00",
+        "imt": "23.00",
+        "lingkar_perut": "11.00",
+        "status_gizi": "aman",
+        "tekanan_darah": "aman",
+        "mata_kanan": "baik",
+        "mata_kiri": "baik",
+        "anemia": "32.00",
+        "kecacatan": "tidak ada",
+        "pendengaran": "aman",
+        "kebugaran": "bugar",
+        "rujukan": "tidak ada"
+      }
+    ]
+  },
+  {
+    "type": "table",
+    "name": "sekolah",
+    "database": "emr_schools",
+    "data": [
+      {
+        "id_sekolah": "1",
+        "nama_sekolah": "sma maospati",
+        "jenjang": "SMA/SMK",
+        "alamat": "jln maospati"
+      },
+      {
+        "id_sekolah": "2",
+        "nama_sekolah": "SD 01 Maospati",
+        "jenjang": "SD",
+        "alamat": "jl. maospati"
+      },
+      {
+        "id_sekolah": "3",
+        "nama_sekolah": "SMK Yosonegoro",
+        "jenjang": "SMA/SMK",
+        "alamat": "Jl Yos Sudarso "
+      },
+      {
+        "id_sekolah": "4",
+        "nama_sekolah": "SMK Jiwan",
+        "jenjang": "SMK/SMA",
+        "alamat": "Jl Madiun"
+      },
+      {
+        "id_sekolah": "5",
+        "nama_sekolah": "SMA Karas",
+        "jenjang": "SMA/SMK",
+        "alamat": "Jl Temenggungan"
+      }
+    ]
+  },
+  {
+    "type": "table",
+    "name": "siswa",
+    "database": "emr_schools",
+    "data": [
+      {
+        "id_siswa": "1",
+        "id_kelas": "3",
+        "id_sekolah": "1",
+        "nama": "Jenar Aditya Bagaskara",
+        "nis": "24111814093",
+        "tgl_lahir": "2005-09-22",
+        "tempat_lahir": "MAGETAN",
+        "jenis_kelamin": "Laki-laki"
+      },
+      {
+        "id_siswa": "2",
+        "id_kelas": "9",
+        "id_sekolah": "2",
+        "nama": "Eka Veranina",
+        "nis": "24111814004",
+        "tgl_lahir": "2006-01-16",
+        "tempat_lahir": "MAOSPATI",
+        "jenis_kelamin": "Perempuan"
+      },
+      {
+        "id_siswa": "3",
+        "id_kelas": "12",
+        "id_sekolah": "3",
+        "nama": "Ello Adrian Hariadi",
+        "nis": "24111814024",
+        "tgl_lahir": "2005-12-22",
+        "tempat_lahir": "PARANG",
+        "jenis_kelamin": "Laki-laki"
+      },
+      {
+        "id_siswa": "4",
+        "id_kelas": "15",
+        "id_sekolah": "4",
+        "nama": "Manda Fatimah Azaziah",
+        "nis": "24111814044",
+        "tgl_lahir": "2006-04-23",
+        "tempat_lahir": "MAGETAN",
+        "jenis_kelamin": "Perempuan"
+      },
+      {
+        "id_siswa": "5",
+        "id_kelas": "18",
+        "id_sekolah": "5",
+        "nama": "Fadly Fais Fajarruddin",
+        "nis": "24111814015",
+        "tgl_lahir": "2006-08-04",
+        "tempat_lahir": "KARANGANYAR",
+        "jenis_kelamin": "Laki-laki"
+      }
+    ]
+  },
+  {
+    "type": "table",
+    "name": "tahun_ajaran",
+    "database": "emr_schools",
+    "data": [
+      {
+        "id_tahun": "1",
+        "tahun_mulai": "2024-06-01",
+        "tahun_selesai": "2025-06-03",
+        "keterangan": "Tahun ajaran pertama"
+      }
+    ]
+  },
+  {
+    "type": "table",
+    "name": "users",
+    "database": "emr_schools",
+    "data": [
+      {
+        "id_users": "3",
+        "nama": "EkaVeranina",
+        "email": "EkaVeranina@gmail.com",
+        "password": "202cb962ac59075b964b07152d234b70"
+      },
+      {
+        "id_users": "4",
+        "nama": "FaizNations",
+        "email": "FaizNations@yahoo",
+        "password": "36d9bccdf0b2d5b3914eb340689e41a9"
+      }
+    ]
+  },
+  {
+    "type": "table",
+    "name": "visit",
+    "database": "emr_schools",
+    "data": [
+      {
+        "id_visit": "1",
+        "id_siswa": "1",
+        "tgl_kunjungan": "2025-09-27 05:17:14",
+        "keluhan": "Sakit hati",
+        "diagnosis": "HTS",
+        "tindakan": "Jangan jadi Redflag"
+      },
+      {
+        "id_visit": "2",
+        "id_siswa": "2",
+        "tgl_kunjungan": "2025-09-27 05:17:14",
+        "keluhan": "Sakit Pinggang",
+        "diagnosis": "Tidur terlalu lama",
+        "tindakan": "Perlu di pijat"
+      },
+      {
+        "id_visit": "3",
+        "id_siswa": "3",
+        "tgl_kunjungan": "2025-09-27 05:17:14",
+        "keluhan": "Sakit tenggorakan",
+        "diagnosis": "Radang",
+        "tindakan": "Jangan minum es terus menerus"
+      },
+      {
+        "id_visit": "4",
+        "id_siswa": "4",
+        "tgl_kunjungan": "2025-09-27 05:17:14",
+        "keluhan": "Sakit perut ",
+        "diagnosis": "Magh",
+        "tindakan": "Diberi Obat"
+      },
+      {
+        "id_visit": "5",
+        "id_siswa": "5",
+        "tgl_kunjungan": "2025-09-27 05:17:14",
+        "keluhan": "Pilek",
+        "diagnosis": "Flu",
+        "tindakan": "jangan maen hp"
+      }
+    ]
+  },
+  {
+    "type": "table",
+    "name": "wali_murid",
+    "database": "emr_schools",
+    "data": [
+      {
+        "id_wali": "1",
+        "id_siswa": "1",
+        "nama_wali": "Mulyono",
+        "nik_wali": "2341",
+        "hubungan": "ayah",
+        "telepon": "0812348294724"
+      },
+      {
+        "id_wali": "2",
+        "id_siswa": "2",
+        "nama_wali": "Kim Dojka",
+        "nik_wali": "12321",
+        "hubungan": "ayah",
+        "telepon": "081231741112"
+      },
+      {
+        "id_wali": "3",
+        "id_siswa": "3",
+        "nama_wali": "Puji",
+        "nik_wali": "45242",
+        "hubungan": "ibu",
+        "telepon": "084164782"
+      },
+      {
+        "id_wali": "4",
+        "id_siswa": "4",
+        "nama_wali": "SIti Aisyah",
+        "nik_wali": "98411",
+        "hubungan": "ibuk",
+        "telepon": "09886411132"
+      },
+      {
+        "id_wali": "5",
+        "id_siswa": "5",
+        "nama_wali": "budiono siregar",
+        "nik_wali": "09831",
+        "hubungan": "ayah",
+        "telepon": "0841341341"
+      }
+    ]
+  }
+]

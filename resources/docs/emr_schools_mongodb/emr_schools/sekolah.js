@@ -1,0 +1,32 @@
+db.sekolah.insertMany([
+    {
+        _id : 1,
+        nama_sekolah : "sma maospati",
+        jenjang : "SMA/SMK",
+        alamat : "jln Maospati"
+    },
+    {
+        _id : 2,
+        nama_sekolah : "SD 01 Maospati",
+        jenjang : "SD",
+        alamat : "jln Maospati"
+    },
+    {
+        _id : 3,
+        nama_sekolah : "SMK Yosonegoro",
+        jenjang : "SMA/SMK",
+        alamat : "Jl Yos Sudarso"
+    },
+    {
+        _id : 4,
+        nama_sekolah : "SMK Jiwan",
+        jenjang : "SMA/SMK",
+        alamat : "jln Madiun"
+    },
+    {
+        _id : 5,
+        nama_sekolah : "Sma Karas",
+        jenjang : "SMA/SMK",
+        alamat : "jln Temenggungan"
+    }   
+])

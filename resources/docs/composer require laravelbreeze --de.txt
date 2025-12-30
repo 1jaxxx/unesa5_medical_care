@@ -1,0 +1,31 @@
+composer require laravel/breeze --dev
+composer require laravel/sanctum
+
+php artisan db:wipe
+php artisan migrate
+php artisan migrate:rollback
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+php artisan breeze:install
+
+
+EkaVeranina
+ekaveranina@gmail.com
+tururu123
+
+- pasien CRUD done✅
+- prodi CRUD done✅
+- screening CRUD ✅
+- export excel✅
+- export pdf ✅
+- search
+- sorting
+- obat CRUD ✅
+- Visit CR done✅
+- Riwayat kunjungan READ✅
+- Resep READ ✅
+- log-activitas ✅
+
+rencana
+- fitur bokking (jam, tggl, hari,)
+
+
